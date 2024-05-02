@@ -1,18 +1,15 @@
 ---
 title:  "autoBspwm"
 ---
-# ¿Con que te he pillado? 
-# ¿Quieres tener el entorno del tito s4vitar para ser un hacker de la madafakin deep web?
 
-# Tranquilo, solo prueba esto:
+## El autoBspwm es una herramienta que he diseñado para que tengas detalle por detalle todo el entornode s4vitar montado de forma automática.
+### Por aqui te dejo los comandos para su instalación:
 
 ```bash
 git clone https://github.com/yorkox0/autoBspwm
 cd autoBspwm
 python3 main.py
 ```
-
-## El autoBspwm es una herramienta que he diseñado para que tengas detalle por detalle todo el entornode s4vitar montado de forma automática.
 
 ### Al iniciar el script se puede apreciar que hay varias funciones, pero hay una 'la 4' el cual instala todo el entorno.
 
