@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Borja Candel — Portafolio</title>
+  <meta name="description" content="Portafolio de Borja Candel. Base y diseño inicial con animaciones, paleta y estructura." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* OneDark — tema oscuro por defecto */
+      --od-bg:#282C34;        
+      --od-surface:#2C313A;   
+      --od-panel:rgba(40,44,52,.72);
+      --od-border:rgba(171,178,191,.18);
+      --od-text:#ABB2BF;     
+      --od-strong:#E5E9F0;   
+      --od-accent:#61AFEF;   
+      --od-accent-2:#98C379; 
+
+      --bg-gradient: radial-gradient(1200px 800px at 20% 10%, #303540 0%, transparent 60%),
+                      radial-gradient(800px 600px at 80% 20%, #223140 0%, transparent 55%),
+                      linear-gradient(180deg, #1f2329 0%, var(--od-bg) 60%);
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    /* Tema claro (OneDark light) */
+    :root[data-theme="light"]{
+      --od-bg:#F5F7FB;                 /* fondo claro */
+      --od-surface:#FFFFFF;            /* superficies */
+      --od-panel:rgba(255,255,255,.78);
+      --od-border:rgba(17,19,24,.08);
+      --od-text:#3A3F4B;               /* texto */
+      --od-strong:#111318;             /* títulos */
+      --od-accent:#3FA8F6;             /* azul claro coherente */
+      --od-accent-2:#7ECF8A;           /* verde claro */
+      --bg-gradient: radial-gradient(1100px 700px at 20% 10%, #eaf0ff 0%, transparent 60%),
+                      radial-gradient(800px 600px at 80% 20%, #e6f7ff 0%, transparent 55%),
+                      linear-gradient(180deg, #ffffff 0%, var(--od-bg) 80%);
+      --shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color:var(--od-text);
+      background: var(--bg-gradient) fixed; overflow-x:hidden; transition: background .6s ease, color .3s ease;
+    }
+    body::before{content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(transparent, rgba(0,0,0,.22)); mix-blend-mode:normal; transition:opacity .4s ease}
+    :root[data-theme="light"] body::before{opacity:.1}
+
+    .blur-overlay{position:fixed; inset:0; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background:rgba(15,17,23,.30); transition:opacity .7s ease; z-index:5}
+    :root[data-theme="light"] .blur-overlay{background:rgba(255,255,255,.45)}
+    .blur-overlay.hidden{opacity:0; pointer-events:none}
+
+    .brand{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; gap:28px; z-index:10;}
+
+    .avatar{position:relative; width:176px; height:176px; border-radius:50%; padding:6px; filter:drop-shadow(0 18px 36px rgba(0,0,0,.35)); opacity:0; transform:translateX(0)}
+    .avatar::before{content:""; position:absolute; inset:0; border-radius:inherit; padding:2px; background:conic-gradient(from 180deg, var(--od-accent), var(--od-accent-2), #3ddbd9, var(--od-accent)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; filter:saturate(1.1)}
+    .avatar img{position:relative; width:100%; height:100%; object-fit:cover; border-radius:50%; border:6px solid rgba(255,255,255,.06)}
+    :root[data-theme="light"] .avatar img{border-color:rgba(0,0,0,.04)}
+
+    .name{font-weight:800; font-size:clamp(30px, 6.2vw, 66px); letter-spacing:.4px; line-height:1; color:var(--od-strong); opacity:0}
+    .name .accent{color:var(--od-accent)}
+
+    /* Animaciones — más fluidas */
+    .intro-start .avatar{animation: avatarIn 1.6s cubic-bezier(.2,.9,.2,1) .10s forwards}
+    .intro-start .name{animation: nameIn 1.4s cubic-bezier(.2,.9,.2,1) .40s forwards}
+
+    .rise{transition: all 1.0s cubic-bezier(.2,.9,.2,1);} 
+    .rise.as-header{inset:auto; top:0; left:0; right:0; height:74px; padding:10px 18px; justify-content:center; gap:14px; background:rgba(31,35,41,.58); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 10px 28px rgba(0,0,0,.35);}
+    :root[data-theme="light"] .rise.as-header{background:rgba(255,255,255,.7); box-shadow: 0 10px 24px rgba(0,0,0,.1)}
+    .as-header .avatar{width:48px; height:48px; padding:3px; transform:none}
+    .as-header .avatar img{border-width:3px}
+    .as-header .name{font-size:22px}
+
+    /* Menú minimalista */
+    .menu{display:flex; gap:18px; align-items:center; position:fixed; top:74px; left:50%; transform:translateX(-50%); background:transparent; border-radius:12px; padding:8px 10px; opacity:0; translate:0 -6px; transition: opacity .7s ease .1s, translate .7s ease .1s;}
+    .menu.show{opacity:1; translate:0 0}
+    .menu a{font-weight:600; text-decoration:none; color:var(--od-strong); padding:10px 12px; border-radius:10px; border:1px solid transparent}
+    .menu a:hover{border-color:var(--od-border); background:rgba(97,175,239,.10); color:var(--od-accent)}
+
+    /* Botón de tema */
+    .theme-toggle{position:fixed; top:14px; right:14px; z-index:12; border:1px solid var(--od-border); background:var(--od-surface); color:var(--od-strong); padding:10px 12px; border-radius:999px; display:flex; align-items:center; gap:8px; font-weight:700; cursor:pointer; box-shadow: var(--shadow); transition: background .3s ease, color .3s ease, border-color .3s ease, transform .12s ease}
+    .theme-toggle:hover{transform:translateY(-1px)}
+    .theme-toggle .icon{font-size:16px}
+
+    main{max-width:980px; margin:150px auto 120px; padding:0 22px}
+
+    /* Secciones minimalistas */
+    section{background:transparent; border:0; padding:34px 0; box-shadow:none; margin:10px 0}
+    h2{margin:0 0 14px; color:var(--od-strong); font-size:clamp(20px, 3.2vw, 28px); position:relative}
+    h2::after{content:""; position:absolute; left:0; bottom:-8px; width:80px; height:3px; background:linear-gradient(90deg, var(--od-accent), transparent)}
+    p{color:var(--od-text); line-height:1.7}
+
+    /* Listas tipo timeline muy limpias */
+    .stack{display:flex; flex-direction:column; gap:18px}
+    .item{padding:16px 0; border-bottom:1px solid var(--od-border)}
+    .item:last-child{border-bottom:0}
+    .item strong{color:var(--od-strong)}
+    .kicker{font-size:12px; letter-spacing:.4px; text-transform:uppercase; color:var(--od-text)}
+
+    /* Chips y botones */
+    .chip{display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(97,175,239,.12); color:var(--od-accent); font-weight:600; font-size:12px; border:1px solid rgba(97,175,239,.28)}
+    .btn{display:inline-flex; gap:10px; align-items:center; padding:12px 16px; border-radius:12px; font-weight:700; text-decoration:none; border:1px solid var(--od-border); color:var(--od-strong); background:var(--od-surface); box-shadow: var(--shadow); transition:transform .12s ease}
+    .btn:hover{transform:translateY(-1px)}
+
+    /* Keyframes (faltaban en la última versión) */
+    @keyframes avatarIn{0%{opacity:0; transform:translateX(0) scale(.94)} 55%{opacity:1} 100%{opacity:1; transform:translateX(-52px) scale(1)}}
+    @keyframes nameIn{0%{opacity:0; transform:translateX(26px)} 100%{opacity:1; transform:translateX(0)}}
+
+    @media (prefers-reduced-motion: reduce){
+      .avatar, .name, .menu{animation:none !important; transition:none !important}
+      .rise{transition:none}
+    }
+  </style>
+</head>
+<body>
+  <!-- Desenfoque inicial -->
+  <div class="blur-overlay" id="blur"></div>
+
+  <!-- Elemento que se transforma en la barra superior -->
+  <div class="brand intro-start rise" id="brand">
+    <!-- Hecha redonda con borde detallado; usar el nombre borja.jpg para que funcione localmente -->
+    <figure class="avatar" aria-label="Retrato de Borja Candel">
+      <img id=\"portrait\" src=\"568a6ca2-5209-4ace-8892-dfb63e2afa90.png\" alt="Foto de Borja Candel" />
+    </figure>
+    <div class="name" id="fullname"><span class="accent">Borja</span> Candel</div>
+  </div>
+  </div>
+
+  <!-- Barra de navegación (los enlaces aparecen tras la intro) -->
+  <nav class="menu" id="menu">
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#experiencia">Experiencia</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" aria-pressed="false" title="Cambiar tema"><span class="icon" aria-hidden>🌙</span><span id="themeLabel">Oscuro</span></button>
+
+  <main id="app" aria-live="polite">
+    <section id="sobre-mi">
+      <h2>Sobre mí</h2>
+      <p>Soy <strong>Borja Candel Sancho</strong>, estudiante de <em>Administración de Sistemas Informáticos en Red (ASIR)</em> en IES Abastos (Valencia). Me apasiona la tecnología, la ciberseguridad y las nuevas herramientas digitales, con disponibilidad inmediata para incorporarme a proyectos. Además, dispongo de carnet de conducir <strong>permiso B</strong> y de carnet de manipulador de alimentos.</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px">
+        <span class="chip">#ASIR</span>
+        <span class="chip">#Sistemas</span>
+        <span class="chip">#Redes</span>
+        <span class="chip">#Ciberseguridad</span>
+        <span class="chip">#IA</span>
+      </div>
+    </section>
+
+    <section id="experiencia">
+      <h2>Formación y Experiencia</h2>
+      <div class="stack">
+        <div class="item">
+          <div class="kicker">2025 — Actualidad</div>
+          <strong>Administración de Sistemas Informáticos en Red (ASIR)</strong> — IES Abastos (Valencia)
+          <p>Grado Superior orientado a la administración de sistemas, gestión de redes y seguridad informática.</p>
+        </div>
+        <div class="item">
+          <div class=\"kicker\">2023 — 2025</div>
+          <strong>Sistemas Microinformáticos y Redes (SMR)</strong> — Progresa Centro Integrado de Formación
+          <p>Grado Medio finalizado con sólida preparación en administración de sistemas, configuración de redes y soporte técnico. Durante las prácticas del segundo año adquirí amplia experiencia práctica en entornos empresariales, incluyendo la planificación de redes, montaje y configuración de servidores físicos y virtuales, gestión de sistemas de copias de seguridad, instalación de NAS y switches para servidores, y montaje de racks con SAI para empresas.</p>
+        </div>
+        <div class="item">
+          <div class="kicker">2023</div>
+          <strong>Graduado en ESO</strong> — Colegio María Inmaculada
+        </div>
+        <div class="item">
+          <div class="kicker">Formación complementaria</div>
+          <strong>Google: Inteligencia Artificial y productividad</strong> — Santander Open Academy (2 módulos, 2 horas)
+        </div>
+        <div class="item">
+          <strong>Protege tu negocio: Ciberseguridad en el Teletrabajo</strong> — Google Actívate (2 horas)
+        </div>
+        <div class="item">
+          <strong>Curso de ChatGPT</strong> — Claseflix (4 horas)
+        </div>
+        <div class="item">
+          <strong>Excel desde cero</strong> — Claseflix (4 horas)
+        </div>
+        <div class="item">
+          <strong>Curso de Ciberseguridad</strong> — Claseflix (1 hora)
+        </div>
+      </div>
+    </section>
+
+    <section id="proyectos">
+      <h2>Proyectos destacados</h2>
+      <div class="stack">
+        <div class="item">
+          <strong>Proyecto 1</strong>
+          <p>Breve descripción del problema, solución y resultado.</p>
+          <a class="btn" href="#">Ver proyecto</a>
+        </div>
+        <div class="item">
+          <strong>Proyecto 2</strong>
+          <p>Breve descripción del problema, solución y resultado.</p>
+          <a class="btn" href="#">Repositorio</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p style="margin-bottom:24px; font-size:18px; color:var(--od-strong)"><strong>¿Quieres ponerte en contacto conmigo?</strong> Aquí tienes mis datos directos:</p>
+      <div class="stack" style="gap:14px; font-size:16px">
+        <div class="item" style="border:0; padding:0">
+          <span style="font-weight:600; color:var(--od-accent)">📍 Ubicación:</span> Alfafar (Valencia), CP 46910
+        </div>
+        <div class="item" style="border:0; padding:0">
+          <span style="font-weight:600; color:var(--od-accent)">📞 Teléfono:</span> <a href="tel:+34611100616" style="color:inherit; text-decoration:none">611 10 06 16</a>
+        </div>
+        <div class="item" style="border:0; padding:0">
+          <span style="font-weight:600; color:var(--od-accent)">✉️ Email:</span> <a href="mailto:borjacs07@gmail.com" style="color:inherit; text-decoration:none">borjacs07@gmail.com</a>
+        </div>
+        <div class="item" style="border:0; padding:0">
+          <span style="font-weight:600; color:var(--od-accent)">🎂 Nacimiento:</span> 17/02/2006
+        </div>
+      </div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:28px">
+        <a class="btn" href="mailto:borjacs07@gmail.com" aria-label="Enviar correo a Borja Candel">Escríbeme</a>
+        <a class="btn alt" href="#" aria-label="LinkedIn de Borja Candel">LinkedIn</a>
+        <a class="btn alt" href="#" aria-label="GitHub de Borja Candel">GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const brand = document.getElementById('brand');
+    const blur = document.getElementById('blur');
+    const menu = document.getElementById('menu');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Toggle de tema con persistencia
+    const themeBtn = document.getElementById('themeToggle');
+    const themeLabel = document.getElementById('themeLabel');
+    const root = document.documentElement;
+
+    function setTheme(mode){
+      if(mode === 'light'){
+        root.setAttribute('data-theme','light');
+        themeBtn.setAttribute('aria-pressed','true');
+        themeBtn.querySelector('.icon').textContent = '☀️';
+        themeLabel.textContent = 'Claro';
+      } else {
+        root.removeAttribute('data-theme');
+        themeBtn.setAttribute('aria-pressed','false');
+        themeBtn.querySelector('.icon').textContent = '🌙';
+        themeLabel.textContent = 'Oscuro';
+      }
+      localStorage.setItem('bc-theme', root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+    }
+
+    const saved = localStorage.getItem('bc-theme');
+    if(saved === 'light') setTheme('light');
+
+    themeBtn.addEventListener('click', () => {
+      const isLight = root.getAttribute('data-theme') === 'light';
+      setTheme(isLight ? 'dark' : 'light');
+    });
+
+    function startIntro(){
+      if(prefersReduced){
+        brand.classList.add('as-header');
+        blur.classList.add('hidden');
+        menu.classList.add('show');
+        return;
+      }
+      setTimeout(()=>{
+        brand.classList.add('as-header');
+        blur.classList.add('hidden');
+      }, 1900);
+      setTimeout(()=>{ menu.classList.add('show'); }, 2300);
+    }
+
+    window.addEventListener('DOMContentLoaded', startIntro);
+  </script>
+</body>
+</html>
