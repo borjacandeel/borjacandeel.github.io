@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pomodoro Minimal</title>
+<title>Pomodoro</title>
 <style>
   :root{
     --bg:#f7f7f5; --panel:#ffffff; --text:#1f1f1f; --muted:#6b6b6b;
@@ -46,12 +46,27 @@
   .hint{color:var(--muted);text-align:center;margin:10px 0 10px}
   .phase{color:var(--muted);font-weight:600;letter-spacing:.3px}
 
-  /* sonidos */
-  .sounds{width:min(440px,92vw);margin:26px auto 40px;text-align:center}
-  .sounds h3{margin:0 0 10px;font-weight:700;color:var(--muted)}
-  .sound-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;justify-items:center}
-  .sound-tile{display:grid;gap:6px;justify-items:center}
-  .icon-btn{width:54px;height:54px;border-radius:50%;border:none;background:transparent;color:var(--text);display:grid;place-items:center;cursor:pointer;transition:.15s transform ease}
+  /* sonidos (centrados) */
+  .sounds{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:26px 0 40px;
+    text-align:center;
+  }
+  .sounds h3{margin-bottom:16px;font-weight:700;color:var(--muted)}
+  .sound-grid{
+    display:flex;
+    justify-content:center;   /* centra horizontalmente */
+    align-items:center;
+    gap:80px;                 /* espacio entre iconos */
+  }
+  .sound-tile{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .icon-btn{
+    width:54px;height:54px;border-radius:50%;border:none;background:transparent;
+    color:var(--text);display:grid;place-items:center;cursor:pointer;transition:.15s transform ease
+  }
   .icon-btn:hover{transform:translateY(-1px)}
   .icon-btn.active{background:color-mix(in oklab, var(--accent) 10%, transparent)}
   .label{font-size:13px;color:var(--muted)}
@@ -90,50 +105,72 @@
           </svg>
         </button>
         <button id="reset" class="btn" aria-label="Reset">
-          <svg viewBox="0 0 24 24"><path d="M4.5 9a9 9 0 1 1 2.5 7l-3 3"/><path d="M4.5 9h5v5"/></svg>
+          <!-- reset limpio -->
+          <svg viewBox="0 0 24 24">
+            <path d="M4 4v6h6"/>
+            <path d="M4 10a9 9 0 1 0 2.6-6.4"/>
+          </svg>
         </button>
         <button id="skip" class="btn" aria-label="Skip">
-          <svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 4 15 12 5 20 5 4"/>
+            <line x1="19" y1="5" x2="19" y2="19"/>
+          </svg>
         </button>
       </div>
 
       <p class="hint">Descanso de 5 min (10 si eliges 40 min).</p>
     </div>
 
+    <!-- Sonidos centrados -->
     <section class="sounds">
       <h3>Study sounds</h3>
       <div class="sound-grid">
         <div class="sound-tile">
           <button class="icon-btn" data-audio="white">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a8 8 0 0 1 0 12"/></svg>
-          </button><div class="label">White</div>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M11 5 6 9H3v6h3l5 4V5z"/>
+              <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+              <path d="M18 6a8 8 0 0 1 0 12"/>
+            </svg>
+          </button>
+          <div class="label">White</div>
         </div>
+
         <div class="sound-tile">
           <button class="icon-btn" data-audio="brown">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>
-          </button><div class="label">Brown</div>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M11 5 6 9H3v6h3l5 4V5z"/>
+              <path d="M16 9a4 4 0 0 1 0 6"/>
+            </svg>
+          </button>
+          <div class="label">Brown</div>
         </div>
+
         <div class="sound-tile">
           <button class="icon-btn" data-audio="rain">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M20 16a4 4 0 0 0-1-7 5 5 0 0 0-9-2 4 4 0 1 0-2 9h12z"/><path d="M8 19v2M12 18v3M16 19v2"/></svg>
-          </button><div class="label">Rain</div>
-        </div>
-        <div class="sound-tile">
-          <button class="icon-btn" data-audio="forest">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 3 6 11h4l-4 5h12l-4-5h4L12 3z"/><path d="M12 16v5"/></svg>
-          </button><div class="label">Forest</div>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M20 16a4 4 0 0 0-1-7 5 5 0 0 0-9-2 4 4 0 1 0-2 9h12z"/>
+              <path d="M8 19v2M12 18v3M16 19v2"/>
+            </svg>
+          </button>
+          <div class="label">Rain</div>
         </div>
       </div>
+
       <audio id="white" src="audio/white.mp3" loop></audio>
       <audio id="brown" src="audio/brown.mp3" loop></audio>
-      <audio id="rain" src="audio/rain.mp3" loop></audio>
-      <audio id="forest" src="audio/forest.mp3" loop></audio>
+      <audio id="rain"  src="audio/rain.mp3"  loop></audio>
     </section>
   </main>
 
 <script>
 const themeIcon=document.getElementById("themeIcon");
-function applyTheme(m){if(m==="dark"){document.body.setAttribute("data-theme","dark");themeIcon.textContent="🌙";}else if(m==="light"){document.body.setAttribute("data-theme","light");themeIcon.textContent="🌞";}else{const d=matchMedia("(prefers-color-scheme: dark)").matches;document.body.setAttribute("data-theme",d?"dark":"light");themeIcon.textContent=d?"🌙":"🌞";}}
+function applyTheme(m){
+  if(m==="dark"){document.body.setAttribute("data-theme","dark");themeIcon.textContent="🌙";}
+  else if(m==="light"){document.body.setAttribute("data-theme","light");themeIcon.textContent="🌞";}
+  else{const d=matchMedia("(prefers-color-scheme: dark)").matches;document.body.setAttribute("data-theme",d?"dark":"light");themeIcon.textContent=d?"🌙":"🌞";}
+}
 const savedTheme=localStorage.getItem("theme")||"auto";applyTheme(savedTheme);
 document.getElementById("themeToggle").onclick=()=>{const c=document.body.getAttribute("data-theme");const n=c==="dark"?"light":"dark";localStorage.setItem("theme",n);applyTheme(n);};
 
@@ -143,13 +180,18 @@ const circumference=2*Math.PI*46;progressCircle.style.strokeDasharray=String(cir
 const presetButtons=[...document.querySelectorAll(".chip")];
 const playPauseBtn=document.getElementById("playPause"),resetBtn=document.getElementById("reset"),skipBtn=document.getElementById("skip");
 let timer=null,isRunning=false,isStudy=true,initialStudyMinutes=20,breakMinutes=5,totalSeconds=0,remaining=0;
-function fmt(s){return`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;}
+
+function fmt(s){
+  const m = String(Math.floor(s/60)).padStart(2,"0");
+  const ss = String(s%60).padStart(2,"0");
+  return `${m}:${ss}`;
+}
 function setProgress(){const ratio=remaining/totalSeconds;progressCircle.style.strokeDashoffset=String(circumference*(1-ratio));}
 function paint(){timeEl.textContent=fmt(remaining);setProgress();}
 function setPhase(study,min){isStudy=study;phaseLabel.textContent=study?"Estudio":"Descanso";totalSeconds=min*60;remaining=totalSeconds;paint();}
 function choosePreset(m){initialStudyMinutes=m;breakMinutes=(m===40)?10:5;presetButtons.forEach(b=>b.classList.toggle("active",Number(b.dataset.min)===m));setPhase(true,initialStudyMinutes);stop();}
 function tick(){if(remaining>0){remaining--;paint();}if(remaining===0){if(isStudy){setPhase(false,breakMinutes);start();}else{setPhase(true,initialStudyMinutes);start();}}}
-function start(){clearInterval(timer);isRunning=true;updatePlayIcon(true);timer=setInterval(tick,1e3);}
+function start(){clearInterval(timer);isRunning=true;updatePlayIcon(true);timer=setInterval(tick,1000);}
 function stop(){clearInterval(timer);isRunning=false;updatePlayIcon(false);}
 function updatePlayIcon(running){const icon=document.getElementById("iconPlay");icon.innerHTML=running?'<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>':'<polygon points="5 3 19 12 5 21 5 3"/>';}
 presetButtons.forEach(b=>b.onclick=()=>choosePreset(Number(b.dataset.min)));
@@ -159,7 +201,7 @@ skipBtn.onclick=()=>{if(isStudy){setPhase(false,breakMinutes);}else{setPhase(tru
 choosePreset(20);
 
 // sonidos
-const audios={white:document.getElementById("white"),brown:document.getElementById("brown"),rain:document.getElementById("rain"),forest:document.getElementById("forest")};
+const audios={white:document.getElementById("white"),brown:document.getElementById("brown"),rain:document.getElementById("rain")};
 document.querySelectorAll(".icon-btn").forEach(btn=>{
   btn.onclick=async()=>{const id=btn.dataset.audio,a=audios[id];
     if(a.paused){try{await a.play();btn.classList.add("active");}catch{alert("Interactúa con la página para activar sonido.");}}
