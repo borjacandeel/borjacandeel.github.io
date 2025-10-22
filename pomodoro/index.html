@@ -46,7 +46,6 @@
   .hint{color:var(--muted);text-align:center;margin:10px 0 10px}
   .phase{color:var(--muted);font-weight:600;letter-spacing:.3px}
 
-  /* sonidos (centrados) */
   .sounds{
     width:100%;
     display:flex;
@@ -58,9 +57,9 @@
   .sounds h3{margin-bottom:16px;font-weight:700;color:var(--muted)}
   .sound-grid{
     display:flex;
-    justify-content:center;   /* centra horizontalmente */
+    justify-content:center;
     align-items:center;
-    gap:80px;                 /* espacio entre iconos */
+    gap:80px;
   }
   .sound-tile{display:flex;flex-direction:column;align-items:center;gap:6px}
   .icon-btn{
@@ -84,7 +83,8 @@
       <div class="row">
         <button class="chip" data-min="20">20 min</button>
         <button class="chip" data-min="30">30 min</button>
-        <button class="chip" data-min="40">40 min</button>
+        <!-- cambiado de 40 a 50 -->
+        <button class="chip" data-min="50">50 min</button>
       </div>
 
       <div class="phase" id="phaseLabel">Estudio</div>
@@ -98,31 +98,10 @@
         <div class="time" id="time">00:00</div>
       </div>
 
-      <div class="controls">
-        <button id="playPause" class="btn" aria-label="Play/Pause">
-          <svg viewBox="0 0 24 24" id="iconPlay">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
-        </button>
-        <button id="reset" class="btn" aria-label="Reset">
-          <!-- reset limpio -->
-          <svg viewBox="0 0 24 24">
-            <path d="M4 4v6h6"/>
-            <path d="M4 10a9 9 0 1 0 2.6-6.4"/>
-          </svg>
-        </button>
-        <button id="skip" class="btn" aria-label="Skip">
-          <svg viewBox="0 0 24 24">
-            <polygon points="5 4 15 12 5 20 5 4"/>
-            <line x1="19" y1="5" x2="19" y2="19"/>
-          </svg>
-        </button>
-      </div>
-
-      <p class="hint">Descanso de 5 min (10 si eliges 40 min).</p>
+      <!-- texto ajustado para reflejar 50 -->
+      <p class="hint">Descanso de 5 min (10 si eliges 50 min).</p>
     </div>
 
-    <!-- Sonidos centrados -->
     <section class="sounds">
       <h3>Sonido ambiente</h3>
       <div class="sound-grid">
@@ -189,7 +168,14 @@ function fmt(s){
 function setProgress(){const ratio=remaining/totalSeconds;progressCircle.style.strokeDashoffset=String(circumference*(1-ratio));}
 function paint(){timeEl.textContent=fmt(remaining);setProgress();}
 function setPhase(study,min){isStudy=study;phaseLabel.textContent=study?"Estudio":"Descanso";totalSeconds=min*60;remaining=totalSeconds;paint();}
-function choosePreset(m){initialStudyMinutes=m;breakMinutes=(m===40)?10:5;presetButtons.forEach(b=>b.classList.toggle("active",Number(b.dataset.min)===m));setPhase(true,initialStudyMinutes);stop();}
+function choosePreset(m){
+  initialStudyMinutes=m;
+  // actualizado para 50 minutos
+  breakMinutes=(m===50)?10:5;
+  presetButtons.forEach(b=>b.classList.toggle("active",Number(b.dataset.min)===m));
+  setPhase(true,initialStudyMinutes);
+  stop();
+}
 function tick(){if(remaining>0){remaining--;paint();}if(remaining===0){if(isStudy){setPhase(false,breakMinutes);start();}else{setPhase(true,initialStudyMinutes);start();}}}
 function start(){clearInterval(timer);isRunning=true;updatePlayIcon(true);timer=setInterval(tick,1000);}
 function stop(){clearInterval(timer);isRunning=false;updatePlayIcon(false);}
