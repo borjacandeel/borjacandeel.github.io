@@ -46,6 +46,7 @@
   .hint{color:var(--muted);text-align:center;margin:10px 0 10px}
   .phase{color:var(--muted);font-weight:600;letter-spacing:.3px}
 
+  /* sonidos (centrados) */
   .sounds{
     width:100%;
     display:flex;
@@ -98,10 +99,31 @@
         <div class="time" id="time">00:00</div>
       </div>
 
-      <!-- texto ajustado para reflejar 50 -->
+      <!-- CONTROLES RESTAURADOS -->
+      <div class="controls">
+        <button id="playPause" class="btn" aria-label="Play/Pause">
+          <svg viewBox="0 0 24 24" id="iconPlay">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </button>
+        <button id="reset" class="btn" aria-label="Reset">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 4v6h6"/>
+            <path d="M4 10a9 9 0 1 0 2.6-6.4"/>
+          </svg>
+        </button>
+        <button id="skip" class="btn" aria-label="Skip">
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 4 15 12 5 20 5 4"/>
+            <line x1="19" y1="5" x2="19" y2="19"/>
+          </svg>
+        </button>
+      </div>
+
       <p class="hint">Descanso de 5 min (10 si eliges 50 min).</p>
     </div>
 
+    <!-- Sonidos centrados -->
     <section class="sounds">
       <h3>Sonido ambiente</h3>
       <div class="sound-grid">
@@ -170,16 +192,27 @@ function paint(){timeEl.textContent=fmt(remaining);setProgress();}
 function setPhase(study,min){isStudy=study;phaseLabel.textContent=study?"Estudio":"Descanso";totalSeconds=min*60;remaining=totalSeconds;paint();}
 function choosePreset(m){
   initialStudyMinutes=m;
-  // actualizado para 50 minutos
+  // ahora 50 min activa descanso de 10
   breakMinutes=(m===50)?10:5;
   presetButtons.forEach(b=>b.classList.toggle("active",Number(b.dataset.min)===m));
   setPhase(true,initialStudyMinutes);
   stop();
 }
-function tick(){if(remaining>0){remaining--;paint();}if(remaining===0){if(isStudy){setPhase(false,breakMinutes);start();}else{setPhase(true,initialStudyMinutes);start();}}}
+function tick(){
+  if(remaining>0){remaining--;paint();}
+  if(remaining===0){
+    if(isStudy){setPhase(false,breakMinutes);start();}
+    else{setPhase(true,initialStudyMinutes);start();}
+  }
+}
 function start(){clearInterval(timer);isRunning=true;updatePlayIcon(true);timer=setInterval(tick,1000);}
 function stop(){clearInterval(timer);isRunning=false;updatePlayIcon(false);}
-function updatePlayIcon(running){const icon=document.getElementById("iconPlay");icon.innerHTML=running?'<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>':'<polygon points="5 3 19 12 5 21 5 3"/>';}
+function updatePlayIcon(running){
+  const icon=document.getElementById("iconPlay");
+  icon.innerHTML=running
+    ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>'
+    : '<polygon points="5 3 19 12 5 21 5 3"/>';
+}
 presetButtons.forEach(b=>b.onclick=()=>choosePreset(Number(b.dataset.min)));
 playPauseBtn.onclick=()=>{if(!totalSeconds)choosePreset(initialStudyMinutes);isRunning?stop():start();};
 resetBtn.onclick=()=>{remaining=totalSeconds;paint();};
