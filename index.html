@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borja Candel | Técnico de Sistemas y Redes</title>
+    <meta name="description"
+        content="Portfolio CV de Borja Candel, Técnico de Sistemas y Redes y Estudiante de ASIR especializado en ciberseguridad y administración de sistemas.">
+    <meta name="author" content="Borja Candel">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- OpenGraph -->
+    <meta property="og:title" content="Borja Candel | Portfolio & CV">
+    <meta property="og:description"
+        content="Técnico de Sistemas y Redes y Estudiante de ASIR especializado en ciberseguridad y administración de sistemas.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://borjacandeel.github.io">
+
+    <!-- Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons: Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Schema.org Person -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Borja Candel",
+      "jobTitle": "Técnico de Sistemas y Redes",
+      "url": "https://borjacandeel.github.io",
+      "email": "borjacs07@gmail.com",
+      "telephone": "+34611100616"
+    }
+    </script>
+</head>
+
+<body>
+    <div class="noise-overlay"></div>
+
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#inicio" class="logo">BC.</a>
+
+            <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navbar">
+                <i class='bx bx-menu'></i>
+            </button>
+
+            <nav id="navbar" class="navbar">
+                <ul class="nav-links">
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="#habilidades" class="nav-link">Habilidades</a></li>
+                    <li><a href="#experiencia" class="nav-link">Experiencia</a></li>
+                    <li><a href="#educacion" class="nav-link">Educación</a></li>
+                    <li><a href="#pasatiempos" class="nav-link">Pasatiempos</a></li>
+                    <li><a href="#sobre-mi" class="nav-link">Sobre mí</a></li>
+                    <li><a href="#contacto" class="nav-link text-primary">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Section: Hero -->
+        <section id="inicio" class="hero section">
+            <div class="container hero-content fade-up">
+                <div class="hero-avatar">
+                    <img src="profile.png" alt="Borja Candel">
+                </div>
+                <div class="hero-text-col">
+                    <div class="hero-badge">Estudiante de ASIR</div>
+                    <h1 class="hero-title">Hola, soy <span class="highlight">Borja Candel</span></h1>
+                    <h2 class="hero-subtitle">Técnico de Sistemas y Redes · Estudiante de ASIR</h2>
+                    <div class="hero-description">
+                        <p>Estudiante de 1º de ASIR con experiencia en sistemas, redes y montaje de servidores.</p>
+                        <p>Formación en ciberseguridad y administración de sistemas. Perfil responsable, resolutivo y
+                            con
+                            rápida capacidad de aprendizaje.</p>
+                    </div>
+
+                    <div class="hero-actions">
+                        <a href="#contacto" class="btn btn-primary">Contactar</a>
+                        <a href="#experiencia" class="btn btn-secondary">Ver Experiencia</a>
+                    </div>
+
+                    <div class="hero-contact-quick">
+                        <button class="interaction-pill copy-action tooltip" data-copy="borjacs07@gmail.com"
+                            aria-label="Copiar email" data-tooltip="borjacs07@gmail.com">
+                            <i class='bx bx-envelope'></i> Email
+                        </button>
+                        <button class="interaction-pill copy-action tooltip" data-copy="+34 611 10 06 16"
+                            aria-label="Copiar teléfono" data-tooltip="+34 611 10 06 16">
+                            <i class='bx bx-phone'></i> Teléfono
+                        </button>
+                        <a href="https://borjacandeel.github.io" target="_blank" rel="noopener noreferrer"
+                            class="interaction-pill tooltip" data-tooltip="borjacandeel.github.io">
+                            <i class='bx bx-globe'></i> Portfolio
+                        </a>
+                    </div>
+                </div> <!-- End text col -->
+            </div>
+        </section>
+
+        <!-- Section: Habilidades -->
+        <section id="habilidades" class="section bg-alt">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2 class="section-title">Habilidades Técnicas</h2>
+                    <p class="section-subtitle">Tecnologías y herramientas con las que trabajo</p>
+                </div>
+
+                <div class="skills-filter fade-up">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="sistemas">Sistemas</button>
+                    <button class="filter-btn" data-filter="redes">Redes</button>
+                    <button class="filter-btn" data-filter="programacion">Programación</button>
+                    <button class="filter-btn" data-filter="virtualizacion">Virtualización</button>
+                    <button class="filter-btn" data-filter="otros">Otros</button>
+                </div>
+
+                <div class="skills-grid">
+                    <!-- Sistemas -->
+                    <div class="skill-card fade-up stagger-item" data-category="sistemas">
+                        <i class='bx bxl-windows skill-icon'></i>
+                        <h3>Windows</h3>
+                        <p>Server & Desktop</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="sistemas">
+                        <i class='bx bxl-tux skill-icon'></i>
+                        <h3>Linux</h3>
+                        <p>Varias distros</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="sistemas">
+                        <i class='bx bxl-apple skill-icon'></i>
+                        <h3>macOS</h3>
+                        <p>Administración</p>
+                    </div>
+
+                    <!-- Redes -->
+                    <div class="skill-card fade-up stagger-item" data-category="redes">
+                        <i class='bx bx-network-chart skill-icon'></i>
+                        <h3>Redes y Routing</h3>
+                        <p>Routers, switches, cableado</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="redes">
+                        <i class='bx bx-server skill-icon'></i>
+                        <h3>Mantenimiento</h3>
+                        <p>Configuración básica</p>
+                    </div>
+
+                    <!-- Programación & BBDD -->
+                    <div class="skill-card fade-up stagger-item" data-category="programacion">
+                        <i class='bx bxl-javascript skill-icon'></i>
+                        <h3>JavaScript</h3>
+                        <p>Desarrollo Frontend</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="programacion">
+                        <i class='bx bx-data skill-icon'></i>
+                        <h3>SQL</h3>
+                        <p>Bases de Datos Relacionales</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="programacion">
+                        <i class='bx bxl-python skill-icon'></i>
+                        <h3>Python</h3>
+                        <p>Scripting y Automatización</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="programacion">
+                        <i class='bx bxl-html5 skill-icon'></i>
+                        <h3>HTML/CSS</h3>
+                        <p>Maquetación Web</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="programacion">
+                        <i class='bx bx-terminal skill-icon'></i>
+                        <h3>Bash</h3>
+                        <p>Gestión desde Terminal</p>
+                    </div>
+
+                    <!-- Virtualización -->
+                    <div class="skill-card fade-up stagger-item" data-category="virtualizacion">
+                        <i class='bx bx-cube-alt skill-icon'></i>
+                        <h3>VirtualBox</h3>
+                        <p>Nivel avanzado</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="virtualizacion">
+                        <i class='bx bxs-window-alt skill-icon'></i>
+                        <h3>VMware</h3>
+                        <p>Workstation Pro / ESXi</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="virtualizacion">
+                        <i class='bx bx-desktop skill-icon'></i>
+                        <h3>Parallels Desktop</h3>
+                        <p>Entornos macOS</p>
+                    </div>
+
+                    <!-- Otros / Ciberseguridad -->
+                    <div class="skill-card fade-up stagger-item" data-category="otros">
+                        <i class='bx bx-shield-quarter skill-icon'></i>
+                        <h3>Ciberseguridad</h3>
+                        <p>Políticas y Hardening Básico</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="otros">
+                        <i class='bx bx-wrench skill-icon'></i>
+                        <h3>Hardware</h3>
+                        <p>Montaje de equipos y Racks</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="otros">
+                        <i class='bx bx-hdd skill-icon'></i>
+                        <h3>Sistemas NAS</h3>
+                        <p>Configuración y despliegue</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="otros">
+                        <i class='bx bx-server skill-icon'></i>
+                        <h3>Copias de Seguridad</h3>
+                        <p>Gestión de Backups TI</p>
+                    </div>
+                    <div class="skill-card fade-up stagger-item" data-category="otros">
+                        <i class='bx bxs-file-doc skill-icon'></i>
+                        <h3>Ofimática</h3>
+                        <p>Office 365 / Workspace</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Experiencia -->
+        <section id="experiencia" class="section">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2 class="section-title">Experiencia Profesional</h2>
+                    <p class="section-subtitle">Mi trayectoria y logros destacados</p>
+                </div>
+
+                <div class="experience-list">
+                    <div class="experience-card fade-up tilt-effect">
+                        <div class="exp-header">
+                            <div>
+                                <h3 class="exp-role">Prácticas - Grado Medio (SMR)</h3>
+                                <p class="exp-company">Markha (Sueca)</p>
+                            </div>
+                            <span class="exp-date">2025</span>
+                        </div>
+                        <ul class="exp-bullets">
+                            <li>Planificación de redes informáticas para oficinas y empresas.</li>
+                            <li>Montaje e instalación de servidores físicos y puesta en producción.</li>
+                            <li>Configuración avanzada de servidores, servicios y políticas de seguridad.</li>
+                            <li>Gestión y administración de sistemas de copias de seguridad.</li>
+                            <li>Instalación, integración y configuración de dispositivos NAS y switches gestionables.
+                            </li>
+                            <li>Montaje profesional de racks con SAI, garantizando continuidad eléctrica y estabilidad
+                                del entorno TI.</li>
+                            <li>Diseño y despliegue de infraestructura de red corporativa.</li>
+                            <li>Implementación de soluciones de almacenamiento, virtualización y servicios internos.
+                            </li>
+                            <li>Organización de cableado estructurado y optimización del hardware de comunicaciones.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Educación -->
+        <section id="educacion" class="section bg-alt">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2 class="section-title">Educación</h2>
+                    <p class="section-subtitle">Mi formación académica</p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item fade-up stagger-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Técnico Superior (ASIR)</h3>
+                            <p class="timeline-school">IES Abastos (Valencia)</p>
+                            <span class="timeline-date">Cursando</span>
+                            <p class="timeline-desc">Administración de Sistemas Informáticos en Red.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item fade-up stagger-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Técnico Medio (SMR)</h3>
+                            <p class="timeline-school">Progresa Formación (Valencia)</p>
+                            <span class="timeline-date">2025</span>
+                            <p class="timeline-desc">Sistemas Microinformáticos y Redes.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item fade-up stagger-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Graduado ESO</h3>
+                            <p class="timeline-school">Colegio María Inmaculada (Alfafar)</p>
+                            <span class="timeline-date">2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Pasatiempos -->
+        <section id="pasatiempos" class="section">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2 class="section-title">Tiempo Libre</h2>
+                    <p class="section-subtitle">Lo que más me apasiona fuera del entorno TI</p>
+                </div>
+
+                <div class="hobbies-grid">
+                    <a href="https://www.strava.com/athletes/122586797" target="_blank" rel="noopener noreferrer"
+                        class="hobby-card fade-up stagger-item">
+                        <i class='bx bx-cycling hobby-icon'></i>
+                        <h3>Ciclismo de Carretera</h3>
+                        <p>Kilómetros de asfalto, esfuerzo y superación personal. Puedes seguir mis rutas y
+                            entrenamientos.</p>
+                        <span class="hobby-link"><i class='bx bx-link-external'></i> Ver Perfil Strava</span>
+                    </a>
+
+                    <a href="https://djborjacandel.bandcamp.com/" target="_blank" rel="noopener noreferrer"
+                        class="hobby-card fade-up stagger-item">
+                        <i class='bx bx-headphone hobby-icon'></i>
+                        <h3>Producción / DJ Newstyle</h3>
+                        <p>Apasionado de la música electrónica y el newstyle español. Escucha mis últimas pistas y
+                            mezclas.</p>
+                        <span class="hobby-link"><i class='bx bx-link-external'></i> Escuchar en Bandcamp</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Sobre mí -->
+        <section id="sobre-mi" class="section">
+            <div class="container">
+                <div class="about-card fade-up flex-layout">
+                    <div class="about-icon">
+                        <i class='bx bx-user-circle'></i>
+                    </div>
+                    <div class="about-content">
+                        <h2 class="section-title">Sobre mí</h2>
+                        <p>Estudiante de 1º de ASIR con experiencia en sistemas, redes y montaje de servidores.</p>
+                        <p>Formación en ciberseguridad y administración de sistemas. Perfil responsable, resolutivo y
+                            con rápida capacidad de aprendizaje.</p>
+                        <p class="text-highlight">Capacitado para soporte técnico, despliegue de infraestructuras y
+                            mantenimiento TI.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Contacto -->
+        <section id="contacto" class="section bg-alt">
+            <div class="container text-center fade-up">
+                <h2 class="section-title">¿Hablamos?</h2>
+                <p class="section-subtitle">Disponible para nuevas oportunidades y proyectos.</p>
+
+                <div class="contact-actions mt-4">
+                    <a href="mailto:borjacs07@gmail.com" class="btn btn-primary btn-lg tooltip"
+                        data-tooltip="Abrir mi cliente de correo">
+                        <i class='bx bx-envelope'></i> Enviar Email
+                    </a>
+                    <button class="btn btn-secondary btn-lg copy-action tooltip" data-copy="+34 611 10 06 16"
+                        data-tooltip="Haz clic para copiar: +34 611 10 06 16">
+                        <i class='bx bx-copy'></i> Copiar Teléfono
+                    </button>
+                    <a href="#" class="btn btn-outline btn-lg tooltip" target="_blank" aria-disabled="true"
+                        title="Próximamente" data-tooltip="Curriculum PDF (Próximamente)">
+                        <i class='bx bxs-file-pdf'></i> Descargar CV
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 Borja Candel. Todos los derechos reservados.</p>
+            <div class="social-links">
+                <a href="mailto:borjacs07@gmail.com" aria-label="Email"><i class='bx bx-envelope'></i></a>
+                <a href="https://borjacandeel.github.io" target="_blank" rel="noopener noreferrer"
+                    aria-label="Sitio Web"><i class='bx bx-globe'></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toasts Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+</body>
+
+</html>

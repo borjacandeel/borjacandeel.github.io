@@ -1,0 +1,10 @@
+--- styles.css 2024-05-10
++++ styles.css 2024-05-10
+@@ -71,7 +71,7 @@
+         <section id="inicio" class="hero section">
+             <div class="container hero-content fade-up">
+                 <div class="hero-avatar">
+-                    <img src="perfil.png" alt="Borja Candel">
++                    <img src="https://i.ibb.co/6wGQKmb/perfil.png" alt="Borja Candel">
+                 </div>
+                 <div class="hero-text-col">
