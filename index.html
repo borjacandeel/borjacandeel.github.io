@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Portfolio profesional de Borja Candel — Técnico de Sistemas y Redes, Estudiante de ASIR. Especializado en infraestructura IT, ciberseguridad y administración de sistemas.">
+    <meta name="keywords"
+        content="Borja Candel, portfolio, sistemas, redes, ASIR, ciberseguridad, IT, infraestructura, soporte técnico">
+    <meta name="author" content="Borja Candel">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Borja Candel — Técnico de Sistemas y Redes">
+    <meta property="og:description"
+        content="Portfolio profesional de Borja Candel. Especializado en sistemas, redes, ciberseguridad e infraestructura IT.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#080b14">
+    <title>Borja Candel — Técnico de Sistemas y Redes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════ -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo" aria-label="Inicio">
+                <span class="logo-bracket">&lt;</span>BC<span class="logo-bracket"> /&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks" role="menubar">
+                <li role="none"><a href="#about" role="menuitem">Sobre mí</a></li>
+                <li role="none"><a href="#skills" role="menuitem">Habilidades</a></li>
+                <li role="none"><a href="#experience" role="menuitem">Experiencia</a></li>
+                <li role="none"><a href="#education" role="menuitem">Educación</a></li>
+                <li role="none"><a href="#hobbies" role="menuitem">Intereses</a></li>
+                <li role="none"><a href="#contact" role="menuitem">Contacto</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+                    <span class="theme-icon theme-icon--dark">☽</span>
+                    <span class="theme-icon theme-icon--light">☀</span>
+                </button>
+                <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+    <header class="hero" id="hero">
+        <canvas id="heroCanvas" aria-hidden="true"></canvas>
+        <div class="hero-glow hero-glow--1" aria-hidden="true"></div>
+        <div class="hero-glow hero-glow--2" aria-hidden="true"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-tag anim-reveal">Bienvenido a mi portfolio</p>
+            <h1 class="hero-title anim-reveal">
+                <span class="hero-name">Borja Candel</span>
+            </h1>
+            <p class="hero-subtitle anim-reveal">
+                <span class="typed-role" id="typedRole"></span><span class="cursor-blink">|</span>
+            </p>
+            <p class="hero-description anim-reveal">
+                Estudiante de ASIR con experiencia en sistemas, redes y ciberseguridad.
+            </p>
+            <div class="hero-cta anim-reveal">
+                <a href="#contact" class="btn btn-primary glass-btn">
+                    <span class="btn-icon">✉</span> Contactar
+                </a>
+                <a href="#experience" class="btn btn-outline glass-btn">
+                    <span class="btn-icon">▶</span> Ver experiencia
+                </a>
+                <a href="CV - Candel Sancho, Borja.pdf" download class="btn btn-outline glass-btn">
+                    <span class="btn-icon">⤓</span> Descargar CV
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll-hint anim-reveal" aria-hidden="true">
+            <span class="scroll-mouse">
+                <span class="scroll-wheel"></span>
+            </span>
+            <span class="scroll-text">scroll</span>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ═══════════════════════════════════════════
+         SOBRE MÍ
+    ═══════════════════════════════════════════ -->
+        <section class="section about" id="about">
+            <div class="container">
+                <div class="section-header anim-reveal">
+                    <span class="section-tag">01</span>
+                    <h2 class="section-title">Sobre mí</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="about-grid">
+                    <div class="about-text anim-reveal">
+                        <p>
+                            Soy un estudiante de <strong>Administración de Sistemas Informáticos en Red (ASIR)</strong>
+                            en IES Abastos (Valencia), con experiencia práctica en sistemas, redes y montaje de
+                            servidores en entornos profesionales reales.
+                        </p>
+                        <p>
+                            Cuento con formación en <strong>ciberseguridad</strong> y administración de sistemas,
+                            lo que me permite abordar proyectos de infraestructura IT con una visión integral
+                            que combina rendimiento, seguridad y escalabilidad.
+                        </p>
+                        <p>
+                            Me considero una persona <strong>responsable, resolutiva y con gran capacidad
+                                de aprendizaje</strong>. Estoy preparado para tareas de soporte técnico,
+                            despliegue de infraestructuras y mantenimiento IT en entornos profesionales.
+                        </p>
+                    </div>
+                    <div class="about-stats anim-reveal">
+                        <div class="stat-card glass">
+                            <span class="stat-number" data-count="5">0</span><span class="stat-suffix">+</span>
+                            <span class="stat-label">Tecnologías dominadas</span>
+                        </div>
+                        <div class="stat-card glass">
+                            <span class="stat-number" data-count="2025">0</span>
+                            <span class="stat-label">Prácticas profesionales</span>
+                        </div>
+                        <div class="stat-card glass">
+                            <span class="stat-number" data-count="100">0</span><span class="stat-suffix">%</span>
+                            <span class="stat-label">Compromiso y dedicación</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════
+         HABILIDADES
+    ═══════════════════════════════════════════ -->
+        <section class="section skills" id="skills">
+            <div class="container">
+                <div class="section-header anim-reveal">
+                    <span class="section-tag">02</span>
+                    <h2 class="section-title">Habilidades técnicas</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="skills-grid">
+
+                    <!-- Sistemas Operativos -->
+                    <div class="skill-category glass anim-reveal">
+                        <div class="skill-category-header">
+                            <span class="skill-icon">🖥️</span>
+                            <h3>Sistemas Operativos</h3>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag"
+                                data-tooltip="Instalación, configuración y administración de Windows Server y Windows Desktop. Directorio Activo, GPOs y políticas.">Windows</span>
+                            <span class="skill-tag"
+                                data-tooltip="Experiencia con Ubuntu, Debian, CentOS y otras distros. Gestión de paquetes, permisos, servicios y scripting en terminal.">Linux</span>
+                            <span class="skill-tag"
+                                data-tooltip="Uso avanzado de macOS como entorno de trabajo. Configuración de red, seguridad, workflows y herramientas de desarrollo.">macOS</span>
+                        </div>
+                    </div>
+
+                    <!-- Redes -->
+                    <div class="skill-category glass anim-reveal">
+                        <div class="skill-category-header">
+                            <span class="skill-icon">🌐</span>
+                            <h3>Redes</h3>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag"
+                                data-tooltip="Configuración de routers y switches gestionables. VLANs, routing estático/dinámico, ACLs. Marcas: Cisco, TP-Link, MikroTik.">Routers
+                                & Switches</span>
+                            <span class="skill-tag"
+                                data-tooltip="Diseño y montaje profesional de cableado Cat5e/Cat6 en entornos corporativos. Patcheo, certificación y organización en racks.">Cableado
+                                Estructurado</span>
+                            <span class="skill-tag"
+                                data-tooltip="Configuración de redes TCP/IP, DHCP, DNS, NAT, firewalls. Diagnóstico y resolución de incidencias de conectividad.">Config.
+                                & Mantenimiento</span>
+                        </div>
+                    </div>
+
+                    <!-- Programación -->
+                    <div class="skill-category glass anim-reveal">
+                        <div class="skill-category-header">
+                            <span class="skill-icon">⌨️</span>
+                            <h3>Programación / Scripting</h3>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag"
+                                data-tooltip="Desarrollo web con JS vanilla y frameworks. Manipulación del DOM, APIs REST, lógica de aplicaciones y proyectos interactivos.">JavaScript</span>
+                            <span class="skill-tag"
+                                data-tooltip="Scripting para automatización de tareas, análisis de datos, gestión de archivos y herramientas de administración de sistemas.">Python</span>
+                            <span class="skill-tag"
+                                data-tooltip="Maquetación semántica, diseño responsive, CSS Grid, Flexbox, animaciones y optimización SEO desde el código.">HTML
+                                / CSS</span>
+                            <span class="skill-tag"
+                                data-tooltip="Automatización de tareas en Linux: cron jobs, gestión de usuarios, backups automáticos, procesamiento de ficheros y logs.">Bash</span>
+                            <span class="skill-tag"
+                                data-tooltip="Consultas SQL, diseño de bases de datos relacionales, JOINs, procedimientos almacenados. Experiencia con MySQL y MariaDB.">SQL</span>
+                        </div>
+                    </div>
+
+                    <!-- Virtualización -->
+                    <div class="skill-category glass anim-reveal">
+                        <div class="skill-category-header">
+                            <span class="skill-icon">📦</span>
+                            <h3>Virtualización</h3>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag"
+                                data-tooltip="Nivel avanzado. Creación de laboratorios de red virtuales, snapshots, redes internas, instalación de múltiples SO y escenarios de pruebas.">VirtualBox</span>
+                            <span class="skill-tag"
+                                data-tooltip="Despliegue y gestión de máquinas virtuales en VMware Workstation. Configuración de redes, clonados y rendimiento optimizado.">VMware</span>
+                            <span class="skill-tag"
+                                data-tooltip="Virtualización en entorno macOS. Ejecución de Windows y Linux con alto rendimiento, compartición de recursos y snapshots.">Parallels
+                                Desktop</span>
+                        </div>
+                    </div>
+
+                    <!-- Ciberseguridad & Otros -->
+                    <div class="skill-category glass anim-reveal">
+                        <div class="skill-category-header">
+                            <span class="skill-icon">🛡️</span>
+                            <h3>Ciberseguridad & Otros</h3>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag"
+                                data-tooltip="Herramientas de hacking ético, análisis de vulnerabilidades, hardening de sistemas, firewalls y políticas de seguridad.">Ciberseguridad</span>
+                            <span class="skill-tag"
+                                data-tooltip="Montaje y reparación de equipos, diagnóstico de componentes, ampliación de hardware, mantenimiento preventivo y correctivo.">Hardware</span>
+                            <span class="skill-tag"
+                                data-tooltip="Instalación y configuración de Synology y QNAP. RAID, copias automáticas, acceso remoto, gestión de permisos y usuarios.">Sistemas
+                                NAS</span>
+                            <span class="skill-tag"
+                                data-tooltip="Diseño e implementación de estrategias de backup: incremental, diferencial, completo. Herramientas: Veeam, rsync, Acronis.">Copias
+                                de Seguridad</span>
+                            <span class="skill-tag"
+                                data-tooltip="Dominio avanzado de Microsoft 365, Google Workspace, herramientas de productividad y documentación técnica profesional.">Ofimática</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════
+         EXPERIENCIA
+    ═══════════════════════════════════════════ -->
+        <section class="section experience" id="experience">
+            <div class="container">
+                <div class="section-header anim-reveal">
+                    <span class="section-tag">03</span>
+                    <h2 class="section-title">Experiencia profesional</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item anim-reveal">
+                        <div class="timeline-marker">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-line-v"></span>
+                        </div>
+                        <div class="timeline-card glass">
+                            <div class="timeline-header">
+                                <div>
+                                    <h3 class="timeline-role">Prácticas — Grado Medio (SMR)</h3>
+                                    <p class="timeline-company">Markha · Sueca (Valencia)</p>
+                                </div>
+                                <span class="timeline-year glass">2025</span>
+                            </div>
+                            <ul class="timeline-tasks">
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Planificación de redes
+                                        informáticas para oficinas y empresas</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Diseño de topologías de red (estrella, malla) adaptadas a cada espacio
+                                            </li>
+                                            <li>Cálculo de puntos de acceso, bocas de red y distribución de switches
+                                            </li>
+                                            <li>Documentación técnica con diagramas de red para el cliente</li>
+                                            <li>Selección de hardware según presupuesto y requisitos del proyecto</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Montaje e instalación de
+                                        servidores físicos y puesta en producción</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Ensamblaje de servidores rack y torre (montaje de RAM, discos, NICs)
+                                            </li>
+                                            <li>Instalación de sistemas operativos Windows Server y Linux</li>
+                                            <li>Configuración de BIOS/UEFI y RAID por hardware</li>
+                                            <li>Verificación de funcionamiento, pruebas de estrés y puesta en producción
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Configuración avanzada de
+                                        servidores, servicios y políticas de seguridad</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Directorio Activo: creación de OUs, usuarios, grupos y GPOs</li>
+                                            <li>Configuración de DHCP, DNS, File Server y Print Server</li>
+                                            <li>Aplicación de políticas de contraseñas, firewall y auditoría</li>
+                                            <li>Securización de servicios y puertos con reglas de acceso</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Gestión y administración
+                                        de sistemas de copias de seguridad</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Configuración de backups incrementales y diferenciales con Veeam</li>
+                                            <li>Programación de tareas de copia automatizadas (cron, Veeam Scheduler)
+                                            </li>
+                                            <li>Verificación de integridad y restauración de copias de prueba</li>
+                                            <li>Copias en local (NAS) y replicación offsite</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Instalación, integración y
+                                        configuración de dispositivos NAS y switches gestionables</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Configuración de Synology NAS: volúmenes, RAID, carpetas compartidas y
+                                                permisos</li>
+                                            <li>Integración de NAS con Directorio Activo para autenticación centralizada
+                                            </li>
+                                            <li>Configuración de switches gestionables: VLANs, trunk ports, STP</li>
+                                            <li>Monitorización de tráfico y gestión de puertos</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Montaje profesional de
+                                        racks con SAI</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Montaje de armarios rack 19" con servidores, switches y patch panels
+                                            </li>
+                                            <li>Instalación y configuración de SAI (UPS) con monitorización de carga
+                                            </li>
+                                            <li>Organización profesional del cableado con velcro y guía-cables</li>
+                                            <li>Etiquetado de puertos y documentación del rack</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Diseño y despliegue de
+                                        infraestructura de red corporativa</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Despliegue completo de redes LAN para PYMEs con múltiples VLANs</li>
+                                            <li>Configuración de routers con NAT, port forwarding y VPN site-to-site
+                                            </li>
+                                            <li>Implementación de redes Wi-Fi corporativas con APs gestionables</li>
+                                            <li>Segmentación de red (datos, VoIP, invitados, gestión)</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Implementación de
+                                        soluciones de almacenamiento, virtualización y servicios internos</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Despliegue de máquinas virtuales en VirtualBox y VMware para entornos de
+                                                prueba</li>
+                                            <li>Configuración de almacenamiento en red (iSCSI, NFS, SMB)</li>
+                                            <li>Implementación de servicios internos: intranet, FTP, monitorización</li>
+                                            <li>Migración de datos entre servidores y plataformas</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="task-expandable" data-expanded="false">
+                                    <div class="task-title"><span class="task-arrow">›</span> Organización de cableado
+                                        estructurado y optimización del hardware de comunicaciones</div>
+                                    <div class="task-details">
+                                        <ul>
+                                            <li>Tendido y certificación de cableado Cat5e/Cat6 en canaletas y falso
+                                                techo</li>
+                                            <li>Crimpado, patcheo y testeo de cables con herramienta certificadora</li>
+                                            <li>Sustitución y upgrade de hardware de red obsoleto</li>
+                                            <li>Optimización del flujo de datos con reconfiguración de puertos y VLANs
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════
+         EDUCACIÓN
+    ═══════════════════════════════════════════ -->
+        <section class="section education" id="education">
+            <div class="container">
+                <div class="section-header anim-reveal">
+                    <span class="section-tag">04</span>
+                    <h2 class="section-title">Educación</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="education-grid">
+                    <div class="edu-card glass anim-reveal">
+                        <span class="edu-badge glass">Cursando</span>
+                        <h3 class="edu-degree">Técnico Superior en ASIR</h3>
+                        <p class="edu-school">IES Abastos — Valencia</p>
+                        <p class="edu-detail">Administración de Sistemas Informáticos en Red</p>
+                    </div>
+                    <div class="edu-card glass anim-reveal">
+                        <span class="edu-badge glass">2025</span>
+                        <h3 class="edu-degree">Técnico Medio en SMR</h3>
+                        <p class="edu-school">Progresa Formación — Valencia</p>
+                        <p class="edu-detail">Sistemas Microinformáticos y Redes</p>
+                    </div>
+                    <div class="edu-card glass anim-reveal">
+                        <span class="edu-badge glass">2023</span>
+                        <h3 class="edu-degree">Graduado en ESO</h3>
+                        <p class="edu-school">Colegio María Inmaculada — Alfafar</p>
+                        <p class="edu-detail">Educación Secundaria Obligatoria</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════
+         INTERESES / PASATIEMPOS
+    ═══════════════════════════════════════════ -->
+        <section class="section hobbies" id="hobbies">
+            <div class="container">
+                <div class="section-header anim-reveal">
+                    <span class="section-tag">05</span>
+                    <h2 class="section-title">Más allá del código</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="hobbies-grid">
+                    <div class="hobby-card glass anim-reveal">
+                        <div class="hobby-icon">🚴</div>
+                        <h3>Ciclismo de carretera</h3>
+                        <p>
+                            La disciplina, el esfuerzo y la constancia que exige el ciclismo de carretera
+                            se reflejan directamente en mi forma de trabajar. Cada salida es un ejercicio
+                            de superación personal, resistencia y mentalidad.
+                        </p>
+                        <a href="https://www.strava.com/athletes/122586797" target="_blank" rel="noopener noreferrer"
+                            class="hobby-link">Ver en Strava ↗</a>
+                    </div>
+                    <div class="hobby-card glass anim-reveal">
+                        <div class="hobby-icon">🎧</div>
+                        <h3>Producción Musical / DJ Newstyle</h3>
+                        <p>
+                            La producción musical alimenta mi creatividad y pasión por la tecnología desde
+                            otra perspectiva. Crear sets y producir música electrónica me aporta energía,
+                            identidad artística y una visión creativa que complementa mi perfil técnico.
+                        </p>
+                        <div class="hobby-links" style="display: flex; gap: 1rem; align-items: center;">
+                            <a href="https://djborjacandel.bandcamp.com/" target="_blank" rel="noopener noreferrer"
+                                class="hobby-link">Bandcamp ↗</a>
+                            <a href="https://soundcloud.com/borjacandel?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+                                target="_blank" rel="noopener noreferrer" class="hobby-link">SoundCloud ↗</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════
+         CONTACTO
+    ═══════════════════════════════════════════ -->
+        <section class="section contact" id="contact">
+            <div class="container">
+                <div class="section-header anim-reveal">
+                    <span class="section-tag">06</span>
+                    <h2 class="section-title">Contacto</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="contact-content anim-reveal">
+                    <p class="contact-intro">
+                        ¿Tienes un proyecto, una oferta o simplemente quieres conectar?<br>
+                        Estaré encantado de hablar contigo.
+                    </p>
+                    <div class="contact-email-display glass">
+                        <span id="emailDisplay">borjacs07@gmail.com</span>
+                    </div>
+                    <div class="contact-actions">
+                        <a href="mailto:borjacs07@gmail.com" class="btn btn-primary glass-btn">
+                            <span class="btn-icon">✉</span> Enviar email
+                        </a>
+                        <a href="tel:+34611100616" class="btn btn-outline glass-btn">
+                            <span class="btn-icon">📞</span> Teléfono
+                        </a>
+                        <a href="CV - Candel Sancho, Borja.pdf" download class="btn btn-outline glass-btn">
+                            <span class="btn-icon">⤓</span> Descargar CV
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <span class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>BC<span class="logo-bracket"> /&gt;</span>
+                </span>
+                <p class="footer-copy">&copy; 2026 Borja Candel. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+    <!-- Tooltip -->
+    <div class="skill-tooltip" id="skillTooltip" role="tooltip" aria-hidden="true"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
