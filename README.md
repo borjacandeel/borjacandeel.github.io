@@ -32,13 +32,6 @@ El portfolio está divivido narrativamente para presentar rápidamente mi inform
 6.  **Más Allá del Código (Intereses)**: Muestra mi perfil polivalente a través de la pasión por el ciclismo y la producción musical.
 7.  **Contacto**: Accesos directos para enviar email, llamarme o descargar el currículum.
 
-## 🛠️ Ejecución Local
-
-No necesitas compilar nada para visualizarlo. Simplemente:
-
-1.  Clona el repositorio: `git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git`
-2.  Abre el archivo `index.html` en tu navegador web moderno de preferencia.
-
 ---
 
 Desarrollado con dedicación por **Borja Candel**.
