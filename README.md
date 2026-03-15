@@ -1,7 +1,5 @@
 # Borja Candel — Portfolio Web Profesional
 
-![Portfolio Preview](./.gemini/antigravity/brain/b2b93744-3c7a-4802-8e5c-4a95eaefb3b0/portfolio_preview_1773579539918.webp) <!-- Puedes cambiar esta imagen por una captura en la raíz de tu proyecto si lo prefieres -->
-
 Bienvenido al repositorio de mi portfolio web personal. Este proyecto ha sido diseñado desde cero para reflejar mi perfil técnico como Administrador de Sistemas y Redes (ASIR/SMR), combinando una estética *premium* y moderna con un rendimiento técnico impecable.
 
 ## 🚀 Tecnologías
