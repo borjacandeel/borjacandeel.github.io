@@ -42,4 +42,4 @@ No necesitas compilar nada para visualizarlo. Simplemente:
 ---
 
 Desarrollado con dedicación por **Borja Candel**.
-[Conecta conmigo vía Email](mailto:borjacs07@gmail.com) | [Llamar](tel:+34611100616)
+[Conecta conmigo vía Email](mailto:borjacs07@gmail.com)
