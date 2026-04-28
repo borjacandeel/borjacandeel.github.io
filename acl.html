@@ -1,0 +1,542 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACL Commander — Packet Tracer</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e17;--bg2:#111827;--bg3:#1a2235;--bg4:#243049;--tx:#e2e8f0;--tx2:#94a3b8;--tx3:#64748b;--ac:#06b6d4;--ac2:#22d3ee;--gn:#10b981;--rd:#ef4444;--yl:#f59e0b;--border:rgba(148,163,184,.12);--r:12px;--f:'Inter',sans-serif;--m:'JetBrains Mono',monospace}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.6}
+header{text-align:center;padding:32px 20px 12px;background:linear-gradient(135deg,#0a0e17,#1a1a3e,#0a0e17);border-bottom:1px solid var(--border)}
+.logo{font-size:2rem;font-weight:700;color:var(--ac2)}.subtitle{color:var(--tx2);font-size:.85rem;margin-top:2px}
+nav{display:flex;gap:4px;padding:10px 16px;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:99}
+.tab{background:0;border:1px solid transparent;color:var(--tx2);padding:9px 16px;border-radius:8px;cursor:pointer;font:500 .82rem var(--f);white-space:nowrap;transition:.2s}
+.tab:hover{background:var(--bg3);color:var(--tx)}.tab.active{background:var(--bg3);color:var(--ac2);border-color:var(--ac)}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 50px}.panel{display:none;animation:fi .3s}.panel.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+h2{font-size:1.4rem;color:var(--ac2);margin-bottom:4px}h3{font-size:1rem;margin:16px 0 8px;color:var(--tx)}
+.desc{color:var(--tx2);font-size:.85rem;margin-bottom:16px}
+.card{background:rgba(17,24,39,.7);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:10px}
+label{display:flex;flex-direction:column;gap:3px;font-size:.8rem;color:var(--tx2);flex:1;min-width:120px}
+input,select{background:var(--bg);border:1px solid var(--border);color:var(--tx);padding:8px 10px;border-radius:8px;font:.85rem var(--f);transition:.2s}
+input:focus,select:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 3px rgba(6,182,212,.15)}
+input::placeholder{color:var(--tx3)}
+.chk{flex-direction:row;align-items:center;gap:6px;min-width:auto;cursor:pointer}
+input[type=checkbox]{width:16px;height:16px;accent-color:var(--ac)}
+code{font-family:var(--m);background:var(--bg);padding:2px 5px;border-radius:4px;font-size:.8rem;color:var(--ac2)}
+.btn{padding:10px 22px;border-radius:8px;border:0;font:600 .85rem var(--f);cursor:pointer;transition:.2s}
+.btn-p{background:linear-gradient(135deg,var(--ac),#0891b2);color:#fff}.btn-p:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(6,182,212,.3)}
+.btn-s{background:var(--bg3);color:var(--ac2);border:1px solid var(--border)}.btn-s:hover{border-color:var(--ac)}
+.btn-d{background:rgba(239,68,68,.12);color:var(--rd);padding:5px 8px;border-radius:6px;border:0;font-size:.75rem;cursor:pointer}
+.btn-lg{width:100%;padding:13px;font-size:.95rem;margin-top:12px}
+.out{margin-top:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:14px;position:relative;display:none}
+.out pre{font-family:var(--m);font-size:.8rem;line-height:1.8;white-space:pre-wrap;color:var(--gn)}
+.out .cmt{color:var(--tx3)}.out .sec{color:var(--yl);font-weight:600}
+.cpb{position:absolute;top:6px;right:6px;background:var(--bg3);color:var(--ac2);border:1px solid var(--border);padding:5px 12px;border-radius:6px;font:500 .75rem var(--f);cursor:pointer;z-index:2}
+.cpb:hover{background:var(--ac);color:#fff}
+.rule{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);margin-bottom:8px}
+.rule select,.rule input{font-size:.8rem;padding:6px 8px;flex:1;min-width:70px}
+.calc-r{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px}
+.calc-i{background:var(--bg3);border-radius:8px;padding:10px;text-align:center}
+.calc-i .lb{font-size:.72rem;color:var(--tx3);text-transform:uppercase;letter-spacing:1px}.calc-i .vl{font:600 1rem var(--m);color:var(--ac2);margin-top:3px}
+.rg{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.rc{background:rgba(17,24,39,.7);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.rc h4{color:var(--ac2);margin:0 0 6px;font-size:.9rem}.rc pre{font-family:var(--m);font-size:.75rem;line-height:1.7;color:var(--gn);white-space:pre-wrap}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{text-align:left;padding:7px 10px;background:var(--bg3);color:var(--ac2);font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--tx2)}
+tr:hover td{background:var(--bg3)}
+.tip{background:rgba(6,182,212,.08);border-left:3px solid var(--ac);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.82rem;color:var(--tx2)}
+footer{text-align:center;padding:20px;color:var(--tx3);font-size:.75rem;border-top:1px solid var(--border)}
+@media(max-width:700px){.row,.rule{flex-direction:column}nav{gap:2px;padding:6px}.tab{padding:7px 10px;font-size:.75rem}}
+</style></head><body>
+<header><div class="logo">⌘ ACL Commander</div><p class="subtitle">Generador de comandos ACL para Cisco Packet Tracer</p></header>
+<nav>
+<button class="tab active" data-t="std">📋 ACL Estándar</button>
+<button class="tab" data-t="ext">🔧 ACL Extendida</button>
+<button class="tab" data-t="vty">🔒 VTY / SSH</button>
+<button class="tab" data-t="calc">🧮 Calculadora IP</button>
+<button class="tab" data-t="wild">🎭 Wildcard</button>
+<button class="tab" data-t="ref">📖 Referencia</button>
+</nav>
+<main>
+
+<!-- ══ ACL ESTÁNDAR ══ -->
+<section id="std" class="panel active">
+<h2>ACL Estándar</h2>
+<div class="tip">🎯 <b>Regla:</b> Colocar lo más <b>cerca del destino</b>. Filtran solo por IP de origen. Dirección: <b>out</b></div>
+<div class="card">
+<h3>1. Red a Denegar/Permitir</h3>
+<div id="std-rules">
+<div class="rule">
+<select class="sa"><option value="deny">❌ deny</option><option value="permit">✅ permit</option></select>
+<label style="min-width:60px">Tipo<select class="st"><option value="net">Red</option><option value="host">Host</option></select></label>
+<label>IP origen<input class="si" placeholder="192.168.20.0"></label>
+<label>Máscara subred<input class="sm" placeholder="255.255.255.0"></label>
+<label>Wildcard (auto)<input class="sw" placeholder="0.0.0.255" readonly style="color:var(--ac2)"></label>
+<button class="btn-d" onclick="this.closest('.rule').remove()">✕</button>
+</div>
+</div>
+<button class="btn btn-s" onclick="addStdRule()">+ Añadir regla</button>
+
+<div class="tip" style="margin-top:14px">⚠️ Hay un <code>deny any</code> implícito oculto al final. Si solo pones deny, bloqueará TODO. Necesitas <code>permit any</code> para dejar pasar el resto.</div>
+
+<label class="chk" style="margin:10px 0"><input type="checkbox" id="std-permit" checked> Añadir <code>access-list [n] permit any</code> al final</label>
+
+<h3>2. Número de ACL</h3>
+<div class="row">
+<label>Número ACL (1-99)<input type="number" id="std-num" value="1" min="1" max="99"></label>
+</div>
+
+<h3>3. Interfaz donde aplicar (la más cercana al destino)</h3>
+<div class="row">
+<label>Router<input id="std-r" placeholder="R3"></label>
+<label>Tipo interfaz<select id="std-it"><option>GigabitEthernet</option><option>FastEthernet</option><option>Serial</option></select></label>
+<label>Número<input id="std-in" placeholder="0/1" style="width:70px"></label>
+<label>Dirección<select id="std-d"><option value="out">out (salida)</option><option value="in">in (entrada)</option></select></label>
+</div>
+
+<button class="btn btn-p btn-lg" onclick="genStd()">⚡ Generar Comandos ACL Estándar</button>
+<div class="out" id="std-out"></div>
+</div>
+</section>
+
+<!-- ══ ACL EXTENDIDA ══ -->
+<section id="ext" class="panel">
+<h2>ACL Extendida</h2>
+<div class="tip">🎯 <b>Regla:</b> Colocar lo más <b>cerca del origen</b>. Filtra por origen, destino, protocolo y puerto. Dirección: <b>in</b></div>
+<div class="card">
+<h3>1. Reglas de filtrado</h3>
+<div id="ext-rules">
+<div class="rule">
+<select class="ea"><option value="deny">❌ deny</option><option value="permit">✅ permit</option></select>
+<label>Protocolo<select class="ep"><option value="tcp">TCP</option><option value="udp">UDP</option><option value="ip">IP</option><option value="icmp">ICMP</option></select></label>
+<label>Origen tipo<select class="eot"><option value="host">Host</option><option value="net">Red</option><option value="any">Any</option></select></label>
+<label>IP Origen<input class="eo" placeholder="192.168.10.3"></label>
+<label>Máscara origen<input class="eom" placeholder="255.255.255.0"></label>
+<label>Destino tipo<select class="edt"><option value="host">Host</option><option value="net">Red</option><option value="any">Any</option></select></label>
+<label>IP Destino<input class="ed" placeholder="192.168.30.2"></label>
+<label>Máscara destino<input class="edm" placeholder="255.255.255.0"></label>
+<label>Puerto<select class="ept"><option value="">Sin puerto</option><option value="20">FTP-data(20)</option><option value="21">FTP(21)</option><option value="22">SSH(22)</option><option value="23">Telnet(23)</option><option value="53">DNS(53)</option><option value="80">HTTP(80)</option><option value="443">HTTPS(443)</option></select></label>
+<button class="btn-d" onclick="this.closest('.rule').remove()">✕</button>
+</div>
+</div>
+<button class="btn btn-s" onclick="addExtRule()">+ Añadir regla</button>
+
+<div class="tip" style="margin-top:14px">⚠️ Igual que en estándar, hay <code>deny ip any any</code> implícito. Añade <code>permit ip any any</code> para dejar pasar el resto del tráfico.</div>
+<label class="chk" style="margin:10px 0"><input type="checkbox" id="ext-permit" checked> Añadir <code>access-list [n] permit ip any any</code></label>
+
+<h3>2. Número de ACL</h3>
+<div class="row"><label>Número ACL (100-199)<input type="number" id="ext-num" value="101" min="100" max="199"></label></div>
+
+<h3>3. Interfaz donde aplicar (la más cercana al origen)</h3>
+<div class="row">
+<label>Router<input id="ext-r" placeholder="R1"></label>
+<label>Tipo interfaz<select id="ext-it"><option>GigabitEthernet</option><option>FastEthernet</option><option>Serial</option></select></label>
+<label>Número<input id="ext-in" placeholder="0/0" style="width:70px"></label>
+<label>Dirección<select id="ext-d"><option value="in">in (entrada)</option><option value="out">out (salida)</option></select></label>
+</div>
+
+<button class="btn btn-p btn-lg" onclick="genExt()">⚡ Generar Comandos ACL Extendida</button>
+<div class="out" id="ext-out"></div>
+</div>
+</section>
+
+<!-- ══ VTY ══ -->
+<section id="vty" class="panel">
+<h2>Protección VTY / SSH</h2>
+<div class="tip">🔒 Protege las líneas VTY con una ACL para que solo IPs específicas puedan acceder por Telnet/SSH.</div>
+<div class="card">
+<div class="row">
+<label>Router<input id="vr" placeholder="R1"></label>
+<label>IP permitida<input id="vi" placeholder="192.168.10.10"></label>
+<label>Máscara (vacío=host)<input id="vm" placeholder=""></label>
+<label>Nombre ACL<input id="vn" placeholder="ADMIN-HOST"></label>
+</div>
+<div class="row">
+<label>Username<input id="vu" placeholder="ADMIN"></label>
+<label>Password<input id="vp" placeholder="class"></label>
+<label>Domain<input id="vd" placeholder="cisco.com"></label>
+<label class="chk"><input type="checkbox" id="vs" checked> SSH</label>
+</div>
+<button class="btn btn-p btn-lg" onclick="genVty()">⚡ Generar Comandos VTY</button>
+<div class="out" id="vty-out"></div>
+</div>
+</section>
+
+<!-- ══ CALCULADORA IP ══ -->
+<section id="calc" class="panel">
+<h2>Calculadora IP / Subred</h2>
+<div class="card">
+<div class="row">
+<label>Dirección IP<input id="ci" placeholder="192.168.10.0"></label>
+<label>Máscara o CIDR<input id="cm" placeholder="255.255.255.0 o /24"></label>
+</div>
+<button class="btn btn-p" onclick="genCalc()">Calcular</button>
+<div class="out" id="calc-out"></div>
+</div>
+<div class="card"><h3>Subredes Comunes</h3>
+<table><thead><tr><th>CIDR</th><th>Máscara</th><th>Wildcard</th><th>Hosts</th><th>Uso</th></tr></thead><tbody>
+<tr><td>/32</td><td>255.255.255.255</td><td>0.0.0.0</td><td>1</td><td>Host</td></tr>
+<tr><td>/30</td><td>255.255.255.252</td><td>0.0.0.3</td><td>2</td><td>Enlace P2P</td></tr>
+<tr><td>/27</td><td>255.255.255.224</td><td>0.0.0.31</td><td>30</td><td>Subred pequeña</td></tr>
+<tr><td>/24</td><td>255.255.255.0</td><td>0.0.0.255</td><td>254</td><td>Red clase C</td></tr>
+<tr><td>/16</td><td>255.255.0.0</td><td>0.0.255.255</td><td>65534</td><td>Red clase B</td></tr>
+<tr><td>/8</td><td>255.0.0.0</td><td>0.255.255.255</td><td>16777214</td><td>Red clase A</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ══ WILDCARD ══ -->
+<section id="wild" class="panel">
+<h2>Calculadora Wildcard</h2>
+<div class="card">
+<div class="row">
+<label>Máscara de subred<input id="wm" placeholder="255.255.255.0"></label>
+<label>ó Wildcard<input id="ww" placeholder="0.0.0.255"></label>
+</div>
+<button class="btn btn-p" onclick="genWild()">Convertir</button>
+<div class="out" id="wild-out"></div>
+</div>
+<div class="card"><h3>Wildcards Especiales</h3>
+<table><thead><tr><th>Caso</th><th>Wildcard</th><th>Comando</th></tr></thead><tbody>
+<tr><td>Host específico</td><td>0.0.0.0</td><td><code>host 192.168.1.1</code></td></tr>
+<tr><td>Cualquier IP</td><td>255.255.255.255</td><td><code>any</code></td></tr>
+<tr><td>Red /24</td><td>0.0.0.255</td><td><code>192.168.1.0 0.0.0.255</code></td></tr>
+<tr><td>Red /27</td><td>0.0.0.31</td><td><code>192.168.1.0 0.0.0.31</code></td></tr>
+<tr><td>Red /30</td><td>0.0.0.3</td><td><code>10.1.1.0 0.0.0.3</code></td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ══ REFERENCIA ══ -->
+<section id="ref" class="panel">
+<h2>Referencia Rápida</h2>
+<div class="rg" id="refg"></div>
+</section>
+</main>
+<footer>ACL Commander — Basado en ENSA Module 5, Labs 7.2.2.6 & 9.2.1.10</footer>
+
+<script>
+// TABS
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab,.panel').forEach(e=>e.classList.remove('active'));
+  t.classList.add('active');document.getElementById(t.dataset.t).classList.add('active');
+});
+
+// HELPERS
+function ip2i(s){return s.split('.').reduce((a,o)=>(a<<8)+parseInt(o),0)>>>0}
+function i2ip(n){return[(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join('.')}
+function m2c(m){let n=ip2i(m),c=0;while(n&(1<<(31-c)))c++;return c}
+function c2m(c){return i2ip(c===0?0:(0xFFFFFFFF<<(32-c))>>>0)}
+function m2w(m){return i2ip((~ip2i(m))>>>0)}
+function cp(t){navigator.clipboard.writeText(t)}
+function show(id,lines){
+  const b=document.querySelector(id);b.style.display='block';
+  const raw=lines.join('\n');
+  b.innerHTML='<button class="cpb" onclick="cp(`'+raw.replace(/`/g,"'").replace(/\\/g,"\\\\")+'`)">📋 Copiar</button><pre>'+
+    raw.replace(/^(! ═.*)/gm,'<span class="sec">$1</span>').replace(/^(! [^═].*)/gm,'<span class="cmt">$1</span>')+'</pre>';
+}
+
+// AUTO WILDCARD from mask
+document.addEventListener('input',e=>{
+  if(e.target.classList.contains('sm')){
+    const r=e.target.closest('.rule'),w=r.querySelector('.sw');
+    try{w.value=m2w(e.target.value)}catch(x){w.value=''}
+  }
+  if(e.target.classList.contains('eom')||e.target.classList.contains('edm')){
+    // no auto needed for extended, but could add
+  }
+});
+
+// ADD RULES
+function addStdRule(){
+  const c=document.getElementById('std-rules'),r=c.querySelector('.rule').cloneNode(true);
+  r.querySelectorAll('input').forEach(i=>{i.value='';if(i.classList.contains('sw'))i.value=''});
+  c.appendChild(r);
+}
+function addExtRule(){
+  const c=document.getElementById('ext-rules'),r=c.querySelector('.rule').cloneNode(true);
+  r.querySelectorAll('input').forEach(i=>i.value='');
+  c.appendChild(r);
+}
+
+// GENERATE STANDARD ACL
+function genStd(){
+  const num=document.getElementById('std-num').value;
+  const R=document.getElementById('std-r').value||'R1';
+  const itype=document.getElementById('std-it').value;
+  const inum=document.getElementById('std-in').value||'0/1';
+  const dir=document.getElementById('std-d').value;
+  const permitRest=document.getElementById('std-permit').checked;
+  const iface=itype+inum;
+  const rules=[...document.querySelectorAll('#std-rules .rule')].map(r=>({
+    action:r.querySelector('.sa').value,
+    type:r.querySelector('.st').value,
+    ip:r.querySelector('.si').value.trim(),
+    mask:r.querySelector('.sm').value.trim(),
+    wc:r.querySelector('.sw').value.trim()
+  }));
+  let L=[];
+  L.push('! ═══ ACL ESTÁNDAR EN '+R+' ═══');
+  L.push(R+'> enable');
+  L.push(R+'# configure terminal');
+  L.push('');
+  L.push('! --- Crear ACL ---');
+  rules.forEach(r=>{
+    if(r.type==='host'){
+      L.push(R+'(config)# access-list '+num+' '+r.action+' host '+r.ip);
+    } else {
+      const wc=r.wc||m2w(r.mask||'255.255.255.0');
+      L.push(R+'(config)# access-list '+num+' '+r.action+' '+r.ip+' '+wc);
+    }
+  });
+  if(permitRest) L.push(R+'(config)# access-list '+num+' permit any');
+  L.push('');
+  L.push('! --- Aplicar a interfaz (cerca del destino, dirección '+dir+') ---');
+  L.push(R+'(config)# interface '+iface);
+  L.push(R+'(config-if)# ip access-group '+num+' '+dir);
+  L.push(R+'(config-if)# exit');
+  L.push(R+'(config)# end');
+  L.push('');
+  L.push('! --- Verificación ---');
+  L.push(R+'# show access-lists');
+  L.push(R+'# show ip interface '+iface);
+  L.push(R+'# show running-config | include access');
+  show('#std-out',L);
+}
+
+// GENERATE EXTENDED ACL
+function genExt(){
+  const num=document.getElementById('ext-num').value;
+  const R=document.getElementById('ext-r').value||'R1';
+  const itype=document.getElementById('ext-it').value;
+  const inum=document.getElementById('ext-in').value||'0/0';
+  const dir=document.getElementById('ext-d').value;
+  const permitRest=document.getElementById('ext-permit').checked;
+  const iface=itype+inum;
+  const rules=[...document.querySelectorAll('#ext-rules .rule')].map(r=>({
+    action:r.querySelector('.ea').value,
+    proto:r.querySelector('.ep').value,
+    ot:r.querySelector('.eot').value,
+    oi:r.querySelector('.eo').value.trim(),
+    om:r.querySelector('.eom').value.trim(),
+    dt:r.querySelector('.edt').value,
+    di:r.querySelector('.ed').value.trim(),
+    dm:r.querySelector('.edm').value.trim(),
+    port:r.querySelector('.ept').value
+  }));
+  let L=[];
+  L.push('! ═══ ACL EXTENDIDA EN '+R+' ═══');
+  L.push(R+'> enable');
+  L.push(R+'# configure terminal');
+  L.push('');
+  L.push('! --- Crear ACL ---');
+  rules.forEach(r=>{
+    let src='any',dst='any';
+    if(r.ot==='host') src='host '+r.oi;
+    else if(r.ot==='net') src=r.oi+' '+(r.om?m2w(r.om):'0.0.0.255');
+    if(r.dt==='host') dst='host '+r.di;
+    else if(r.dt==='net') dst=r.di+' '+(r.dm?m2w(r.dm):'0.0.0.255');
+    let cmd=R+'(config)# access-list '+num+' '+r.action+' '+r.proto+' '+src+' '+dst;
+    if(r.port) cmd+=' eq '+r.port;
+    L.push(cmd);
+  });
+  if(permitRest) L.push(R+'(config)# access-list '+num+' permit ip any any');
+  L.push('');
+  L.push('! --- Aplicar a interfaz (cerca del origen, dirección '+dir+') ---');
+  L.push(R+'(config)# interface '+iface);
+  L.push(R+'(config-if)# ip access-group '+num+' '+dir);
+  L.push(R+'(config-if)# exit');
+  L.push(R+'(config)# end');
+  L.push('');
+  L.push('! --- Verificación ---');
+  L.push(R+'# show access-lists');
+  L.push(R+'# show ip interface '+iface);
+  show('#ext-out',L);
+}
+
+// VTY
+function genVty(){
+  const R=document.getElementById('vr').value||'R1';
+  const ip=document.getElementById('vi').value;
+  const mask=document.getElementById('vm').value;
+  const nm=document.getElementById('vn').value||'ADMIN-HOST';
+  const user=document.getElementById('vu').value||'ADMIN';
+  const pass=document.getElementById('vp').value||'class';
+  const dom=document.getElementById('vd').value||'cisco.com';
+  const ssh=document.getElementById('vs').checked;
+  const isHost=!mask;
+  let L=[];
+  L.push('! ═══ PROTECCIÓN VTY EN '+R+' ═══');
+  L.push(R+'> enable');L.push(R+'# configure terminal');L.push('');
+  L.push('! --- ACL para VTY ---');
+  L.push(R+'(config)# ip access-list standard '+nm);
+  L.push(R+'(config-std-nacl)# permit '+(isHost?'host '+ip:ip+' '+m2w(mask)));
+  L.push(R+'(config-std-nacl)# deny any');
+  L.push(R+'(config-std-nacl)# exit');
+  if(ssh){
+    L.push('');L.push('! --- Configurar SSH ---');
+    L.push(R+'(config)# hostname '+R);
+    L.push(R+'(config)# ip domain-name '+dom);
+    L.push(R+'(config)# crypto key generate rsa general-keys modulus 1024');
+    L.push(R+'(config)# username '+user+' secret '+pass);
+  }
+  L.push('');L.push('! --- Aplicar a líneas VTY ---');
+  L.push(R+'(config)# line vty 0 4');
+  L.push(R+'(config-line)# access-class '+nm+' in');
+  L.push(R+'(config-line)# login local');
+  if(ssh)L.push(R+'(config-line)# transport input ssh');
+  L.push(R+'(config-line)# exit');
+  L.push(R+'(config)# end');
+  L.push('');L.push('! --- Verificación ---');
+  L.push(R+'# show access-lists');
+  if(ssh)L.push(R+'# show ip ssh');
+  show('#vty-out',L);
+}
+
+// CALC IP
+function genCalc(){
+  const ipS=document.getElementById('ci').value.trim();
+  let mS=document.getElementById('cm').value.trim();
+  if(!ipS)return;
+  let cidr,mask;
+  if(mS.startsWith('/'))cidr=parseInt(mS.slice(1)),mask=c2m(cidr);
+  else mask=mS||'255.255.255.0',cidr=m2c(mask);
+  const ip=ip2i(ipS),m=ip2i(mask),net=ip&m,bc=net|(~m>>>0);
+  const hosts=Math.max(0,Math.pow(2,32-cidr)-2);
+  const wc=m2w(mask);
+  const b=document.querySelector('#calc-out');b.style.display='block';
+  b.innerHTML=`<div class="calc-r">
+  <div class="calc-i"><div class="lb">Dir. de Red</div><div class="vl">${i2ip(net)}</div></div>
+  <div class="calc-i"><div class="lb">Broadcast</div><div class="vl">${i2ip(bc)}</div></div>
+  <div class="calc-i"><div class="lb">Primer Host</div><div class="vl">${i2ip(net+1)}</div></div>
+  <div class="calc-i"><div class="lb">Último Host</div><div class="vl">${i2ip(bc-1)}</div></div>
+  <div class="calc-i"><div class="lb">Hosts</div><div class="vl">${hosts}</div></div>
+  <div class="calc-i"><div class="lb">Máscara</div><div class="vl">${mask}</div></div>
+  <div class="calc-i"><div class="lb">CIDR</div><div class="vl">/${cidr}</div></div>
+  <div class="calc-i"><div class="lb">Wildcard</div><div class="vl">${wc}</div></div>
+  </div>`;
+}
+
+// WILDCARD
+function genWild(){
+  const ms=document.getElementById('wm').value.trim(),ws=document.getElementById('ww').value.trim();
+  let mask,wc;
+  if(ms)mask=ms,wc=m2w(ms); else if(ws)wc=ws,mask=i2ip((~ip2i(ws))>>>0); else return;
+  const cidr=m2c(mask);
+  const b=document.querySelector('#wild-out');b.style.display='block';
+  b.innerHTML=`<div class="calc-r">
+  <div class="calc-i"><div class="lb">Máscara</div><div class="vl">${mask}</div></div>
+  <div class="calc-i"><div class="lb">Wildcard</div><div class="vl">${wc}</div></div>
+  <div class="calc-i"><div class="lb">CIDR</div><div class="vl">/${cidr}</div></div>
+  <div class="calc-i"><div class="lb">Hosts</div><div class="vl">${Math.max(0,Math.pow(2,32-cidr)-2)}</div></div>
+  </div><pre style="margin-top:10px;font-family:var(--m);font-size:.8rem;color:var(--gn)">
+! Uso en ACL estándar:
+access-list 1 permit [IP] ${wc}
+
+! Uso en ACL extendida:
+access-list 100 permit ip [IP-origen] ${wc} [IP-destino] ${wc}</pre>`;
+}
+
+// REFERENCE
+(()=>{const R=[
+{t:'ACL Estándar Numerada',c:`! Crear ACL (números 1-99)
+access-list 1 deny 192.168.20.0 0.0.0.255
+access-list 1 permit any
+
+! Aplicar (CERCA DEL DESTINO, dirección OUT)
+interface GigabitEthernet0/1
+ ip access-group 1 out
+
+! Eliminar ACL
+no access-list 1`},
+{t:'ACL Estándar Nombrada',c:`ip access-list standard BRANCH-OFFICE-POLICY
+ permit host 192.168.30.3
+ permit 192.168.40.0 0.0.0.255
+ deny any
+ exit
+
+interface GigabitEthernet0/1
+ ip access-group BRANCH-OFFICE-POLICY out`},
+{t:'ACL Extendida Numerada',c:`! Crear ACL (números 100-199)
+! Bloquear HTTP de un host a un server:
+access-list 101 deny tcp host 192.168.10.3 host 192.168.30.2 eq 80
+access-list 101 permit ip any any
+
+! Aplicar (CERCA DEL ORIGEN, dirección IN)
+interface GigabitEthernet0/0
+ ip access-group 101 in`},
+{t:'ACL Extendida - Bloquear FTP',c:`access-list 101 deny tcp any any eq 20
+access-list 101 deny tcp any any eq 21
+access-list 101 permit ip any any
+
+interface GigabitEthernet0/0
+ ip access-group 101 in`},
+{t:'TCP Established (Firewall)',c:`! Solo permite tráfico de RESPUESTA
+access-list 120 permit tcp any 192.168.10.0 0.0.0.255 established
+access-list 120 deny ip any any
+
+interface Serial0/1/0
+ ip access-group 120 in`},
+{t:'Protección VTY (SSH)',c:`ip access-list standard ADMIN-HOST
+ permit host 192.168.10.10
+ deny any
+ exit
+
+line vty 0 4
+ access-class ADMIN-HOST in
+ login local
+ transport input ssh`},
+{t:'Modificar ACL',c:`! Ver números de secuencia
+show access-lists
+
+! Eliminar entrada
+ip access-list standard BRANCH-OFFICE-POLICY
+ no 10
+ 10 permit 192.168.10.0 0.0.0.255
+ exit
+
+! Borrar contadores
+clear access-list counters`},
+{t:'Verificación',c:`show access-lists
+show access-lists 1
+show ip interface GigabitEthernet0/1
+show running-config | include access
+show running-config | section access-list`},
+{t:'Wildcards Comunes',c:`host 192.168.1.1  →  wildcard 0.0.0.0
+Red /24  →  0.0.0.255
+Red /27  →  0.0.0.31
+Red /30  →  0.0.0.3
+any      →  255.255.255.255`},
+{t:'Puertos TCP/UDP',c:`FTP datos  = 20    FTP control = 21
+SSH        = 22    Telnet      = 23
+DNS        = 53    HTTP        = 80
+HTTPS      = 443
+
+Operadores: eq, gt, lt, range`},
+{t:'Reglas de Ubicación',c:`! ACL ESTÁNDAR:
+!   → Colocar CERCA DEL DESTINO
+!   → Dirección: OUT
+!   → Solo filtra IP origen
+
+! ACL EXTENDIDA:
+!   → Colocar CERCA DEL ORIGEN
+!   → Dirección: IN
+!   → Filtra origen+destino+proto+puerto`},
+{t:'Config Básica Router',c:`enable
+configure terminal
+hostname R1
+no ip domain-lookup
+service password-encryption
+enable secret class
+banner motd # Acceso prohibido #
+line con 0
+ password cisco
+ login
+ logging synchronous
+line vty 0 4
+ password cisco
+ login`}
+];const g=document.getElementById('refg');
+R.forEach(r=>{const d=document.createElement('div');d.className='rc';d.innerHTML='<h4>'+r.t+'</h4><pre>'+r.c+'</pre>';g.appendChild(d)})
+})()
+</script>
+</body></html>
