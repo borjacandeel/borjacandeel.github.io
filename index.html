@@ -67,6 +67,25 @@ button{font-family:inherit}
 @media (hover:none){[data-glow]{display:none}}
 @media (max-width:640px){[data-hero-canvas]{opacity:.8}.bc-name{animation-duration:8s}}
 @media (prefers-reduced-motion:reduce){[data-progress],[data-glow],[data-hero-canvas]{display:none}.bc-name{animation:none}}
+@keyframes marq{to{transform:translateX(-50%)}}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,16px) scale(.96)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes dl{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+.bc-marquee{position:relative;z-index:1;overflow:hidden;border-block:1px solid var(--border);background:color-mix(in srgb,var(--bg-elev) 70%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.bc-track{display:flex;width:max-content;gap:12px;padding:14px 0;animation:marq 38s linear infinite}
+.bc-marquee:hover .bc-track{animation-play-state:paused}
+.bc-pill{flex:none;font:500 13px 'JetBrains Mono',monospace;color:var(--fg);border:1px solid var(--border);border-radius:999px;padding:6px 14px;background:var(--bg-elev);transition:color .2s,border-color .2s}
+.bc-pill:hover{color:var(--fg-strong);border-color:var(--accent)}
+.bc-cvnav{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border:1px solid var(--accent);border-radius:8px;background:transparent;color:var(--accent)!important;font:600 13px Inter,sans-serif;flex:none;transition:background-color .2s,color .2s,transform .2s var(--ease)}
+.bc-cvnav:hover{background:var(--accent);color:var(--bg)!important;transform:translateY(-2px)}
+.bc-cvnav:hover svg{animation:dl .8s ease-in-out infinite}
+@media (max-width:640px){.bc-cvnav span{display:none}.bc-cvnav{padding:0 11px}}
+.bc-top{position:fixed;right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;border:0;background:var(--bg-elev);color:var(--fg-strong);z-index:60;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 24px rgba(0,0,0,.28);opacity:0;pointer-events:none;transform:translateY(14px) scale(.9);transition:opacity .3s,transform .4s var(--ease)}
+.bc-top.on{opacity:1;pointer-events:auto;transform:none}
+.bc-top svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.bc-top:hover{color:var(--accent)}
+.bc-toast{position:fixed;left:50%;bottom:26px;z-index:95;transform:translate(-50%,0);background:var(--fg-strong);color:var(--bg);padding:11px 18px;border-radius:10px;font:500 14px Inter,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:toastin .35s var(--ease) both;max-width:90vw;text-align:center}
+.bc-type{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.bc-track{animation:none;overflow-x:auto}.bc-toast{animation:none}}
 @media (prefers-reduced-motion:reduce){
 *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 html{scroll-behavior:auto}
@@ -120,7 +139,7 @@ html{scroll-behavior:auto}
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:40px">
       <a href="#contact" style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:8px;background:var(--accent);color:var(--bg);border:1px solid var(--accent);font:600 15px Inter,sans-serif;transition:transform .25s var(--ease),opacity .2s" style-hover="transform:translateY(-2px);opacity:.9;color:var(--bg)"><span style="font-family:'JetBrains Mono',monospace">✉</span>Contactar</a>
       <a href="#experience" style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:8px;background:var(--bg-elev);color:var(--fg-strong);border:1px solid var(--border);font:600 15px Inter,sans-serif;transition:transform .25s var(--ease),border-color .2s,background-color .2s" style-hover="transform:translateY(-2px);border-color:var(--accent);background:var(--bg-elev-2);color:var(--fg-strong)"><span style="font-family:'JetBrains Mono',monospace">▶</span>Ver experiencia</a>
-      <a href="/CV%20-%20Candel%20Sancho,%20Borja.pdf" download style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:8px;background:transparent;color:var(--fg);border:1px solid var(--border);font:600 15px Inter,sans-serif;transition:transform .25s var(--ease),border-color .2s,color .2s" style-hover="transform:translateY(-2px);border-color:var(--accent);color:var(--fg-strong)"><span style="font-family:'JetBrains Mono',monospace">⤓</span>Descargar CV</a>
+      <a href="./cv.pdf" download="CV - Candel Sancho, Borja.pdf" data-cv style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:8px;background:transparent;color:var(--fg);border:1px solid var(--border);font:600 15px Inter,sans-serif;transition:transform .25s var(--ease),border-color .2s,color .2s" style-hover="transform:translateY(-2px);border-color:var(--accent);color:var(--fg-strong)"><span style="font-family:'JetBrains Mono',monospace">⤓</span>Descargar CV</a>
     </div>
   </div>
   <div aria-hidden="true" style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px">
@@ -522,7 +541,7 @@ html{scroll-behavior:auto}
     <div data-reveal style="display:flex;flex-wrap:wrap;gap:12px">
       <a href="mailto:borjacs07@gmail.com" style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:8px;background:var(--accent);color:var(--bg);border:1px solid var(--accent);font:600 15px Inter,sans-serif;transition:transform .25s var(--ease),opacity .2s" style-hover="transform:translateY(-2px);opacity:.9;color:var(--bg)"><span style="font-family:'JetBrains Mono',monospace">✉</span>Enviar email</a>
       <a href="tel:+34611100616" style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:8px;background:var(--bg-elev);color:var(--fg-strong);border:1px solid var(--border);font:600 15px Inter,sans-serif;transition:transform .25s var(--ease),border-color .2s" style-hover="transform:translateY(-2px);border-color:var(--accent);color:var(--fg-strong)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a13 13 0 006.5 6.5l1.5-2 4 1.5v3a2 2 0 01-2.2 2A17 17 0 014.5 5.2 2 2 0 016.5 3z"></path></svg>611 100 616</a>
-      <a href="/CV%20-%20Candel%20Sancho,%20Borja%20(3).pdf" download style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:8px;background:transparent;color:var(--fg);border:1px solid var(--border);font:600 15px Inter,sans-serif;transition:transform .25s var(--ease),border-color .2s,color .2s" style-hover="transform:translateY(-2px);border-color:var(--accent);color:var(--fg-strong)"><span style="font-family:'JetBrains Mono',monospace">⤓</span>Descargar CV</a>
+      <a href="./cv.pdf" download="CV - Candel Sancho, Borja.pdf" data-cv style="display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:8px;background:transparent;color:var(--fg);border:1px solid var(--border);font:600 15px Inter,sans-serif;transition:transform .25s var(--ease),border-color .2s,color .2s" style-hover="transform:translateY(-2px);border-color:var(--accent);color:var(--fg-strong)"><span style="font-family:'JetBrains Mono',monospace">⤓</span>Descargar CV</a>
     </div>
 
     <p data-reveal style="margin:28px 0 0;font:400 13px 'JetBrains Mono',monospace;color:var(--fg-muted)">Permiso B · Vehículo propio · Valencia</p>
@@ -855,10 +874,81 @@ class Component extends DCLogic {
       this._cleanup.push(() => sio.disconnect());
     }
 
+
+    /* ---------- professional extras: toast, CV buttons, back-to-top, marquee, rotating role ---------- */
+    const toast = (msg) => {
+      document.querySelectorAll('.bc-toast').forEach(t => t.remove());
+      const t = document.createElement('div'); t.className = 'bc-toast'; t.setAttribute('role', 'status'); t.textContent = msg;
+      document.body.appendChild(t); setTimeout(() => t.remove(), 2600);
+    };
+    this._cleanup.push(() => document.querySelectorAll('.bc-toast').forEach(t => t.remove()));
+
+    /* CV: nav button + feedback on every CV link */
+    const themeBtn = root.querySelector('[data-theme-toggle]');
+    if (themeBtn && themeBtn.parentElement && !document.querySelector('.bc-cvnav')) {
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'display:flex;align-items:center;gap:10px;flex:none';
+      themeBtn.parentElement.insertBefore(wrap, themeBtn);
+      const a = document.createElement('a');
+      a.className = 'bc-cvnav'; a.href = './cv.pdf'; a.setAttribute('download', 'CV - Candel Sancho, Borja.pdf'); a.setAttribute('data-cv', ''); a.setAttribute('aria-label', 'Descargar CV');
+      a.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg><span>CV</span>';
+      wrap.appendChild(a); wrap.appendChild(themeBtn);
+      this._cleanup.push(() => { if (wrap.parentElement) { wrap.parentElement.insertBefore(themeBtn, wrap); wrap.remove(); } });
+    }
+    q('[data-cv], .bc-cvnav').forEach(a => on(a, 'click', () => toast('Descargando CV…')));
+
+    /* back to top with progress ring */
+    const top = mk('button');
+    top.className = 'bc-top'; top.type = 'button'; top.setAttribute('aria-label', 'Volver arriba');
+    top.innerHTML = '<svg viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="21" fill="none" stroke="var(--border)" stroke-width="2"/><circle data-ring cx="23" cy="23" r="21" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-dasharray="131.9" stroke-dashoffset="131.9"/></svg><span aria-hidden="true" style="font:600 18px Inter,sans-serif;line-height:1">↑</span>';
+    const ring = top.querySelector('[data-ring]');
+    on(top, 'click', () => window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
+    let tt = false;
+    const upd = () => { if (tt) return; tt = true; requestAnimationFrame(() => { tt = false; const max = document.documentElement.scrollHeight - innerHeight; top.classList.toggle('on', scrollY > innerHeight * 0.6); ring.style.strokeDashoffset = String(131.9 * (1 - (max > 0 ? Math.min(1, scrollY / max) : 0))); }); };
+    on(window, 'scroll', upd, { passive: true }); upd();
+
+    /* tech marquee between hero and about */
+    const aboutSec = root.querySelector('#about');
+    if (aboutSec && aboutSec.parentElement) {
+      const techs = ['Windows Server', 'Linux', 'Proxmox VE', 'Active Directory', 'VLANs', 'VPN', 'Docker', 'Python', 'Bash', 'Cableado estructurado', 'VMware', 'Ciberseguridad', 'Automatización', 'IA aplicada', 'Backups', 'NAS · Switches'];
+      const mq = document.createElement('div'); mq.className = 'bc-marquee'; mq.setAttribute('aria-hidden', 'true');
+      const tr = document.createElement('div'); tr.className = 'bc-track';
+      tr.innerHTML = techs.concat(techs).map(t => '<span class="bc-pill">' + t + '</span>').join('');
+      mq.appendChild(tr);
+      aboutSec.parentElement.insertBefore(mq, aboutSec);
+      this._cleanup.push(() => mq.remove());
+    }
+
+    /* rotating role line in the hero */
+    const roleP = Array.from(root.querySelectorAll('#hero p')).find(p => /Técnico de Sistemas/.test(p.textContent));
+    if (roleP && !reduce) {
+      const base = roleP.textContent;
+      const words = ['Sistemas', 'Redes', 'Ciberseguridad', 'Automatización', 'IA aplicada'];
+      const sp = document.createElement('span'); sp.className = 'bc-type'; sp.setAttribute('aria-hidden', 'true');
+      roleP.setAttribute('aria-label', base);
+      const br = document.createElement('span'); br.setAttribute('aria-hidden', 'true'); br.textContent = base + ' · ';
+      roleP.textContent = ''; roleP.appendChild(br); roleP.appendChild(sp);
+      let wi = 0, ci = 0, del = false, timer = 0;
+      const tick = () => {
+        const w = words[wi];
+        ci += del ? -1 : 1; sp.textContent = w.slice(0, ci);
+        let d = del ? 40 : 85;
+        if (!del && ci === w.length) { del = true; d = 1400; }
+        else if (del && ci === 0) { del = false; wi = (wi + 1) % words.length; d = 300; }
+        timer = setTimeout(tick, d);
+      };
+      timer = setTimeout(tick, 1800);
+      this._cleanup.push(() => clearTimeout(timer));
+    }
+
     /* ---------- copy email ---------- */
     const copy = root.querySelector('[data-copy]');
     if (copy) on(copy, 'click', async () => {
-      try { await navigator.clipboard.writeText('borjacs07@gmail.com'); } catch (_) {}
+      let ok = false;
+      try { await navigator.clipboard.writeText('borjacs07@gmail.com'); ok = true; } catch (_) {
+        try { const ta = document.createElement('textarea'); ta.value = 'borjacs07@gmail.com'; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); ok = document.execCommand('copy'); ta.remove(); } catch (__) {}
+      }
+      toast(ok ? 'Email copiado al portapapeles' : 'No se pudo copiar: borjacs07@gmail.com');
       copy.textContent = 'Copiado';
       copy.style.color = 'var(--ok)';
       copy.style.borderColor = 'var(--ok)';
