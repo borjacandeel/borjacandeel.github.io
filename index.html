@@ -708,6 +708,7 @@ class Component extends DCLogic {
     /* ---------- extra motion (hyperframes-style) ---------- */
     const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
     const mobile = window.innerWidth < 700;
+    const lowEnd = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4 || (navigator.connection && navigator.connection.saveData);
     const mk = (tag, attr, parent) => { const e = document.createElement(tag); if (attr) e.setAttribute(attr, ''); (parent || document.body).appendChild(e); this._cleanup.push(() => e.remove()); return e; };
 
     if (!reduce) {
@@ -743,7 +744,7 @@ class Component extends DCLogic {
         hero.insertBefore(cv, hero.firstChild);
         this._cleanup.push(() => cv.remove());
         const ctx = cv.getContext('2d');
-        let W = 0, H = 0, nodes = [], visible = true, raf = 0;
+        let W = 0, H = 0, nodes = [], visible = true, raf = 0, skip = false;
         const ptr = { x: -9999, y: -9999 };
         const col = () => { const cs = getComputedStyle(document.documentElement); return [cs.getPropertyValue('--accent').trim() || '#61afef', cs.getPropertyValue('--accent-2').trim() || '#c678dd']; };
         let colors = col();
@@ -751,7 +752,7 @@ class Component extends DCLogic {
           const dpr = Math.min(devicePixelRatio || 1, 2);
           W = hero.clientWidth; H = hero.clientHeight;
           cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          const n = Math.round(Math.min(90, Math.max(22, (W * H) / (mobile ? 22000 : 15000))));
+          const n = Math.round(Math.min(lowEnd ? 40 : 90, Math.max(18, (W * H) / (mobile ? 22000 : 15000) * (lowEnd ? .6 : 1))));
           nodes = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: 1.2 + Math.random() * 1.6, k: Math.random() < .2 ? 1 : 0 }));
         };
         size();
@@ -760,6 +761,7 @@ class Component extends DCLogic {
         const frame = () => {
           raf = requestAnimationFrame(frame);
           if (!visible || document.hidden) return;
+          if (lowEnd && (skip = !skip)) return;
           ctx.clearRect(0, 0, W, H);
           for (const a of nodes) {
             a.x += a.vx; a.y += a.vy;
