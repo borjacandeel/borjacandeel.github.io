@@ -13,7 +13,10 @@ El proyecto ha sido desarrollado utilizando un stack tecnológico limpio y sin d
 
 ## ✨ Características Principales
 
-*   🌓 **Modo oscuro / claro automático**: sigue la apariencia del sistema (`prefers-color-scheme`), con contraste AA en ambos modos y soporte de *Aumentar contraste*.
+*   🌓 **Modo claro / oscuro**: sigue la apariencia del sistema y tiene un botón para cambiarlo (se recuerda en `localStorage`), con transición circular.
+*   🎞️ **Scroll cinematográfico**: desplazamiento suave (Lenis, incluido en `assets/vendor`), inicio fijado en pantalla donde el texto se desvanece, el logo BC crece y aparece la Terminal, y frases gigantes que entran y salen con zoom.
+*   🔷 **Logos en SVG**: logo BC vectorizado (`assets/logo-bc.svg`, cambia a blanco o negro según el tema), favicon y la «m» de Markha redibujada en SVG (siempre azul).
+*   🚴🎧 **Strava y SoundCloud**: ventanas con avatar, ruta que se dibuja al hacer scroll y el reproductor oficial de SoundCloud, que anima la ventana mientras suena.
 *   💧 **Liquid Glass con moderación**: el material de cristal se usa solo en la capa funcional flotante (barra de navegación, botón de subir y avisos); el contenido va sobre superficies opacas. Respeta *Reducir transparencia*.
 *   🧭 **Menús estilo Apple**: la barra de cristal se despliega en menús (Habilidades, Experiencia, Proyectos, Contacto) con el resto de la página desenfocada; en móvil la barra se convierte en un menú a pantalla completa con animación en cascada.
 *   🎬 **Transiciones de scroll**: el hero se aleja y desenfoca al bajar, el texto de «Sobre mí» se ilumina palabra a palabra y la experiencia en Markha se cuenta en una ventana macOS fija que cambia de icono, logos y registro de terminal según avanzas.
