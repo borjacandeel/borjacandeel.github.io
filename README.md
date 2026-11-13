@@ -15,6 +15,7 @@ El proyecto ha sido desarrollado utilizando un stack tecnológico limpio y sin d
 
 *   🌓 **Modo oscuro / claro automático**: sigue la apariencia del sistema (`prefers-color-scheme`), con contraste AA en ambos modos y soporte de *Aumentar contraste*.
 *   💧 **Liquid Glass con moderación**: el material de cristal se usa solo en la capa funcional flotante (barra de navegación, botón de subir y avisos); el contenido va sobre superficies opacas. Respeta *Reducir transparencia*.
+*   🌊 **Movimiento físico**: muelles críticamente amortiguados (sin rebote) para todas las transiciones, capturas que se abren desde su miniatura y vuelven a ella, arrastre 1:1 con velocidad y resistencia en los bordes, y respuesta inmediata al pulsar.
 *   📜 **Scroll animado discreto**: los elementos aparecen suavemente con `IntersectionObserver`; todo el movimiento se desactiva con *Reducir movimiento*.
 *   🖼️ **Capturas ampliables**: galería horizontal de AutoPrevias con visor a pantalla completa (Esc para cerrar).
 *   📱 **100% responsivo**: adaptación a móviles, tablets y monitores grandes, sin scroll horizontal.
