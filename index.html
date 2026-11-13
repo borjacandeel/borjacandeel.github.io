@@ -597,6 +597,16 @@ html.cine{scroll-behavior:auto}
 @media (prefers-reduced-transparency:reduce){.nav::before,.nav::after,.top::before,.top::after{display:none}.ghost-tag{background:#0a84ff}}
 @media (prefers-reduced-motion:reduce){.ghost-layer{display:none}}
 
+/* entry to BC OS: a liquid-glass pill with a little laptop */
+.btn-os{position:relative;color:#fff;background:linear-gradient(135deg,#1c1c1e,#3a3a3c);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 24px rgba(0,0,0,.25);overflow:hidden}
+.btn-os:hover{color:#fff;filter:none}
+.btn-os::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 3.6s ease-in-out 2s infinite}
+@keyframes shine{0%,70%{left:-60%}100%{left:130%}}
+.btn-os svg{transition:transform .5s var(--spring)}
+.btn-os:hover svg{transform:translateY(-2px) scale(1.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-os{background:linear-gradient(135deg,#f5f5f7,#d1d1d6);color:#1d1d1f}:root:not([data-theme="light"]) .btn-os:hover{color:#1d1d1f}}:root[data-theme="dark"] .btn-os{background:linear-gradient(135deg,#f5f5f7,#d1d1d6);color:#1d1d1f}:root[data-theme="dark"] .btn-os:hover{color:#1d1d1f}
+@media (prefers-reduced-motion:reduce){.btn-os::after{animation:none;display:none}}
+
 /* reduced motion: gentle cross-fades instead of slides and springs */
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){
@@ -666,6 +676,7 @@ html{scroll-behavior:auto}
     <div class="m-foot" style="--i:7">
       <a class="btn btn-primary btn-sm" href="mailto:borjacs07@gmail.com">Enviar email</a>
       <a class="btn btn-gray btn-sm" href="./cv.pdf" download="CV - Candel Sancho, Borja.pdf" data-cv>Descargar CV</a>
+      <a class="btn btn-gray btn-sm" href="./os.html">Abrir BC OS</a>
     </div>
   </div>
 </header>
@@ -685,6 +696,7 @@ html{scroll-behavior:auto}
       <a href="#contact" class="btn btn-primary">Contactar</a>
       <a href="#experience" class="btn btn-gray">Ver experiencia</a>
       <a href="./cv.pdf" download="CV - Candel Sancho, Borja.pdf" data-cv class="btn btn-gray"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>Descargar CV</a>
+      <a href="./os.html" class="btn btn-os" data-os><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4.5" width="16" height="11" rx="1.8"/><path d="M2 19h20"/></svg>Abrir BC OS</a>
     </div>
     </div>
     <div class="hero-term" data-hero-term>

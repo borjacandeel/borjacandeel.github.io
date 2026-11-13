@@ -31,6 +31,10 @@ El proyecto ha sido desarrollado utilizando un stack tecnológico limpio y sin d
 *   🪟 **Ventanas macOS**: habilidades, proyectos y experiencia se presentan como ventanas con los botones rojo, amarillo y verde; el verde amplía cada proyecto a ancho completo.
 *   🏷️ **Logos de tecnologías**: banda animada con los logos (Simple Icons, CC0) que se colorean al pasar el ratón, y logos en las etiquetas de cada ventana.
 
+## 💻 BC OS (`os.html`)
+
+Un escritorio estilo macOS en una página aparte, accesible desde el botón **Abrir BC OS** del inicio: arranque con el logo, barra de menús, Dock con aumento, ventanas que se arrastran, redimensionan, minimizan al Dock y se amplían con el botón verde, Spotlight (Ctrl/⌘+K), Terminal con comandos (`help`, `experiencia`, `neofetch`…), apps de Sobre mí, Habilidades, Experiencia (Markha), Proyectos, Educación, Música, Ciclismo, Contacto, CV y Portfolio, y Ajustes de tema y fondo.
+
 ## 🗂 Estructura de Secciones
 
 El portfolio está divivido narrativamente para presentar rápidamente mi información profesional:
