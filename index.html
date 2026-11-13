@@ -563,6 +563,43 @@ html.cine{scroll-snap-type:y proximity}
 [data-rise]{transform:none!important;opacity:1!important}
 }
 
+
+/* ===== ghost cursor: Borja driving the page ===== */
+.ghost-layer{position:fixed;inset:0;z-index:70;pointer-events:none;opacity:0;transition:opacity .5s ease}
+.ghost-layer.on{opacity:1}
+.ghost{position:absolute;left:0;top:0;width:0;height:0;will-change:transform}
+.ghost svg{position:absolute;left:-3px;top:-2px;width:26px;height:26px;transition:opacity .15s,transform .25s var(--spring);filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
+.g-arrow path{fill:#111;stroke:#fff;stroke-width:1.4;stroke-linejoin:round}
+.g-beam{left:-12px!important;top:-12px!important;opacity:0}
+.g-beam path{fill:none;stroke:#111;stroke-width:2.2;stroke-linecap:round}
+.ghost[data-shape="beam"] .g-arrow{opacity:0}
+.ghost[data-shape="beam"] .g-beam{opacity:1}
+.ghost.press svg{transform:scale(.82)}
+.ghost-tag{position:absolute;left:18px;top:22px;display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 6px;border-radius:999px;white-space:nowrap;font-size:.75rem;font-weight:600;letter-spacing:.01em;color:#fff;background:rgba(10,132,255,.55);-webkit-backdrop-filter:blur(14px) saturate(190%);backdrop-filter:blur(14px) saturate(190%);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 1px rgba(255,255,255,.15),0 6px 18px rgba(10,132,255,.35)}
+.ghost-tag b{display:inline-grid;place-items:center;height:18px;padding:0 7px;border-radius:9px;background:rgba(255,255,255,.92);color:#0a84ff;font-weight:700}
+.ghost-tag em{font-style:normal}
+.ghost-sel i{position:absolute;border-radius:3px;background:rgba(10,132,255,.28);box-shadow:0 0 0 1px rgba(10,132,255,.12)}
+.ghost-drop{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;pointer-events:none;-webkit-backdrop-filter:blur(3px) saturate(180%) brightness(1.08);backdrop-filter:blur(3px) saturate(180%) brightness(1.08);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.75),inset 0 6px 12px rgba(255,255,255,.35),0 6px 20px rgba(10,132,255,.35);animation:drop .85s var(--spring) forwards}
+@keyframes drop{from{transform:scale(.2);opacity:1}to{transform:scale(1.5);opacity:0}}
+.ghost-on{outline:2px solid rgba(10,132,255,.55);outline-offset:4px;border-radius:12px;transition:outline-color .3s}
+.chip.ghost-on,.badge.ghost-on,.btn.ghost-on{border-radius:980px}
+@media (hover:none){.ghost svg{width:22px;height:22px}.ghost-tag{font-size:.6875rem}}
+
+/* ===== Liquid Glass: specular light and a rim that catches the pointer ===== */
+:root{--lg-hi:rgba(255,255,255,.85);--lg-rim:rgba(255,255,255,.9);--lg-rim-lo:rgba(255,255,255,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--lg-hi:rgba(255,255,255,.28);--lg-rim:rgba(255,255,255,.45);--lg-rim-lo:rgba(255,255,255,.03)}}:root[data-theme="dark"]{--lg-hi:rgba(255,255,255,.28);--lg-rim:rgba(255,255,255,.45);--lg-rim-lo:rgba(255,255,255,.03)}
+.nav,.top,.toast{isolation:isolate}
+.nav{-webkit-backdrop-filter:blur(22px) saturate(200%) brightness(1.04);backdrop-filter:blur(22px) saturate(200%) brightness(1.04);box-shadow:inset 0 1px 0 var(--lg-hi),inset 0 -1px 1px rgba(255,255,255,.12),var(--glass-shadow)}
+.nav::before,.top::before{content:"";position:absolute;left:0;right:0;top:0;height:52px;border-radius:26px;pointer-events:none;z-index:-1;background:radial-gradient(60% 140% at var(--lx,25%) -30%,var(--lg-hi),transparent 60%);opacity:.55;transition:opacity .4s}
+.top::before{height:100%;border-radius:50%}
+.nav::after,.top::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;background:conic-gradient(from var(--la,210deg),var(--lg-rim),var(--lg-rim-lo) 22%,var(--lg-rim) 48%,var(--lg-rim-lo) 74%,var(--lg-rim));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:.7}
+.nav-cta,.theme-btn,.burger{transition:transform .5s var(--spring),scale .45s var(--spring),filter .2s,background-color .2s}
+.nav-cta:active,.theme-btn:active,.burger:active,.top:active{scale:1.08 .9}
+.nav-ind{box-shadow:inset 0 1px 0 var(--lg-hi),0 2px 8px rgba(0,0,0,.08);transition:transform .45s var(--spring),width .45s var(--spring),opacity .25s,scale .35s var(--spring)}
+.nav-ind.moving{scale:1.12 .78}
+@media (prefers-reduced-transparency:reduce){.nav::before,.nav::after,.top::before,.top::after{display:none}.ghost-tag{background:#0a84ff}}
+@media (prefers-reduced-motion:reduce){.ghost-layer{display:none}}
+
 /* reduced motion: gentle cross-fades instead of slides and springs */
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){
@@ -1147,6 +1184,7 @@ class Component extends DCLogic {
     const links = q('[data-link]');
     const moveTo = (link) => {
       if (!indicator || !navlist || !link || !link.offsetWidth) return;
+      if (indicator._at !== link) { indicator._at = link; indicator.classList.add('moving'); clearTimeout(indicator._t); indicator._t = setTimeout(() => indicator.classList.remove('moving'), 260); }
       indicator.style.width = link.offsetWidth + 'px';
       indicator.style.transform = `translateX(${link.offsetLeft}px)`;
       indicator.style.opacity = '1';
@@ -1453,6 +1491,14 @@ class Component extends DCLogic {
       w.style.setProperty('--mx', (e.clientX - r.left) + 'px'); w.style.setProperty('--my', (e.clientY - r.top) + 'px');
     }, { passive: true });
 
+    /* ---------- Liquid Glass: the rim and the highlight lean toward the pointer ---------- */
+    const glassFollow = (el) => on(el, 'pointermove', (e) => {
+      const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      el.style.setProperty('--lx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+      el.style.setProperty('--la', (Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI + 90).toFixed(1) + 'deg');
+    }, { passive: true });
+    if (fine) glassFollow(nav);
+
     /* ---------- the logo fills in at the end of the page ---------- */
     const outro = root.querySelector('[data-outro]');
     const outroFx = () => {
@@ -1488,6 +1534,106 @@ class Component extends DCLogic {
     if (!reduce && fine) {
       on(window, 'wheel', () => { if (snapping) return; clearTimeout(snapT); snapT = setTimeout(snapNow, 160); }, { passive: true });
       this._cleanup.push(() => clearTimeout(snapT));
+    }
+
+    let ghostFx = () => {};
+    /* ---------- a ghost cursor walks through the page as you scroll, as if Borja were driving ---------- */
+    const CHOREO = [
+      { sel: '#hero .btn-primary', act: 'click', say: 'Contactar' },
+      { sel: '[data-words] strong', act: 'select', say: 'Seleccionando' },
+      { sel: '#about .stat .num', act: 'hover', say: 'Tecnologías' },
+      { sel: '#skill-4 .chip', act: 'click', say: 'Proxmox VE' },
+      { sel: '#skill-5 h3', act: 'select', say: 'Ciberseguridad' },
+      { sel: '#experience .job h3', act: 'select', say: 'Markha' },
+      { sel: '.xp-win .xp-term', act: 'hover', say: 'Terminal' },
+      { sel: '#education .badge.live', act: 'click', say: 'Cursando ASIR' },
+      { sel: '#proj-1 [data-zoom]', act: 'hover', say: 'Ampliar' },
+      { sel: '.sc-player', act: 'hover', say: 'SoundCloud' },
+      { sel: '.mail a', act: 'select', say: 'Mi email' },
+      { sel: '[data-copy]', act: 'click', say: 'Copiar' },
+    ];
+    if (!reduce) {
+      const layer = document.createElement('div');
+      layer.className = 'ghost-layer'; layer.setAttribute('aria-hidden', 'true');
+      layer.innerHTML = '<div class="ghost-sel"></div><div class="ghost" data-shape="arrow">'
+        + '<svg class="g-arrow" viewBox="0 0 24 24"><path d="M4.5 2.8l14.7 10.9-6.6.9 3.8 7.3-2.9 1.5-3.8-7.4-5.2 4.3z"/></svg>'
+        + '<svg class="g-beam" viewBox="0 0 24 24"><path d="M9 3.5h6M9 20.5h6M12 3.5v17"/></svg>'
+        + '<span class="ghost-tag"><b>Borja</b><em></em></span></div>';
+      document.body.appendChild(layer);
+      this._cleanup.push(() => layer.remove());
+      const ghost = layer.querySelector('.ghost'), tag = layer.querySelector('.ghost-tag em'), selBox = layer.querySelector('.ghost-sel');
+      const steps = CHOREO.map(s_ => ({ ...s_, el: null }));
+      const resolve = () => steps.forEach(s_ => { s_.el = root.querySelector(s_.sel); });
+      resolve();
+      let cur = -1, phase = 'idle', t0 = 0, done = false;
+      const pos = { x: innerWidth * 0.82, y: innerHeight * 0.75, vx: 0, vy: 0 };
+      const W = 2 * Math.PI / 0.5;                       /* critically damped spring, response 0.5 s */
+      const visible = (el) => { if (!el || !el.getClientRects().length) return null; const r = el.getBoundingClientRect(); return r.bottom > innerHeight * 0.12 && r.top < innerHeight * 0.82 && r.width > 0 ? r : null; };
+      const pick = () => {
+        let best = -1, bd = 1e9;
+        steps.forEach((s_, i) => { const r = visible(s_.el); if (!r) return; const d = Math.abs(r.top + r.height / 2 - innerHeight * 0.45); if (d < bd) { bd = d; best = i; } });
+        return best;
+      };
+      const textRects = (el) => { const rg = document.createRange(); rg.selectNodeContents(el); return Array.from(rg.getClientRects()).filter(r => r.width > 2); };
+      const clearSel = () => { selBox.innerHTML = ''; };
+      const drawSel = (el, s) => {
+        const rects = textRects(el), total = rects.reduce((a, r) => a + r.width, 0);
+        let left = total * s, html = '', end = null;
+        rects.forEach(r => {
+          const w = Math.max(0, Math.min(r.width, left)); left -= r.width;
+          if (w > 0) { html += `<i style="left:${r.left}px;top:${r.top}px;width:${w}px;height:${r.height}px"></i>`; end = { x: r.left + w, y: r.top + r.height / 2 }; }
+        });
+        selBox.innerHTML = html;
+        return { start: rects[0] ? { x: rects[0].left, y: rects[0].top + rects[0].height / 2 } : null, end };
+      };
+      const ripple = (x, y) => {
+        const d = document.createElement('span'); d.className = 'ghost-drop'; d.style.left = x + 'px'; d.style.top = y + 'px';
+        layer.appendChild(d); setTimeout(() => d.remove(), 900);
+      };
+      const goal = () => {
+        const s_ = steps[cur]; if (!s_ || !s_.el) return null;
+        const r = s_.el.getBoundingClientRect();
+        if (s_.act === 'select') {
+          const sel = drawSel(s_.el, phase === 'select' ? Math.min(1, (performance.now() - t0) / 700) : done ? 1 : 0);
+          if (phase === 'select' && sel.end) return sel.end;
+          if (done && sel.end) return { x: sel.end.x + 6, y: sel.end.y + 4 };
+          return sel.start ? { x: sel.start.x - 2, y: sel.start.y } : { x: r.left, y: r.top + r.height / 2 };
+        }
+        return { x: r.left + Math.min(r.width * 0.62, r.width - 6), y: r.top + r.height * 0.62 };
+      };
+      let last = performance.now(), gRaf = 0;
+      const frame = (now) => {
+        const dt = Math.min(0.033, (now - last) / 1000); last = now;
+        const g = goal();
+        if (g) {
+          const ax = W * W * (g.x - pos.x) - 2 * W * pos.vx, ay = W * W * (g.y - pos.y) - 2 * W * pos.vy;
+          pos.vx += ax * dt; pos.vy += ay * dt; pos.x += pos.vx * dt; pos.y += pos.vy * dt;
+          const dist = Math.hypot(g.x - pos.x, g.y - pos.y), s_ = steps[cur];
+          if (phase === 'travel' && dist < 3) {
+            if (s_.act === 'select') { phase = 'select'; t0 = now; ghost.dataset.shape = 'beam'; }
+            else {
+              phase = 'hold'; done = true; ghost.classList.add('press'); setTimeout(() => ghost.classList.remove('press'), 160);
+              if (s_.act === 'click') ripple(pos.x, pos.y);
+              s_.el.classList.add('ghost-on');
+            }
+          }
+          if (phase === 'select' && now - t0 > 760) { phase = 'hold'; done = true; ghost.dataset.shape = 'arrow'; }
+        }
+        ghost.style.transform = `translate3d(${pos.x}px,${pos.y}px,0)`;
+        gRaf = requestAnimationFrame(frame);
+      };
+      const choose = () => {
+        const i = pick();
+        if (i < 0 && cur >= 0 && !visible(steps[cur].el)) { steps[cur].el && steps[cur].el.classList.remove('ghost-on'); clearSel(); cur = -1; layer.classList.remove('on'); return; }
+        if (i === cur || i < 0) return;
+        if (cur >= 0 && steps[cur].el) steps[cur].el.classList.remove('ghost-on');
+        clearSel(); cur = i; phase = 'travel'; done = false; ghost.dataset.shape = 'arrow';
+        tag.textContent = steps[i].say; layer.classList.add('on');
+      };
+      gRaf = requestAnimationFrame(frame);
+      this._cleanup.push(() => cancelAnimationFrame(gRaf));
+      ghostFx = choose;
+      setTimeout(choose, 1600);
     }
 
     /* ---------- words light up as the paragraph is read ---------- */
@@ -1616,6 +1762,7 @@ class Component extends DCLogic {
     document.body.appendChild(top);
     this._cleanup.push(() => top.remove());
     const ring = top.querySelector('[data-ring]');
+    if (fine) glassFollow(top);
     on(top, 'click', () => scrollToY(0));
 
     const edge = root.querySelector('[data-edge]');
@@ -1629,7 +1776,7 @@ class Component extends DCLogic {
         ring.style.strokeDashoffset = String(138.2 * (1 - (max > 0 ? Math.min(1, scrollY / max) : 0)));
         edge && edge.classList.toggle('on', scrollY > 24);
         nav && nav.classList.toggle('compact', scrollY > 60);
-        heroFx(); statementFx(); routeFx(); wordsFx(); xpFx(); portraitFx(); riseFx(); outroFx();
+        heroFx(); statementFx(); routeFx(); wordsFx(); xpFx(); portraitFx(); riseFx(); outroFx(); ghostFx();
         markActive();
       });
     };
