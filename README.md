@@ -15,6 +15,8 @@ El proyecto ha sido desarrollado utilizando un stack tecnológico limpio y sin d
 
 *   🌓 **Modo claro / oscuro**: sigue la apariencia del sistema y tiene un botón para cambiarlo (se recuerda en `localStorage`), con transición circular.
 *   🎞️ **Scroll cinematográfico**: desplazamiento suave (Lenis, incluido en `assets/vendor`), inicio fijado en pantalla donde el texto se desvanece, el logo BC crece y aparece la Terminal, y frases gigantes que entran y salen con zoom.
+*   🧲 **Scroll con ajuste**: un pequeño giro de rueda lleva al siguiente apartado o fotograma (en ordenador con Lenis; en móvil con `scroll-snap` nativo), sin bloquear la lectura de las secciones largas.
+*   ✨ **Más animación**: títulos que suben palabra a palabra, ventanas que se inclinan al entrar, banda de logos que acelera con el scroll, luz que sigue al ratón en las ventanas y logo final que se rellena al llegar al pie.
 *   🔷 **Logos en SVG**: logo BC vectorizado (`assets/logo-bc.svg`, cambia a blanco o negro según el tema), favicon y la «m» de Markha redibujada en SVG (siempre azul).
 *   🚴🎧 **Strava y SoundCloud**: ventanas con avatar, ruta que se dibuja al hacer scroll y el reproductor oficial de SoundCloud, que anima la ventana mientras suena.
 *   💧 **Liquid Glass con moderación**: el material de cristal se usa solo en la capa funcional flotante (barra de navegación, botón de subir y avisos); el contenido va sobre superficies opacas. Respeta *Reducir transparencia*.
