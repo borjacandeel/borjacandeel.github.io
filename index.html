@@ -522,13 +522,10 @@ html.lenis,html.lenis body{height:auto}
 
 /* ===== snapping: a nudge carries you to the next part ===== */
 html{scroll-padding-top:0}
+html.cine{scroll-behavior:auto}
 .snap-pt{display:none;position:absolute;left:0;width:1px;height:1px;pointer-events:none}
 .cine .snap-pt{display:block}
-@media (hover:none),(pointer:coarse){
-html.cine{scroll-snap-type:y proximity}
-[data-snap]{scroll-snap-align:start}
-.xp-step[data-snap]{scroll-snap-align:start;scroll-margin-top:76px}
-}
+
 
 /* ===== section titles rise out of a mask, word by word ===== */
 .tw{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
@@ -1354,9 +1351,10 @@ class Component extends DCLogic {
       const id = a.getAttribute('href');
       if (id.length < 2) return;
       const t = id === '#hero' ? document.body : root.querySelector(id);
-      if (!t || !lenis) return;
+      if (!t || reduce) return;
       e.preventDefault();
-      requestAnimationFrame(() => lenis && lenis.scrollTo(id === '#hero' ? 0 : t, { offset: 0, duration: 1.5, onComplete: () => { restY = scrollY; } }));
+      if (lenis) requestAnimationFrame(() => lenis && lenis.scrollTo(id === '#hero' ? 0 : t, { offset: 0, duration: 1.5, onComplete: () => { restY = scrollY; } }));
+      else requestAnimationFrame(() => glide(id === '#hero' ? 0 : Math.round(t.getBoundingClientRect().top + scrollY)));
     }));
 
     /* ---------- theme: follows the system until the visitor picks one ---------- */
@@ -1509,32 +1507,58 @@ class Component extends DCLogic {
       outro.style.setProperty('--oc', ((1 - p) * 100).toFixed(2) + '%');
     };
 
-    /* ---------- snapping: a small nudge carries you to the next part (desktop, with Lenis) ---------- */
-    let snapping = false, restY = scrollY, snapT = 0;
+    /* ---------- snapping: a small nudge carries you to the next part ----------
+       desktop: after the wheel settles, via Lenis. touch: after the finger lifts and momentum stops,
+       with our own eased scroll that any new touch cancels at once. */
+    let snapping = false, restY = scrollY, snapT = 0, touching = false, snapRaf = 0;
     const snapPts = () => q('[data-snap]').filter(el => el.getClientRects().length).map(el => {
       const r = el.getBoundingClientRect(), top = r.top + scrollY;
+      if (!fine && el.classList.contains('xp-step')) return top - 76;          /* phone: card sits under the bar */
       return el.getAttribute('data-snap') === 'center' ? top + r.height / 2 - innerHeight / 2 : top;
     }).map(y => Math.max(0, Math.round(y))).sort((a, b) => a - b);
+    const stopSnap = () => { cancelAnimationFrame(snapRaf); snapRaf = 0; snapping = false; };
+    const glide = (target) => {                                  /* native eased scroll for touch */
+      const y0 = scrollY, d = target - y0, dur = Math.min(650, 280 + Math.abs(d) * 0.45), t0 = performance.now();
+      snapping = true;
+      const step = (now) => {
+        const t = Math.min(1, (now - t0) / dur), k = 1 - Math.pow(1 - t, 3);
+        window.scrollTo({ top: y0 + d * k, behavior: 'instant' });
+        if (t < 1 && snapping) snapRaf = requestAnimationFrame(step);
+        else { snapping = false; snapRaf = 0; restY = scrollY; }
+      };
+      snapRaf = requestAnimationFrame(step);
+    };
     const snapNow = () => {
-      if (!lenis || snapping) return;
-      if (Math.abs(lenis.velocity) > 0.6) { snapT = setTimeout(snapNow, 70); return; }
+      if (snapping || touching) return;
+      if (lenis && Math.abs(lenis.velocity) > 0.6) { snapT = setTimeout(snapNow, 70); return; }
+      const vh = window.innerHeight;
       const y = scrollY, dir = Math.sign(y - restY), pts = snapPts();
+      if (!dir) return;
       let prev = null, next = null;
       pts.forEach(p => { if (p <= y + 2) prev = p; else if (next === null) next = p; });
       let target = null;
-      const short = prev !== null && next !== null && next - prev <= innerHeight * 1.45;
+      const short = prev !== null && next !== null && next - prev <= vh * 1.45;
       if (short) target = dir < 0 ? prev : next;                       /* short stretch: follow the nudge */
-      else if (dir > 0 && next !== null && next - y < innerHeight * 0.25) target = next;   /* long reading: only near the edge */
-      else if (dir < 0 && prev !== null && y - prev < innerHeight * 0.25) target = prev;
+      else if (dir > 0 && next !== null && next - y < vh * 0.25) target = next;   /* long reading: only near the edge */
+      else if (dir < 0 && prev !== null && y - prev < vh * 0.25) target = prev;
       if (target === null || Math.abs(target - y) < 3) { restY = y; return; }
-      snapping = true;
-      lenis.scrollTo(target, { duration: 0.95, easing: (t) => 1 - Math.pow(1 - t, 4), onComplete: () => { snapping = false; restY = scrollY; } });
-      setTimeout(() => { snapping = false; }, 1300);
+      if (lenis) {
+        snapping = true;
+        lenis.scrollTo(target, { duration: 0.95, easing: (t) => 1 - Math.pow(1 - t, 4), onComplete: () => { snapping = false; restY = scrollY; } });
+        setTimeout(() => { snapping = false; }, 1300);
+      } else glide(target);
     };
     if (!reduce && fine) {
       on(window, 'wheel', () => { if (snapping) return; clearTimeout(snapT); snapT = setTimeout(snapNow, 160); }, { passive: true });
-      this._cleanup.push(() => clearTimeout(snapT));
     }
+    if (!reduce && !fine) {
+      on(window, 'touchstart', () => { touching = true; clearTimeout(snapT); if (snapping) { stopSnap(); restY = scrollY; } }, { passive: true });
+      const lift = () => { touching = false; clearTimeout(snapT); snapT = setTimeout(snapNow, 180); };
+      on(window, 'touchend', lift, { passive: true });
+      on(window, 'touchcancel', lift, { passive: true });
+      on(window, 'scroll', () => { if (touching || snapping) return; clearTimeout(snapT); snapT = setTimeout(snapNow, 140); }, { passive: true });
+    }
+    this._cleanup.push(() => { clearTimeout(snapT); stopSnap(); });
 
     let ghostFx = () => {};
     /* ---------- a ghost cursor walks through the page as you scroll, as if Borja were driving ---------- */
