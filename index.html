@@ -61,7 +61,7 @@ img{display:block;max-width:100%;height:auto}
 .skip:focus{left:12px;text-decoration:none}
 
 /* navigation: the one floating glass layer */
-.nav{position:fixed;top:12px;left:50%;z-index:50;width:min(1080px,calc(100% - 24px));transform:translateX(-50%);height:52px;padding:0 8px 0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-radius:26px;background:var(--glass);border:1px solid var(--glass-edge);box-shadow:var(--glass-shadow);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
+.nav{position:fixed;top:12px;left:50%;z-index:50;width:min(1080px,calc(100% - 24px));transform:translateX(-50%);border-radius:26px;background:var(--glass);border:1px solid var(--glass-edge);box-shadow:var(--glass-shadow);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
 .brand{font-size:1.0625rem;font-weight:600;letter-spacing:-.02em;color:var(--label);white-space:nowrap}
 .brand:hover{text-decoration:none}
 .nav-list{position:relative;display:none;align-items:center;gap:2px}
@@ -238,7 +238,7 @@ footer strong{color:var(--label);font-weight:600}
 @keyframes toast{from{opacity:0;transform:translate(-50%,14px) scale(.96)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
 
 @media (max-width:640px){
-.nav{padding-left:16px}
+.nav-bar{padding-left:16px}
 .nav-cta span{display:none}
 .nav-cta{padding:0 12px}
 .hero{padding-top:112px}
@@ -271,6 +271,112 @@ footer strong{color:var(--label);font-weight:600}
 .toast{animation:materialize .45s var(--spring) both}
 .toast.out{animation:none;opacity:0;filter:blur(6px);transform:translate(-50%,10px) scale(.97);transition:opacity .22s,filter .22s,transform .22s}
 
+
+/* ===== navigation: the glass bar grows into menus ===== */
+.nav{display:block;height:auto;padding:0;overflow:hidden;transition:width .55s var(--spring),background-color .35s,box-shadow .35s,border-radius .4s var(--spring);animation:navin .8s var(--spring) .05s both}
+@keyframes navin{from{opacity:0;filter:blur(10px);transform:translate(-50%,-16px) scale(.96)}to{opacity:1;filter:blur(0);transform:translate(-50%,0)}}
+.nav-bar{height:52px;padding:0 8px 0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-end{display:flex;align-items:center;gap:8px}
+@media (min-width:900px){.nav.compact{width:min(940px,calc(100% - 24px))}}
+.nav.menu-open,.nav.m-open{background:var(--glass-thick);box-shadow:0 24px 70px rgba(0,0,0,.18),0 0 0 .5px rgba(0,0,0,.06)}
+:root{--glass-thick:rgba(250,250,252,.86)}
+@media (prefers-color-scheme:dark){:root{--glass-thick:rgba(30,30,32,.88)}}
+.nav-list a[aria-expanded="true"]{color:var(--label)}
+
+.fly{height:0;overflow:hidden;position:relative;transition:height .5s var(--spring)}
+.fly-panel{position:absolute;left:0;right:0;top:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:40px;padding:22px 40px 34px;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(calc(var(--dir,1) * 18px));transition:opacity .22s ease,transform .5s var(--spring),visibility 0s .5s}
+.fly-panel.on{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease .05s,transform .5s var(--spring),visibility 0s}
+.fly-label{margin-bottom:12px;font-size:.75rem;font-weight:500;letter-spacing:.012em;color:var(--label-2)}
+.fly ul{list-style:none;padding:0;display:grid;gap:4px}
+.fly ul.two{grid-template-columns:1fr 1fr;column-gap:24px}
+.fly a{display:inline-flex;align-items:center;gap:10px;color:var(--label);opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .3s var(--spring),color .15s}
+.fly-panel.on a,.fly-panel.on .fly-note{opacity:1;transform:none;transition:opacity .35s ease calc(var(--i,0) * 22ms + 80ms),transform .5s var(--spring) calc(var(--i,0) * 22ms + 80ms),color .15s}
+.fly a:hover{text-decoration:none;color:var(--link)}
+.fly-big a{font-size:1.5rem;font-weight:600;letter-spacing:-.022em;line-height:1.25;padding:3px 0}
+.fly-panel[data-panel="skills"] .fly-big a{font-size:1.3125rem;letter-spacing:-.018em}
+.fly-panel[data-panel="experience"]{grid-template-columns:minmax(0,.75fr) minmax(0,1.6fr)}
+.fly-small a{font-size:.875rem;font-weight:500;letter-spacing:.004em;line-height:1.35;padding:4px 0;color:var(--label)}
+.fly-note{margin-top:10px;max-width:34ch;font-size:.875rem;color:var(--label-2);opacity:0;transform:translateY(-6px)}
+.fly .dot{width:10px;height:10px;border-radius:3px;background:var(--tc);flex:none}
+.fly-card{display:flex!important;flex-direction:column;align-items:stretch!important;gap:10px!important;max-width:340px}
+.fly-card img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top;border-radius:12px;background:#0b0b0d;transition:transform .5s var(--spring)}
+.fly-card:hover img{transform:scale(1.03)}
+.fly-card span{font-size:.875rem;color:var(--label-2);line-height:1.4}
+.fly-card strong{display:block;font-size:1.0625rem;color:var(--label)}
+.fly-scrim{position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.12);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s}
+.fly-scrim.on{opacity:1;visibility:visible;transition:opacity .35s ease,visibility 0s}
+@media (prefers-color-scheme:dark){.fly-scrim{background:rgba(0,0,0,.4)}}
+@media (max-width:899px){.fly{display:none}}
+
+/* mobile: the bar itself unfolds into a full menu */
+.burger{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:22px;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;width:18px;height:1.8px;border-radius:2px;background:var(--label);transition:transform .45s var(--spring)}
+.burger span:first-child{transform:translateY(-4px)}
+.burger span:last-child{transform:translateY(4px)}
+.burger[aria-expanded="true"] span:first-child{transform:rotate(45deg)}
+.burger[aria-expanded="true"] span:last-child{transform:rotate(-45deg)}
+.burger:active{background:var(--fill)}
+@media (min-width:900px){.burger,.m-menu{display:none}}
+.m-menu{height:0;overflow:hidden;transition:height .55s var(--spring)}
+.m-list{list-style:none;margin:0;padding:12px 28px 0}
+.m-list a,.m-foot{display:block;opacity:0;transform:translateY(-10px);transition:opacity .2s,transform .3s var(--spring)}
+.m-list a{padding:9px 0;font-size:1.75rem;font-weight:600;letter-spacing:-.025em;color:var(--label)}
+.m-list a:hover{text-decoration:none}
+.m-list a:active{color:var(--label-2)}
+.m-foot{display:flex;flex-wrap:wrap;gap:10px;padding:26px 28px}
+.nav.m-open .m-list a,.nav.m-open .m-foot{opacity:1;transform:none;transition:opacity .35s ease calc(var(--i) * 35ms + 120ms),transform .55s var(--spring) calc(var(--i) * 35ms + 120ms)}
+
+/* ===== scroll storytelling (desktop) ===== */
+.story{display:none}
+@media (min-width:960px){
+.story{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:56px;margin-top:8px}
+.gallery{display:none}
+}
+.story-steps{list-style:none;margin:0;padding:12vh 0 22vh}
+.step{min-height:56vh;display:flex;flex-direction:column;justify-content:center;opacity:.25;transform:scale(.97);transform-origin:left center;transition:opacity .5s ease,transform .6s var(--spring)}
+.step.on{opacity:1;transform:none}
+.step-n{font-size:.875rem;font-weight:600;color:var(--accent);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.step h4{margin:8px 0 10px;font-size:clamp(28px,3vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.08}
+.step p{font-size:1.1875rem;line-height:1.45;color:var(--label-2);max-width:30ch}
+.story-stage{position:relative}
+.story-frame{position:sticky;top:15vh;display:flex;flex-direction:column;width:100%;height:70vh;padding:0;border:0;border-radius:18px;overflow:hidden;background:#0b0b0d;box-shadow:0 30px 80px rgba(0,0,0,.28),0 0 0 .5px rgba(255,255,255,.08) inset;cursor:zoom-in;text-align:left}
+.frame-bar{flex:none;position:relative;display:flex;align-items:center;gap:8px;height:38px;padding:0 14px;background:#1c1c1e;border-bottom:1px solid rgba(255,255,255,.06)}
+.frame-bar i{width:12px;height:12px;border-radius:50%;background:#ff5f57}
+.frame-bar i:nth-child(2){background:#febc2e}
+.frame-bar i:nth-child(3){background:#28c840}
+.frame-bar span{position:absolute;left:0;right:0;text-align:center;font-size:.8125rem;font-weight:600;color:#a1a1a6;pointer-events:none}
+.frame-view{position:relative;flex:1;overflow:hidden}
+.frame-view img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(1.04);filter:blur(6px);transition:opacity .45s ease,transform .8s var(--spring),filter .5s ease}
+.frame-view img.on{opacity:1;transform:none;filter:none}
+.story-frame:hover .frame-view img.on{transform:scale(1.01)}
+.frame-progress{flex:none;height:3px;background:rgba(255,255,255,.08)}
+.frame-progress span{display:block;height:100%;width:100%;background:var(--accent);transform-origin:left;transform:scaleX(0);transition:transform .5s var(--spring)}
+
+/* ===== words that light up as you read ===== */
+[data-words] .w{opacity:.16;transition:opacity .35s ease}
+[data-words] .w.lit{opacity:1}
+
+/* ===== experience: rows cascade in when a group opens ===== */
+.panel li{opacity:0;transform:translateY(-6px);transition:opacity .2s ease,transform .3s var(--spring)}
+.acc.open .panel li{opacity:1;transform:none;transition:opacity .35s ease calc(var(--i) * 45ms + 80ms),transform .5s var(--spring) calc(var(--i) * 45ms + 80ms)}
+.ping{animation:ping 1.4s ease}
+.acc.ping{animation:pingrow 1.4s ease}
+@keyframes pingrow{0%,30%{background:color-mix(in srgb,var(--accent) 14%,transparent)}100%{background:transparent}}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 60%,transparent)}40%{box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 35%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
+
+/* hero arrives as a material: blur and scale settle together */
+@keyframes rise{from{opacity:0;filter:blur(12px);transform:translateY(24px) scale(.97)}to{opacity:1;filter:blur(0);transform:none}}
+.hero .wrap{will-change:transform,opacity}
+.card.lift:hover{transform:scale(1.015)}
+
+@media (prefers-reduced-motion:reduce){
+.nav{animation:none}
+.step{transform:none}
+.frame-view img{transform:none;filter:none}
+.panel li,.fly a,.m-list a,.m-foot,.fly-note{transform:none!important}
+[data-words] .w{opacity:1}
+}
+
 /* reduced motion: gentle cross-fades instead of slides and springs */
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){
@@ -294,19 +400,53 @@ html{scroll-behavior:auto}
 
 <div class="edge" data-edge aria-hidden="true"></div>
 
+
+<div class="fly-scrim" data-fly-scrim aria-hidden="true"></div>
 <header class="nav" data-nav>
-  <a href="#hero" class="brand">Borja Candel</a>
-  <nav aria-label="Principal" class="nav-list" data-navlist>
-    <span class="nav-ind" data-indicator aria-hidden="true"></span>
-    <a href="#about" data-link>Sobre mí</a>
-    <a href="#skills" data-link>Habilidades</a>
-    <a href="#experience" data-link>Experiencia</a>
-    <a href="#education" data-link>Educación</a>
-    <a href="#projects" data-link>Proyectos</a>
-    <a href="#hobbies" data-link>Intereses</a>
-    <a href="#contact" data-link>Contacto</a>
-  </nav>
-  <a class="nav-cta" href="./cv.pdf" download="CV - Candel Sancho, Borja.pdf" data-cv aria-label="Descargar CV"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg><span>CV</span></a>
+  <div class="nav-bar">
+    <a href="#hero" class="brand">Borja Candel</a>
+    <nav aria-label="Principal" class="nav-list" data-navlist>
+      <span class="nav-ind" data-indicator aria-hidden="true"></span>
+      <a href="#about" data-link>Sobre mí</a>
+      <a href="#skills" data-link data-menu="skills" aria-haspopup="true" aria-expanded="false">Habilidades</a>
+      <a href="#experience" data-link data-menu="experience" aria-haspopup="true" aria-expanded="false">Experiencia</a>
+      <a href="#education" data-link>Educación</a>
+      <a href="#projects" data-link data-menu="projects" aria-haspopup="true" aria-expanded="false">Proyectos</a>
+      <a href="#hobbies" data-link>Intereses</a>
+      <a href="#contact" data-link data-menu="contact" aria-haspopup="true" aria-expanded="false">Contacto</a>
+    </nav>
+    <div class="nav-end">
+      <a class="nav-cta" href="./cv.pdf" download="CV - Candel Sancho, Borja.pdf" data-cv aria-label="Descargar CV"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg><span>CV</span></a>
+      <button type="button" class="burger" data-burger aria-expanded="false" aria-controls="m-menu" aria-label="Abrir menú"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="fly" data-fly>
+    <div class="fly-panel" data-panel="skills">
+      <div class="fly-col"><p class="fly-label">Explorar habilidades</p><ul class="fly-big"><li><a href="#skill-1" style="--i:0"><span class="dot" style="--tc:#007aff"></span>Sistemas Operativos</a></li><li><a href="#skill-2" style="--i:1"><span class="dot" style="--tc:#34c759"></span>Redes</a></li><li><a href="#skill-3" style="--i:2"><span class="dot" style="--tc:#ff9500"></span>Programación / Scripting</a></li><li><a href="#skill-4" style="--i:3"><span class="dot" style="--tc:#5856d6"></span>Virtualización &amp; Contenedores</a></li><li><a href="#skill-5" style="--i:4"><span class="dot" style="--tc:#ff3b30"></span>Ciberseguridad</a></li><li><a href="#skill-6" style="--i:5"><span class="dot" style="--tc:#af52de"></span>IA &amp; Automatización</a></li><li><a href="#skill-7" style="--i:6"><span class="dot" style="--tc:#8e8e93"></span>Infraestructura &amp; Otros</a></li></ul></div>
+      <div class="fly-col"><p class="fly-label">Lo que más uso</p><ul class="fly-small"><li><a href="#skills" style="--i:7">Windows Server</a></li><li><a href="#skills" style="--i:8">Linux</a></li><li><a href="#skills" style="--i:9">Proxmox VE</a></li><li><a href="#skills" style="--i:10">Docker</a></li><li><a href="#skills" style="--i:11">Python</a></li><li><a href="#skills" style="--i:12">VLANs</a></li><li><a href="#skills" style="--i:13">Hardening</a></li><li><a href="#skills" style="--i:14">LLMs en local (Ollama)</a></li></ul></div>
+    </div>
+    <div class="fly-panel" data-panel="experience">
+      <div class="fly-col"><p class="fly-label">Experiencia</p><ul class="fly-big"><li><a href="#experience" style="--i:0">Markha · Sueca</a></li></ul><p class="fly-note" style="--i:1">2025 · 8 meses. Sistemas, redes, servidores y seguridad en entornos profesionales reales.</p></div>
+      <div class="fly-col fly-wide"><p class="fly-label">Qué hice allí</p><ul class="fly-small two"><li><a href="#exp-1" style="--i:2">Planificación de redes informáticas para oficinas y empresas</a></li><li><a href="#exp-2" style="--i:3">Montaje e instalación de servidores físicos y puesta en producción</a></li><li><a href="#exp-3" style="--i:4">Configuración avanzada de servidores, servicios y políticas de seguridad</a></li><li><a href="#exp-4" style="--i:5">Gestión y administración de sistemas de copias de seguridad</a></li><li><a href="#exp-5" style="--i:6">Instalación, integración y configuración de NAS y switches gestionables</a></li><li><a href="#exp-6" style="--i:7">Montaje profesional de racks con SAI</a></li><li><a href="#exp-7" style="--i:8">Diseño y despliegue de infraestructura de red corporativa</a></li><li><a href="#exp-8" style="--i:9">Soluciones de almacenamiento, virtualización y servicios internos</a></li><li><a href="#exp-9" style="--i:10">Cableado estructurado y optimización del hardware de comunicaciones</a></li><li><a href="#exp-10" style="--i:11">Automatización de tareas y monitorización de infraestructura</a></li><li><a href="#exp-11" style="--i:12">Auditorías de seguridad autorizadas sobre sitios en producción</a></li></ul></div>
+    </div>
+    <div class="fly-panel" data-panel="projects">
+      <div class="fly-col"><p class="fly-label">Explorar proyectos</p><ul class="fly-big"><li><a href="#projects" style="--i:0">AutoPrevias</a></li><li><a href="#proj-1" style="--i:1">Sistema de monitorización de infraestructura</a></li><li><a href="#proj-2" style="--i:2">Agente local de auditoría con IA</a></li><li><a href="#proj-3" style="--i:3">Pipeline de auditoría web autorizada</a></li><li><a href="#proj-4" style="--i:4">Homelab y automatización doméstica</a></li></ul></div>
+      <div class="fly-col"><a class="fly-card" href="#projects" style="--i:5"><img src="./assets/autoprevias/01_bienvenida.jpg" alt="" loading="lazy" decoding="async"><span><strong>AutoPrevias</strong>Previas musicales automáticas para Radical Records</span></a></div>
+    </div>
+    <div class="fly-panel" data-panel="contact">
+      <div class="fly-col"><p class="fly-label">Contacto</p><ul class="fly-big"><li><a href="mailto:borjacs07@gmail.com" style="--i:0">Enviar email</a></li><li><a href="tel:+34611100616" style="--i:1">Llamar · 611 100 616</a></li><li><a href="./cv.pdf" style="--i:2" download="CV - Candel Sancho, Borja.pdf" data-cv>Descargar CV</a></li></ul></div>
+      <div class="fly-col"><p class="fly-label">También en</p><ul class="fly-small"><li><a href="https://www.strava.com/athletes/122586797" style="--i:3" target="_blank" rel="noopener">Strava ↗</a></li><li><a href="https://soundcloud.com/borjacandel" style="--i:4" target="_blank" rel="noopener">SoundCloud ↗</a></li><li><a href="https://payhip.com/djborjacandel" style="--i:5" target="_blank" rel="noopener">Payhip ↗</a></li><li><a href="https://github.com/borjacandeel" style="--i:6" target="_blank" rel="noopener">GitHub ↗</a></li></ul></div>
+    </div>
+  </div>
+  <div class="m-menu" id="m-menu" data-mmenu>
+    <ul class="m-list">
+      <li><a href="#about" style="--i:0">Sobre mí</a></li><li><a href="#skills" style="--i:1">Habilidades</a></li><li><a href="#experience" style="--i:2">Experiencia</a></li><li><a href="#education" style="--i:3">Educación</a></li><li><a href="#projects" style="--i:4">Proyectos</a></li><li><a href="#hobbies" style="--i:5">Intereses</a></li><li><a href="#contact" style="--i:6">Contacto</a></li>
+    </ul>
+    <div class="m-foot" style="--i:7">
+      <a class="btn btn-primary btn-sm" href="mailto:borjacs07@gmail.com">Enviar email</a>
+      <a class="btn btn-gray btn-sm" href="./cv.pdf" download="CV - Candel Sancho, Borja.pdf" data-cv>Descargar CV</a>
+    </div>
+  </div>
 </header>
 
 <main id="main">
@@ -331,7 +471,7 @@ html{scroll-behavior:auto}
     <div class="about-grid" data-about>
       <figure class="portrait is-hidden" data-portrait><img alt="Retrato de Borja Candel" width="900" height="1125"></figure>
       <div class="about-copy">
-        <p data-reveal>Estudiante de <strong>Administración de Sistemas Informáticos en Red (ASIR)</strong> en IES Abastos (Valencia), con experiencia práctica en sistemas, redes y montaje de servidores en entornos profesionales reales.</p>
+        <p data-words>Estudiante de <strong>Administración de Sistemas Informáticos en Red (ASIR)</strong> en IES Abastos (Valencia), con experiencia práctica en sistemas, redes y montaje de servidores en entornos profesionales reales.</p>
         <p data-reveal>Formación en <strong>ciberseguridad</strong> y administración de sistemas, lo que permite abordar proyectos de infraestructura IT con visión integral que combina rendimiento, seguridad y escalabilidad.</p>
         <p data-reveal>Trabajo habitual con <strong>automatización e inteligencia artificial aplicada</strong>: scripting, despliegues idempotentes, monitorización automatizada y modelos de lenguaje ejecutados en local para tareas de análisis y auditoría, sin que los datos salgan de la infraestructura.</p>
         <p data-reveal>Persona <strong>responsable, resolutiva y con gran capacidad de aprendizaje</strong>. Preparado para soporte técnico, despliegue de infraestructuras, automatización y mantenimiento IT en entornos profesionales.</p>
@@ -355,49 +495,49 @@ html{scroll-behavior:auto}
   <div class="wrap">
     <h2 class="sec-title" data-reveal>Habilidades</h2>
     <div class="grid-skills">
-      <article class="card lift" data-reveal style="--tc:#007aff">
+      <article class="card lift" id="skill-1" data-reveal style="--tc:#007aff">
         <div class="skill-head">
           <span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
           <h3>Sistemas Operativos</h3>
         </div>
         <ul class="chips"><li class="chip">Windows</li><li class="chip">Windows Server</li><li class="chip">Linux</li><li class="chip">macOS</li></ul>
       </article>
-      <article class="card lift" data-reveal style="--tc:#34c759">
+      <article class="card lift" id="skill-2" data-reveal style="--tc:#34c759">
         <div class="skill-head">
           <span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"></circle><circle cx="5" cy="19" r="2.5"></circle><circle cx="19" cy="19" r="2.5"></circle><path d="M12 7.5v5M12 12.5H5.5v4M12 12.5H18.5v4"></path></svg></span>
           <h3>Redes</h3>
         </div>
         <ul class="chips"><li class="chip">Routers &amp; Switches</li><li class="chip">VLANs</li><li class="chip">VPN</li><li class="chip">Cableado Estructurado</li><li class="chip">Config. &amp; Mantenimiento</li></ul>
       </article>
-      <article class="card lift" data-reveal style="--tc:#ff9500">
+      <article class="card lift" id="skill-3" data-reveal style="--tc:#ff9500">
         <div class="skill-head">
           <span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6M13.5 4l-3 16"></path></svg></span>
           <h3>Programación / Scripting</h3>
         </div>
         <ul class="chips"><li class="chip">Python</li><li class="chip">Bash</li><li class="chip">JavaScript</li><li class="chip">HTML/CSS</li><li class="chip">SQL</li></ul>
       </article>
-      <article class="card lift" data-reveal style="--tc:#5856d6">
+      <article class="card lift" id="skill-4" data-reveal style="--tc:#5856d6">
         <div class="skill-head">
           <span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"></rect><rect x="13" y="3" width="8" height="8" rx="1.5"></rect><rect x="3" y="13" width="8" height="8" rx="1.5"></rect><rect x="13" y="13" width="8" height="8" rx="1.5"></rect></svg></span>
           <h3>Virtualización &amp; Contenedores</h3>
         </div>
         <ul class="chips"><li class="chip">Proxmox VE</li><li class="chip">VMware</li><li class="chip">VirtualBox</li><li class="chip">Docker</li><li class="chip">Parallels Desktop</li></ul>
       </article>
-      <article class="card lift" data-reveal style="--tc:#ff3b30">
+      <article class="card lift" id="skill-5" data-reveal style="--tc:#ff3b30">
         <div class="skill-head">
           <span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.4-3.1 8.2-7.5 9.5-4.4-1.3-7.5-5.1-7.5-9.5V6z"></path><path d="M9.5 12l1.8 1.8 3.4-3.6"></path></svg></span>
           <h3>Ciberseguridad</h3>
         </div>
         <ul class="chips"><li class="chip">Auditorías autorizadas</li><li class="chip">Hardening</li><li class="chip">CVSS 3.1</li><li class="chip">Análisis TLS</li><li class="chip">Firewall &amp; políticas</li><li class="chip">Copias de seguridad</li></ul>
       </article>
-      <article class="card lift" data-reveal style="--tc:#af52de">
+      <article class="card lift" id="skill-6" data-reveal style="--tc:#af52de">
         <div class="skill-head">
           <span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"></rect><path d="M10 2.5v3.5M14 2.5v3.5M10 18v3.5M14 18v3.5M2.5 10H6M2.5 14H6M18 10h3.5M18 14h3.5"></path></svg></span>
           <h3>IA &amp; Automatización</h3>
         </div>
         <ul class="chips"><li class="chip">LLMs en local (Ollama)</li><li class="chip">Agentes en Python</li><li class="chip">MCP</li><li class="chip">Claude Code</li><li class="chip">systemd &amp; cron</li><li class="chip">CI de scripts</li><li class="chip">Informes automatizados</li></ul>
       </article>
-      <article class="card lift" data-reveal style="--tc:#8e8e93">
+      <article class="card lift" id="skill-7" data-reveal style="--tc:#8e8e93">
         <div class="skill-head">
           <span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="1.5"></rect><rect x="3" y="14" width="18" height="6" rx="1.5"></rect><path d="M7 7h.01M7 17h.01"></path></svg></span>
           <h3>Infraestructura &amp; Otros</h3>
@@ -416,49 +556,49 @@ html{scroll-behavior:auto}
       <span class="badge">2025 · 8 meses</span>
     </div>
     <div class="group" data-reveal>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-1" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-1"><span>Planificación de redes informáticas para oficinas y empresas</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-1" role="region"><div><ul><li>Diseño de topologías de red (estrella, malla) adaptadas a cada espacio</li><li>Cálculo de puntos de acceso, bocas de red y distribución de switches</li><li>Documentación técnica con diagramas de red para el cliente</li><li>Selección de hardware según presupuesto y requisitos del proyecto</li></ul></div></div>
+          <div class="panel" id="acc-1" role="region"><div><ul><li style="--i:0">Diseño de topologías de red (estrella, malla) adaptadas a cada espacio</li><li style="--i:1">Cálculo de puntos de acceso, bocas de red y distribución de switches</li><li style="--i:2">Documentación técnica con diagramas de red para el cliente</li><li style="--i:3">Selección de hardware según presupuesto y requisitos del proyecto</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-2" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-2"><span>Montaje e instalación de servidores físicos y puesta en producción</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-2" role="region"><div><ul><li>Ensamblaje de servidores rack y torre (RAM, discos, NICs)</li><li>Instalación de Windows Server y Linux</li><li>Configuración de BIOS/UEFI y RAID por hardware</li><li>Verificación, pruebas de estrés y puesta en producción</li></ul></div></div>
+          <div class="panel" id="acc-2" role="region"><div><ul><li style="--i:0">Ensamblaje de servidores rack y torre (RAM, discos, NICs)</li><li style="--i:1">Instalación de Windows Server y Linux</li><li style="--i:2">Configuración de BIOS/UEFI y RAID por hardware</li><li style="--i:3">Verificación, pruebas de estrés y puesta en producción</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-3" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-3"><span>Configuración avanzada de servidores, servicios y políticas de seguridad</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-3" role="region"><div><ul><li>Directorio Activo: OUs, usuarios, grupos y GPOs</li><li>DHCP, DNS, File Server y Print Server</li><li>Políticas de contraseñas, firewall y auditoría</li><li>Securización de servicios y puertos con reglas de acceso</li></ul></div></div>
+          <div class="panel" id="acc-3" role="region"><div><ul><li style="--i:0">Directorio Activo: OUs, usuarios, grupos y GPOs</li><li style="--i:1">DHCP, DNS, File Server y Print Server</li><li style="--i:2">Políticas de contraseñas, firewall y auditoría</li><li style="--i:3">Securización de servicios y puertos con reglas de acceso</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-4" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-4"><span>Gestión y administración de sistemas de copias de seguridad</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-4" role="region"><div><ul><li>Backups incrementales y diferenciales con Veeam</li><li>Tareas de copia automatizadas (cron, Veeam Scheduler)</li><li>Verificación de integridad y restauración de copias de prueba</li><li>Copias en local (NAS) y replicación offsite</li></ul></div></div>
+          <div class="panel" id="acc-4" role="region"><div><ul><li style="--i:0">Backups incrementales y diferenciales con Veeam</li><li style="--i:1">Tareas de copia automatizadas (cron, Veeam Scheduler)</li><li style="--i:2">Verificación de integridad y restauración de copias de prueba</li><li style="--i:3">Copias en local (NAS) y replicación offsite</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-5" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-5"><span>Instalación, integración y configuración de NAS y switches gestionables</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-5" role="region"><div><ul><li>Synology NAS: volúmenes, RAID, carpetas compartidas y permisos</li><li>Integración de NAS con Directorio Activo</li><li>Switches gestionables: VLANs, trunk ports, STP</li><li>Monitorización de tráfico y gestión de puertos</li></ul></div></div>
+          <div class="panel" id="acc-5" role="region"><div><ul><li style="--i:0">Synology NAS: volúmenes, RAID, carpetas compartidas y permisos</li><li style="--i:1">Integración de NAS con Directorio Activo</li><li style="--i:2">Switches gestionables: VLANs, trunk ports, STP</li><li style="--i:3">Monitorización de tráfico y gestión de puertos</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-6" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-6"><span>Montaje profesional de racks con SAI</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-6" role="region"><div><ul><li>Armarios rack 19" con servidores, switches y patch panels</li><li>Instalación y configuración de SAI (UPS) con monitorización de carga</li><li>Organización del cableado con velcro y guía-cables</li><li>Etiquetado de puertos y documentación del rack</li></ul></div></div>
+          <div class="panel" id="acc-6" role="region"><div><ul><li style="--i:0">Armarios rack 19" con servidores, switches y patch panels</li><li style="--i:1">Instalación y configuración de SAI (UPS) con monitorización de carga</li><li style="--i:2">Organización del cableado con velcro y guía-cables</li><li style="--i:3">Etiquetado de puertos y documentación del rack</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-7" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-7"><span>Diseño y despliegue de infraestructura de red corporativa</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-7" role="region"><div><ul><li>Redes LAN para PYMEs con múltiples VLANs</li><li>Routers con NAT, port forwarding y VPN site-to-site</li><li>Wi-Fi corporativo con APs gestionables</li><li>Segmentación de red (datos, VoIP, invitados, gestión)</li></ul></div></div>
+          <div class="panel" id="acc-7" role="region"><div><ul><li style="--i:0">Redes LAN para PYMEs con múltiples VLANs</li><li style="--i:1">Routers con NAT, port forwarding y VPN site-to-site</li><li style="--i:2">Wi-Fi corporativo con APs gestionables</li><li style="--i:3">Segmentación de red (datos, VoIP, invitados, gestión)</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-8" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-8"><span>Soluciones de almacenamiento, virtualización y servicios internos</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-8" role="region"><div><ul><li>VMs en VirtualBox y VMware para entornos de prueba</li><li>Almacenamiento en red (iSCSI, NFS, SMB)</li><li>Servicios internos: intranet, FTP, monitorización</li><li>Migración de datos entre servidores y plataformas</li></ul></div></div>
+          <div class="panel" id="acc-8" role="region"><div><ul><li style="--i:0">VMs en VirtualBox y VMware para entornos de prueba</li><li style="--i:1">Almacenamiento en red (iSCSI, NFS, SMB)</li><li style="--i:2">Servicios internos: intranet, FTP, monitorización</li><li style="--i:3">Migración de datos entre servidores y plataformas</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-9" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-9"><span>Cableado estructurado y optimización del hardware de comunicaciones</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-9" role="region"><div><ul><li>Tendido y certificación de Cat5e/Cat6 en canaletas y falso techo</li><li>Crimpado, patcheo y testeo con herramienta certificadora</li><li>Sustitución y upgrade de hardware de red obsoleto</li><li>Optimización del flujo de datos con reconfiguración de puertos y VLANs</li></ul></div></div>
+          <div class="panel" id="acc-9" role="region"><div><ul><li style="--i:0">Tendido y certificación de Cat5e/Cat6 en canaletas y falso techo</li><li style="--i:1">Crimpado, patcheo y testeo con herramienta certificadora</li><li style="--i:2">Sustitución y upgrade de hardware de red obsoleto</li><li style="--i:3">Optimización del flujo de datos con reconfiguración de puertos y VLANs</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-10" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-10"><span>Automatización de tareas y monitorización de infraestructura</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-10" role="region"><div><ul><li>Scripts en Bash y Python para tareas repetitivas de administración</li><li>Servicios y temporizadores systemd para ejecución programada</li><li>Monitorización de nodos Proxmox con alertas de incidencias</li><li>Generación y envío automático de informes periódicos por email</li></ul></div></div>
+          <div class="panel" id="acc-10" role="region"><div><ul><li style="--i:0">Scripts en Bash y Python para tareas repetitivas de administración</li><li style="--i:1">Servicios y temporizadores systemd para ejecución programada</li><li style="--i:2">Monitorización de nodos Proxmox con alertas de incidencias</li><li style="--i:3">Generación y envío automático de informes periódicos por email</li></ul></div></div>
         </article>
-        <article class="acc" data-acc>
+        <article class="acc" id="exp-11" data-acc>
           <h4><button type="button" class="acc-btn" data-acc-btn aria-expanded="false" aria-controls="acc-11"><span>Auditorías de seguridad autorizadas sobre sitios en producción</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></h4>
-          <div class="panel" id="acc-11" role="region"><div><ul><li>Revisión de configuración, versiones y superficie expuesta</li><li>Verificación en dos pasos para descartar falsos positivos</li><li>Clasificación de hallazgos con puntuación CVSS 3.1</li><li>Elaboración de informes técnicos en PDF con plan de remediación</li></ul></div></div>
+          <div class="panel" id="acc-11" role="region"><div><ul><li style="--i:0">Revisión de configuración, versiones y superficie expuesta</li><li style="--i:1">Verificación en dos pasos para descartar falsos positivos</li><li style="--i:2">Clasificación de hallazgos con puntuación CVSS 3.1</li><li style="--i:3">Elaboración de informes técnicos en PDF con plan de remediación</li></ul></div></div>
         </article>
     </div>
     <p class="note" data-reveal><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5.5M12 7.6v.01"/></svg><span>Todo el trabajo de seguridad descrito se realiza de forma autorizada y en modo detección, nunca de explotación.</span></p>
@@ -527,6 +667,26 @@ html{scroll-behavior:auto}
 
     <h3 class="gallery-title" data-reveal>AutoPrevias, por dentro</h3>
     <p class="gallery-sub" data-reveal>Capturas reales de la aplicación con una pista de ejemplo. Pulsa una para verla en grande.</p>
+
+    <div class="story" data-story>
+      <ol class="story-steps">
+        <li class="step on" data-step="0"><span class="step-n">01</span><h4>Asistente de 3 pasos</h4><p>Arrastras el tema y la app lo analiza: BPM, tonalidad y estructura.</p></li>
+        <li class="step" data-step="1"><span class="step-n">02</span><h4>¿Para qué es esta previa?</h4><p>Eliges el destino y deja listos duración, formatos y vídeo.</p></li>
+        <li class="step" data-step="2"><span class="step-n">03</span><h4>Previa lista para revisar</h4><p>Cortes sobre la onda, arrastrables y alineados al compás.</p></li>
+        <li class="step" data-step="3"><span class="step-n">04</span><h4>Modo Estudio</h4><p>Onda, carriles de cortes y efectos y herramientas laterales.</p></li>
+        <li class="step" data-step="4"><span class="step-n">05</span><h4>Exportar</h4><p>WAV 24-bit, MP3 320k, vídeo para redes o modo promo.</p></li>
+        <li class="step" data-step="5"><span class="step-n">06</span><h4>Previa generada</h4><p>Escuchas el resultado sobre la onda final antes de enviarlo.</p></li>
+        <li class="step" data-step="6"><span class="step-n">07</span><h4>Vídeo «Radical Neón»</h4><p>MP4 animado al ritmo del bombo en 9:16, 1:1 y 16:9.</p></li>
+        <li class="step" data-step="7"><span class="step-n">08</span><h4>Procesamiento por lote</h4><p>Varias pistas de una vez con el mismo estilo.</p></li>
+      </ol>
+      <div class="story-stage">
+        <button type="button" class="story-frame" data-shot data-story-frame data-src="./assets/autoprevias/01_bienvenida.jpg" data-cap="Asistente de 3 pasos" aria-label="Ampliar la captura actual de AutoPrevias">
+          <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>AutoPrevias</span></span>
+          <span class="frame-view"><img src="./assets/autoprevias/01_bienvenida.jpg" width="1800" height="1054" alt="AutoPrevias: Asistente de 3 pasos" data-i="0" data-src="./assets/autoprevias/01_bienvenida.jpg" data-cap="Asistente de 3 pasos" class="on" decoding="async"><img src="./assets/autoprevias/02_destino.jpg" width="1800" height="1517" alt="AutoPrevias: ¿Para qué es esta previa?" data-i="1" data-src="./assets/autoprevias/02_destino.jpg" data-cap="¿Para qué es esta previa?" loading="lazy" decoding="async"><img src="./assets/autoprevias/03_previa.jpg" width="1600" height="1714" alt="AutoPrevias: Previa lista para revisar" data-i="2" data-src="./assets/autoprevias/03_previa.jpg" data-cap="Previa lista para revisar" loading="lazy" decoding="async"><img src="./assets/autoprevias/04_estudio.jpg" width="1600" height="1714" alt="AutoPrevias: Modo Estudio" data-i="3" data-src="./assets/autoprevias/04_estudio.jpg" data-cap="Modo Estudio" loading="lazy" decoding="async"><img src="./assets/autoprevias/05_exportar.jpg" width="1600" height="1714" alt="AutoPrevias: Exportar" data-i="4" data-src="./assets/autoprevias/05_exportar.jpg" data-cap="Exportar" loading="lazy" decoding="async"><img src="./assets/autoprevias/06_generada.jpg" width="1600" height="1714" alt="AutoPrevias: Previa generada" data-i="5" data-src="./assets/autoprevias/06_generada.jpg" data-cap="Previa generada" loading="lazy" decoding="async"><img src="./assets/autoprevias/07_video.jpg" width="1600" height="900" alt="AutoPrevias: Vídeo «Radical Neón»" data-i="6" data-src="./assets/autoprevias/07_video.jpg" data-cap="Vídeo «Radical Neón»" loading="lazy" decoding="async"><img src="./assets/autoprevias/08_lote.jpg" width="1520" height="928" alt="AutoPrevias: Procesamiento por lote" data-i="7" data-src="./assets/autoprevias/08_lote.jpg" data-cap="Procesamiento por lote" loading="lazy" decoding="async"></span>
+          <span class="frame-progress" aria-hidden="true"><span data-story-bar></span></span>
+        </button>
+      </div>
+    </div>
     <div class="gallery" role="region" aria-label="Capturas de AutoPrevias" tabindex="0"><div class="gallery-track" data-track>
         <figure>
           <button type="button" class="shot" data-shot data-src="./assets/autoprevias/01_bienvenida.jpg" data-cap="Asistente de 3 pasos" aria-label="Ampliar captura: Asistente de 3 pasos"><img src="./assets/autoprevias/01_bienvenida.jpg" width="1800" height="1054" alt="AutoPrevias: Asistente de 3 pasos" loading="lazy" decoding="async"></button>
@@ -563,25 +723,25 @@ html{scroll-behavior:auto}
     </div></div>
 
     <div class="grid-proj">
-      <article class="card proj lift" data-reveal>
+      <article class="card proj lift" id="proj-1" data-reveal>
         <h3>Sistema de monitorización de infraestructura</h3>
         <p class="sub">Métricas, alertas e informes desatendidos para Proxmox</p>
         <p class="body">Herramienta propia de monitorización para nodos Proxmox. Recoge métricas de estado, detecta incidencias y genera informes HTML periódicos que se envían por email de forma desatendida. Diseñada bajo dos principios: <strong>autocontenida</strong> (sin dependencias externas) e <strong>idempotente</strong> (reejecutable sin efectos secundarios). Desarrollada de forma iterativa hasta la versión 4.x, con corrección de condiciones de carrera e integración con Monit.</p>
         <ul class="chips"><li class="chip">Bash</li><li class="chip">Python</li><li class="chip">systemd</li><li class="chip">Proxmox</li><li class="chip">Monit</li><li class="chip">Git</li></ul>
       </article>
-      <article class="card proj lift" data-reveal>
+      <article class="card proj lift" id="proj-2" data-reveal>
         <h3>Agente local de auditoría con IA</h3>
         <p class="sub">Modelo open-weight ejecutado en local, sin salida de datos</p>
         <p class="body">Agente de auditoría de seguridad que ejecuta un modelo de lenguaje open-weight <strong>en local</strong>, sin enviar información a servicios en la nube. Incorpora herramientas propias en Python para comprobaciones HTTP, análisis TLS y escaneo de vulnerabilidades, orquestadas mediante una metodología de auditoría estructurada en 8 fases.</p>
         <ul class="chips"><li class="chip">Ollama</li><li class="chip">Qwen3-Coder</li><li class="chip">Python</li><li class="chip">Nuclei</li><li class="chip">TLS</li><li class="chip">Agentes LLM</li></ul>
       </article>
-      <article class="card proj lift" data-reveal>
+      <article class="card proj lift" id="proj-3" data-reveal>
         <h3>Pipeline de auditoría web autorizada</h3>
         <p class="sub">Metodología detection-only con informes CVSS 3.1</p>
         <p class="body">Metodología documentada para auditorías de seguridad sobre WordPress y WooCommerce. Filosofía <strong>detection-only</strong>, control de autorización previa obligatorio antes de cualquier fase, verificación en dos pasos de falsos positivos y generación de informes profesionales en PDF con puntuación CVSS 3.1.</p>
         <ul class="chips"><li class="chip">WordPress</li><li class="chip">WooCommerce</li><li class="chip">CVSS 3.1</li><li class="chip">Python</li><li class="chip">Informes PDF</li></ul>
       </article>
-      <article class="card proj lift" data-reveal>
+      <article class="card proj lift" id="proj-4" data-reveal>
         <h3>Homelab y automatización doméstica</h3>
         <p class="sub">Entorno autoalojado de pruebas y aprendizaje continuo</p>
         <p class="body">Laboratorio propio autoalojado usado como entorno de pruebas y aprendizaje continuo: virtualización, contenedores, almacenamiento privado, filtrado DNS, red mallada privada entre nodos y un bot de mensajería para ejecutar tareas de mantenimiento en remoto.</p>
@@ -670,8 +830,9 @@ class Component extends DCLogic {
     if (!reduce) {
       reveals.forEach(el => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity .7s var(--ease), transform .7s var(--ease)';
+        el.style.transform = 'translateY(28px) scale(.98)';
+        el.style.filter = 'blur(8px)';
+        el.style.transition = 'opacity .8s ease, transform .9s var(--spring), filter .7s ease';
       });
       const groups = new Map();
       const io = new IntersectionObserver((entries) => {
@@ -682,9 +843,9 @@ class Component extends DCLogic {
           const p = el.parentElement;
           const n = groups.get(p) || 0;
           groups.set(p, n + 1);
-          el.style.transitionDelay = Math.min(n, 5) * 70 + 'ms';
-          requestAnimationFrame(() => { el.style.opacity = '1'; el.style.transform = 'none'; });
-          setTimeout(() => { el.style.transitionDelay = ''; el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; }, 1100);
+          el.style.transitionDelay = Math.min(n, 6) * 80 + 'ms';
+          requestAnimationFrame(() => { el.style.opacity = '1'; el.style.transform = 'none'; el.style.filter = 'none'; });
+          setTimeout(() => { el.style.transitionDelay = ''; el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.filter = ''; }, 1400);
         });
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
       reveals.forEach(el => io.observe(el));
@@ -748,6 +909,150 @@ class Component extends DCLogic {
       if (any) moveTo(any); else if (indicator) indicator.style.opacity = '0';
     };
 
+    /* ---------- nav: the glass bar grows into flyout menus (desktop) ---------- */
+    const nav = root.querySelector('[data-nav]');
+    const fly = root.querySelector('[data-fly]');
+    const flyScrim = root.querySelector('[data-fly-scrim]');
+    const panels = q('[data-panel]');
+    const menuLinks = q('[data-menu]');
+    const order = menuLinks.map(l => l.getAttribute('data-menu'));
+    let openMenu = null, openT = 0, closeT = 0;
+    const setInert = (el, v) => { if (!el) return; if (v) el.setAttribute('inert', ''); else el.removeAttribute('inert'); };
+    setInert(fly, true);
+    const showMenu = (name) => {
+      clearTimeout(closeT);
+      if (!fly || name === openMenu) return;
+      const dir = openMenu ? Math.sign(order.indexOf(name) - order.indexOf(openMenu)) || 1 : 1;
+      panels.forEach(p => {
+        const me = p.getAttribute('data-panel') === name;
+        if (me) { p.style.setProperty('--dir', dir); void p.offsetWidth; p.classList.add('on'); }
+        else if (p.classList.contains('on')) { p.style.setProperty('--dir', -dir); p.classList.remove('on'); }
+      });
+      menuLinks.forEach(l => l.setAttribute('aria-expanded', String(l.getAttribute('data-menu') === name)));
+      const panel = panels.find(p => p.getAttribute('data-panel') === name);
+      fly.style.height = panel.offsetHeight + 'px';     /* height retargets from wherever it is */
+      nav.classList.add('menu-open'); flyScrim.classList.add('on');
+      setInert(fly, false);
+      openMenu = name;
+    };
+    const hideMenu = () => {
+      clearTimeout(openT); clearTimeout(closeT);
+      if (!openMenu) return;
+      panels.forEach(p => { p.style.setProperty('--dir', 1); p.classList.remove('on'); });
+      menuLinks.forEach(l => l.setAttribute('aria-expanded', 'false'));
+      fly.style.height = '0px';
+      nav.classList.remove('menu-open'); flyScrim.classList.remove('on');
+      setInert(fly, true);
+      openMenu = null;
+    };
+    if (fly && fine) {
+      menuLinks.forEach(l => {
+        on(l, 'pointerenter', () => { clearTimeout(openT); clearTimeout(closeT); const n = l.getAttribute('data-menu'); openT = setTimeout(() => showMenu(n), openMenu ? 0 : 90); });
+        on(l, 'focus', () => showMenu(l.getAttribute('data-menu')));
+      });
+      q('.nav-list a:not([data-menu]), .brand, .nav-end').forEach(el => on(el, 'pointerenter', () => { clearTimeout(openT); closeT = setTimeout(hideMenu, 120); }));
+      on(nav, 'pointerleave', () => { clearTimeout(openT); closeT = setTimeout(hideMenu, 160); });
+      on(nav, 'pointerenter', () => clearTimeout(closeT));
+      on(flyScrim, 'click', hideMenu);
+      q('.nav-list a:not([data-menu])').forEach(el => on(el, 'focus', hideMenu));
+    }
+    on(nav, 'focusout', (e) => { if (openMenu && !nav.contains(e.relatedTarget)) hideMenu(); });
+    q('.fly a, .nav-list a').forEach(a => on(a, 'click', () => hideMenu()));
+
+    /* ---------- mobile: the bar unfolds into a full-height menu ---------- */
+    const burger = root.querySelector('[data-burger]');
+    const mmenu = root.querySelector('[data-mmenu]');
+    setInert(mmenu, true);
+    const setMobile = (open) => {
+      if (!burger || !mmenu) return;
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      nav.classList.toggle('m-open', open);
+      mmenu.style.height = open ? (window.innerHeight - 24 - 52) + 'px' : '0px';
+      setInert(mmenu, !open);
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+    };
+    if (burger) on(burger, 'click', () => setMobile(burger.getAttribute('aria-expanded') !== 'true'));
+    q('.m-menu a').forEach(a => on(a, 'click', () => setMobile(false)));
+    on(document, 'keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (openMenu) { const l = menuLinks.find(m => m.getAttribute('data-menu') === openMenu); hideMenu(); l && l.focus({ preventScroll: true }); }
+      if (burger && burger.getAttribute('aria-expanded') === 'true') { setMobile(false); burger.focus(); }
+    });
+    on(window, 'resize', () => { if (window.innerWidth >= 900 && burger && burger.getAttribute('aria-expanded') === 'true') setMobile(false); if (window.innerWidth < 900) hideMenu(); });
+
+    /* ---------- deep links from menus: open the row, then point at it ---------- */
+    q('a[href^="#exp-"], a[href^="#skill-"], a[href^="#proj-"]').forEach(a => on(a, 'click', () => {
+      const t = root.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      const b = t.querySelector('[data-acc-btn]');
+      if (b && b.getAttribute('aria-expanded') !== 'true') b.click();
+      const pingEl = t;
+      setTimeout(() => { pingEl.classList.remove('ping'); void pingEl.offsetWidth; pingEl.classList.add('ping'); }, reduce ? 0 : 450);
+    }));
+
+    /* ---------- hero recedes as you scroll past it ---------- */
+    const heroInner = root.querySelector('#hero .wrap');
+    const heroFx = () => {
+      if (reduce || !heroInner) return;
+      const p = Math.min(1, Math.max(0, scrollY / (innerHeight * 0.85)));
+      if (p >= 1 && heroInner._done) return;
+      heroInner._done = p >= 1;
+      heroInner.style.transform = p ? `translateY(${p * 70}px) scale(${1 - p * 0.08})` : '';
+      heroInner.style.opacity = p ? String(1 - p) : '';
+      heroInner.style.filter = p > 0.02 ? `blur(${p * 8}px)` : '';
+    };
+
+    /* ---------- words light up as the paragraph is read ---------- */
+    const wordsP = root.querySelector('[data-words]');
+    let words = [];
+    if (wordsP && !reduce) {
+      const split = (node) => {
+        Array.from(node.childNodes).forEach(n => {
+          if (n.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach(part => {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+              const sp = document.createElement('span'); sp.className = 'w'; sp.textContent = part; frag.appendChild(sp);
+            });
+            n.replaceWith(frag);
+          } else if (n.nodeType === 1) split(n);
+        });
+      };
+      split(wordsP);
+      words = Array.from(wordsP.querySelectorAll('.w'));
+    }
+    const wordsFx = () => {
+      if (!words.length) return;
+      const r = wordsP.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (innerHeight * 0.82 - r.top) / (r.height + innerHeight * 0.3)));
+      const n = Math.round(p * words.length);
+      words.forEach((w, i) => w.classList.toggle('lit', i < n));
+    };
+
+    /* ---------- AutoPrevias: sticky window that follows the story ---------- */
+    const story = root.querySelector('[data-story]');
+    const steps = q('[data-step]');
+    const frame = root.querySelector('[data-story-frame]');
+    const frameImgs = frame ? Array.from(frame.querySelectorAll('.frame-view img')) : [];
+    const bar = root.querySelector('[data-story-bar]');
+    let stepNow = 0;
+    const storyFx = () => {
+      if (!story || !steps.length || !story.offsetParent) return;
+      const mid = innerHeight * 0.5;
+      let best = 0;
+      steps.forEach((s, i) => { if (s.getBoundingClientRect().top < mid) best = i; });
+      const r = story.getBoundingClientRect();
+      if (bar) bar.style.transform = `scaleX(${Math.min(1, Math.max(0, (mid - r.top) / r.height))})`;
+      if (best === stepNow) return;
+      stepNow = best;
+      steps.forEach((s, i) => s.classList.toggle('on', i === best));
+      frameImgs.forEach((im, i) => { im.classList.toggle('on', i === best); if (Math.abs(i - best) <= 1) im.loading = 'eager'; });
+      const cur = frameImgs[best];
+      if (cur) { frame.setAttribute('data-src', cur.getAttribute('data-src')); frame.setAttribute('data-cap', cur.getAttribute('data-cap')); }
+    };
+
     /* ---------- back to top with progress ring ---------- */
     const top = document.createElement('button');
     top.className = 'top'; top.type = 'button'; top.setAttribute('aria-label', 'Volver arriba');
@@ -767,6 +1072,8 @@ class Component extends DCLogic {
         top.classList.toggle('on', scrollY > innerHeight * 0.6);
         ring.style.strokeDashoffset = String(138.2 * (1 - (max > 0 ? Math.min(1, scrollY / max) : 0)));
         edge && edge.classList.toggle('on', scrollY > 24);
+        nav && nav.classList.toggle('compact', scrollY > 60);
+        heroFx(); wordsFx(); storyFx();
         markActive();
       });
     };
@@ -794,9 +1101,15 @@ class Component extends DCLogic {
 
     /* ---------- screenshot lightbox: opens from its thumbnail, drags away, returns to it ---------- */
     let lb = null;
+    const visualRect = (im) => {
+      const r = im.getBoundingClientRect();
+      if (getComputedStyle(im).objectFit !== 'contain' || !im.naturalWidth) return r;
+      const k = Math.min(r.width / im.naturalWidth, r.height / im.naturalHeight), w = im.naturalWidth * k, h = im.naturalHeight * k;
+      return { left: r.left + (r.width - w) / 2, top: r.top + (r.height - h) / 2, width: w, height: h };
+    };
     const openLb = (trigger) => {
       if (lb) return;
-      const thumb = trigger.querySelector('img');
+      const thumb = trigger.querySelector('img.on') || trigger.querySelector('img');
       const src = trigger.getAttribute('data-src'), cap = trigger.getAttribute('data-cap') || '';
       const box = document.createElement('div');
       box.className = 'lb'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', cap);
@@ -826,7 +1139,7 @@ class Component extends DCLogic {
       const start = () => {
         img.style.transform = 'none';
         R = img.getBoundingClientRect();
-        const from = toRect(thumb.getBoundingClientRect());
+        const from = toRect(visualRect(thumb));
         img.style.transform = tf(from);
         fade(scrim, 0, 1, 300); fade(capEl, 0, 1, 400); fade(x, 0, 1, 300);
         fly({ x: 0, y: 0, s: 1 });
@@ -836,7 +1149,7 @@ class Component extends DCLogic {
       const close = () => {
         if (state.closing || !R) return;
         state.closing = true;
-        const t_ = thumb.getBoundingClientRect();
+        const t_ = visualRect(thumb);
         fade(capEl, 1, 0, 150); fade(x, 1, 0, 150);
         const cur = parseFloat(getComputedStyle(scrim).opacity); fade(scrim, isNaN(cur) ? 1 : cur, 0, 320);
         fly(toRect(t_), () => { box.remove(); lb = null; document.documentElement.style.overflow = ''; trigger.focus && trigger.focus(); });

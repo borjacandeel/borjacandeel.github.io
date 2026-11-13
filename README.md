@@ -15,6 +15,8 @@ El proyecto ha sido desarrollado utilizando un stack tecnológico limpio y sin d
 
 *   🌓 **Modo oscuro / claro automático**: sigue la apariencia del sistema (`prefers-color-scheme`), con contraste AA en ambos modos y soporte de *Aumentar contraste*.
 *   💧 **Liquid Glass con moderación**: el material de cristal se usa solo en la capa funcional flotante (barra de navegación, botón de subir y avisos); el contenido va sobre superficies opacas. Respeta *Reducir transparencia*.
+*   🧭 **Menús estilo Apple**: la barra de cristal se despliega en menús (Habilidades, Experiencia, Proyectos, Contacto) con el resto de la página desenfocada; en móvil la barra se convierte en un menú a pantalla completa con animación en cascada.
+*   🎬 **Transiciones de scroll**: el hero se aleja y desenfoca al bajar, el texto de «Sobre mí» se ilumina palabra a palabra y AutoPrevias se cuenta con una ventana fija que cambia de captura según avanzas.
 *   🌊 **Movimiento físico**: muelles críticamente amortiguados (sin rebote) para todas las transiciones, capturas que se abren desde su miniatura y vuelven a ella, arrastre 1:1 con velocidad y resistencia en los bordes, y respuesta inmediata al pulsar.
 *   📜 **Scroll animado discreto**: los elementos aparecen suavemente con `IntersectionObserver`; todo el movimiento se desactiva con *Reducir movimiento*.
 *   🖼️ **Capturas ampliables**: galería horizontal de AutoPrevias con visor a pantalla completa (Esc para cerrar).
