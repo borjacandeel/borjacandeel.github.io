@@ -635,6 +635,9 @@ background:var(--glass);border:1px solid var(--glass-edge);-webkit-backdrop-filt
 .pres-main .i-play{display:none}
 .pres.paused .pres-main .i-pause{display:none}
 .pres.paused .pres-main .i-play{display:block}
+.pres-speed{width:auto;min-width:46px;padding:0 10px;font:700 .8125rem/1 var(--font);letter-spacing:.01em;font-variant-numeric:tabular-nums;color:var(--label)}
+.pres-speed.fast{background:var(--accent);color:#fff}
+.pres-speed.fast:hover{background:var(--accent);filter:brightness(1.1)}
 .pres-info{flex:1;min-width:0;display:grid;padding:0 10px;line-height:1.2}
 .pres-info b{font-size:.9375rem;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pres-info em{font-style:normal;font-size:.75rem;color:var(--label-2);font-variant-numeric:tabular-nums}
@@ -1627,6 +1630,7 @@ class Component extends DCLogic {
       + '<button type="button" class="pres-b pres-main" data-pp="play" aria-label="Pausar"><svg class="i-pause" viewBox="0 0 24 24"><path d="M8 5.5v13M16 5.5v13"/></svg><svg class="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></button>'
       + '<button type="button" class="pres-b" data-pp="next" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M18 6v12M16 12L7 6v12z"/></svg></button>'
       + '<span class="pres-info"><b data-pres-chapter>Inicio</b><em data-pres-count>1 / 1</em></span>'
+      + '<button type="button" class="pres-b pres-speed" data-pp="speed" aria-label="Velocidad de reproducción: 1×" title="Velocidad (S)">1×</button>'
       + '<button type="button" class="pres-b" data-pp="full" aria-label="Pantalla completa"><svg class="i-fs" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><svg class="i-fs-out" viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg></button>'
       + '<button type="button" class="pres-b pres-x" data-pp="exit" aria-label="Salir de la presentación"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'
       + '</div>';
@@ -1634,7 +1638,8 @@ class Component extends DCLogic {
     this._cleanup.push(() => presEl.remove());
     const pFill = presEl.querySelector('[data-pres-fill]'), pChap = presEl.querySelector('[data-pres-chapter]'), pCount = presEl.querySelector('[data-pres-count]');
     const pMain = presEl.querySelector('[data-pp="play"]');
-    let stops = [], pi = 0, playing = false, pTimer = 0, pT0 = 0, pDwell = 0, pRaf = 0, idleT = 0, lastSetY = 0;
+    const SPEEDS = [1, 1.5, 2, 5];
+    let speed = 1, stops = [], pi = 0, playing = false, pTimer = 0, pT0 = 0, pDwell = 0, pRaf = 0, idleT = 0, lastSetY = 0;
     const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
     const fsOn = () => { const e = html.requestFullscreen ? html.requestFullscreen({ navigationUI: 'hide' }) : html.webkitRequestFullscreen && html.webkitRequestFullscreen(); return e && e.catch ? e.catch(() => {}) : e; };
     const fsOff = () => { try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (_) {} };
@@ -1678,11 +1683,23 @@ class Component extends DCLogic {
       pCount.textContent = `${pi + 1} / ${stops.length}`;
     };
     const travelTo = (y, done) => {
-      const dist = Math.abs(y - scrollY), ms = Math.max(650, Math.min(2600, 600 + dist * 0.42));
+      const dist = Math.abs(y - scrollY), ms = Math.max(320, Math.min(2600, 600 + dist * 0.42) / speed);
       presenting = true; snapping = true;
       if (lenis) lenis.scrollTo(y, { duration: ms / 1000, easing: (t) => 1 - Math.pow(1 - t, 3.2), force: true, onComplete: () => { snapping = false; restY = scrollY; done && done(); } });
       else glide(y, ms, done);
       return ms;
+    };
+    const setSpeed = (v) => {
+      const now = performance.now(), frac = pDwell ? Math.min(1, (now - pT0) / pDwell) : 0, was = pDwell > 0;
+      speed = v;
+      const b = presEl.querySelector('[data-pp="speed"]');
+      b.textContent = (v % 1 ? String(v).replace('.', ',') : v) + '×'; b.setAttribute('aria-label', 'Velocidad de reproducción: ' + b.textContent);
+      b.classList.toggle('fast', v > 1);
+      if (playing && was && stops[pi]) {                      /* re-time what is left of the current stop */
+        clearTimeout(pTimer);
+        pDwell = Math.max(450, stops[pi].dwell / speed); pT0 = now - frac * pDwell;
+        pTimer = setTimeout(advance, Math.max(0, pDwell * (1 - frac)));
+      }
     };
     const setPlayingUi = () => { presEl.classList.toggle('paused', !playing); pMain.setAttribute('aria-label', playing ? 'Pausar' : 'Reproducir'); };
     const barTick = () => {
@@ -1691,6 +1708,7 @@ class Component extends DCLogic {
       pFill.style.transform = `scaleX(${stops.length ? Math.min(1, (pi + within) / stops.length) : 0})`;
       pRaf = requestAnimationFrame(barTick);
     };
+    const advance = () => { if (pi >= stops.length - 1) finish(); else goStop(pi + 1, true); };
     const goStop = (i, auto) => {
       clearTimeout(pTimer);
       pi = Math.max(0, Math.min(stops.length - 1, i));
@@ -1699,8 +1717,8 @@ class Component extends DCLogic {
       const ms = travelTo(stops[pi].y, null);
       if (!playing) return;
       pTimer = setTimeout(() => {
-        pT0 = performance.now(); pDwell = stops[pi].dwell;
-        pTimer = setTimeout(() => { if (pi >= stops.length - 1) { finish(); } else goStop(pi + 1, true); }, pDwell);
+        pT0 = performance.now(); pDwell = Math.max(450, stops[pi].dwell / speed);
+        pTimer = setTimeout(advance, pDwell);
       }, ms + 80);
     };
     const finish = () => {
@@ -1743,6 +1761,7 @@ class Component extends DCLogic {
       else if (a === 'next') { const was = playing; clearTimeout(pTimer); playing = was; goStop(pi + 1, was); }
       else if (a === 'prev') { const was = playing; clearTimeout(pTimer); playing = was; goStop(pi - 1, was); }
       else if (a === 'full') { fsEl() ? fsOff() : fsOn(); }
+      else if (a === 'speed') setSpeed(SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length]);
     });
     const onFs = () => { presEl.classList.toggle('is-full', !!fsEl()); if (!fsEl() && html.classList.contains('present') && presEl._wasFull) stopPresent(); presEl._wasFull = !!fsEl(); };
     on(document, 'fullscreenchange', onFs); on(document, 'webkitfullscreenchange', onFs);
@@ -1755,6 +1774,7 @@ class Component extends DCLogic {
       else if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown') { e.preventDefault(); const was = playing; clearTimeout(pTimer); playing = was; goStop(pi + 1, was); }
       else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); const was = playing; clearTimeout(pTimer); playing = was; goStop(pi - 1, was); }
       else if (k === 'f' || k === 'F') { fsEl() ? fsOff() : fsOn(); }
+      else if (k === 's' || k === 'S') setSpeed(SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length]);
       else if (k === 'Home') { e.preventDefault(); playing = true; setPlayingUi(); goStop(0, true); }
       wake();
     });
