@@ -681,20 +681,26 @@ background:var(--glass);border:1px solid var(--glass-edge);-webkit-backdrop-filt
 .pj-step h4{font-size:clamp(26px,2.6vw,36px);letter-spacing:-.03em;line-height:1.1}
 .pj-inline{display:none}
 .pj-stage{display:block;position:relative}
-.pj-stage>.pj-device{position:sticky;top:16vh}
+.pj-stage .pj-sticky{position:sticky;top:15vh}
 }
-.pj-device{perspective:1600px}
-.pj-screen{position:relative;aspect-ratio:1408/881;border-radius:18px 18px 4px 4px;overflow:hidden;background:#0b0b0d;border:10px solid #1d1d1f;border-bottom-width:14px;box-shadow:0 40px 100px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.08) inset;transform:rotateX(var(--tilt,0deg));transform-origin:50% 100%;transition:transform .2s linear}
-.pj-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);filter:blur(6px);transition:opacity .55s ease,transform 1.2s var(--spring),filter .6s ease}
-.pj-shot.on{opacity:1;transform:scale(1);filter:none;animation:kb 9s ease-out forwards}
-@keyframes kb{to{transform:scale(1.035)}}
-.pj-glare{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.14),transparent 38%);mix-blend-mode:screen}
-.pj-base{position:relative;height:16px;margin:0 -6%;border-radius:0 0 18px 18px;background:linear-gradient(#d7d8dc,#a9abb1);box-shadow:0 18px 30px rgba(0,0,0,.25)}
-.pj-base span{position:absolute;left:50%;top:0;width:16%;height:6px;margin-left:-8%;border-radius:0 0 8px 8px;background:#9a9ca2}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pj-base{background:linear-gradient(#3a3a3e,#202023)}:root:not([data-theme="light"]) .pj-base span{background:#2a2a2d}}:root[data-theme="dark"] .pj-base{background:linear-gradient(#3a3a3e,#202023)}:root[data-theme="dark"] .pj-base span{background:#2a2a2d}
-.pj-progress{position:sticky;top:calc(16vh + 60vw * .4);height:4px;margin:22px auto 0;width:40%;border-radius:2px;background:var(--fill);overflow:hidden}
-@media (min-width:960px){.pj-progress{position:relative;top:auto}}
-.pj-progress span{display:block;height:100%;background:var(--accent);transform-origin:left;transform:scaleX(0);transition:transform .5s var(--spring)}
+/* laptop */
+.pj-device{position:relative;perspective:1800px;padding:0 5%}
+.pj-device::after{content:"";position:absolute;left:2%;right:2%;bottom:-26px;height:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.35),transparent);filter:blur(6px);z-index:-1}
+.pj-lid{position:relative;padding:2.2% 2% 2.6%;border-radius:20px 20px 4px 4px;background:#0c0c0e;box-shadow:inset 0 0 0 1.5px #3b3b40,inset 0 0 0 3px #050506,0 2px 0 #1a1a1d;transform:rotateX(var(--tilt,0deg));transform-origin:50% 100%;will-change:transform}
+.pj-cam{position:absolute;left:50%;top:.7%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3a4f6a,#0d141c 70%);box-shadow:0 0 0 1.5px #1b1b1e}
+.pj-screen{position:relative;aspect-ratio:16/10;border-radius:8px;overflow:hidden;background:#000}
+.pj-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.03);transition:opacity .6s ease,transform 1s var(--spring)}
+.pj-shot.on{opacity:1;transform:none;animation:kb 10s ease-out .6s forwards}
+@keyframes kb{to{transform:scale(1.025)}}
+.pj-glare{position:absolute;inset:0;pointer-events:none;background:linear-gradient(118deg,rgba(255,255,255,.09) 0%,rgba(255,255,255,.03) 34%,transparent 34.5%)}
+.pj-base{position:relative;height:clamp(10px,1.6vw,16px);margin:0 -6.5%;border-radius:2px 2px 18px 18px/2px 2px 12px 12px;background:linear-gradient(180deg,#e9eaee 0%,#cfd1d6 40%,#a3a6ac 100%)}
+.pj-base::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,#9ea1a7,#e2e3e7 50%,#9ea1a7)}
+.pj-base span{position:absolute;left:50%;top:0;width:13%;height:42%;margin-left:-6.5%;border-radius:0 0 10px 10px;background:linear-gradient(#b4b7bc,#d6d8dc)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pj-base{background:linear-gradient(180deg,#5a5a5f 0%,#3b3b3f 45%,#232326 100%)}:root:not([data-theme="light"]) .pj-base::before{background:linear-gradient(90deg,#2c2c30,#6a6a70 50%,#2c2c30)}:root:not([data-theme="light"]) .pj-base span{background:linear-gradient(#2a2a2d,#444448)}}:root[data-theme="dark"] .pj-base{background:linear-gradient(180deg,#5a5a5f 0%,#3b3b3f 45%,#232326 100%)}:root[data-theme="dark"] .pj-base::before{background:linear-gradient(90deg,#2c2c30,#6a6a70 50%,#2c2c30)}:root[data-theme="dark"] .pj-base span{background:linear-gradient(#2a2a2d,#444448)}
+.pj-dots{display:flex;justify-content:center;gap:8px;margin-top:34px}
+.pj-dots span{width:7px;height:7px;border-radius:4px;background:var(--fill-2);transition:width .5s var(--spring),background-color .3s}
+.pj-dots span.on{width:24px;background:var(--accent)}
+@media (max-width:959px){.pj-inline{border:6px solid #111113;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.25)}}
 .pj-feats{list-style:none;padding:0;margin:clamp(32px,5vw,56px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px}
 .pj-feat{padding:22px 24px;border-radius:var(--r);background:var(--card);opacity:0;transform:translateY(24px) scale(.97);transition:opacity .6s ease calc(var(--i) * 80ms),transform .8s var(--spring) calc(var(--i) * 80ms)}
 .pj-feats.in .pj-feat{opacity:1;transform:none}
@@ -1158,56 +1164,38 @@ sistemas  redes  ciberseguridad  automatización  ia
       <div class="pj-show" data-pjshow>
         <ol class="pj-steps">
           <li class="pj-step on" data-pjstep="0" data-snap="center">
-            <span class="pj-n">01</span><h4>Escritorio Golden Gate</h4><p>Barra de menús transparente, widgets de vidrio arrastrables, iconos en el escritorio y Dock de vidrio con ampliación y rebote.</p>
+            <span class="pj-n">01</span><h4>Escritorio Golden Gate</h4><p>Barra de menús transparente, widgets de vidrio arrastrables y Dock con ampliación, rebote y apps recientes.</p>
             <img class="pj-inline" src="./assets/projects/bcos/escritorio.webp" alt="BC OS: Escritorio Golden Gate" width="1408" height="881" loading="lazy" decoding="async">
           </li>
           <li class="pj-step" data-pjstep="1" data-snap="center">
-            <span class="pj-n">02</span><h4>Control Center</h4><p>Wi-Fi, Bluetooth, red, Concentración, pantalla, sonido y reproducción, todo editable.</p>
+            <span class="pj-n">02</span><h4>Control Center</h4><p>Wi-Fi, Bluetooth, red, Concentración, pantalla, sonido y reproducción, con controles editables.</p>
             <img class="pj-inline" src="./assets/projects/bcos/control-center.webp" alt="BC OS: Control Center" width="1408" height="881" loading="lazy" decoding="async">
           </li>
           <li class="pj-step" data-pjstep="2" data-snap="center">
-            <span class="pj-n">03</span><h4>Aplicaciones</h4><p>Rejilla por páginas con búsqueda sobre el fondo desenfocado (F4).</p>
+            <span class="pj-n">03</span><h4>Aplicaciones</h4><p>Todas las apps en una rejilla por páginas, con búsqueda, sobre el fondo desenfocado.</p>
             <img class="pj-inline" src="./assets/projects/bcos/aplicaciones.webp" alt="BC OS: Aplicaciones" width="1408" height="881" loading="lazy" decoding="async">
           </li>
           <li class="pj-step" data-pjstep="3" data-snap="center">
-            <span class="pj-n">04</span><h4>Archivos tipo Finder</h4><p>Barra lateral con Favoritos y Etiquetas, vistas de iconos, lista, columnas y galería, Vista rápida y pestañas.</p>
-            <img class="pj-inline" src="./assets/projects/bcos/ventanas.webp" alt="BC OS: Archivos tipo Finder" width="1408" height="881" loading="lazy" decoding="async">
+            <span class="pj-n">04</span><h4>Archivos y Ajustes</h4><p>Un gestor de archivos tipo Finder, con vistas, etiquetas y pestañas, y unos Ajustes del Sistema propios.</p>
+            <img class="pj-inline" src="./assets/projects/bcos/ventanas.webp" alt="BC OS: Archivos y Ajustes" width="1408" height="881" loading="lazy" decoding="async">
           </li>
           <li class="pj-step" data-pjstep="4" data-snap="center">
-            <span class="pj-n">05</span><h4>Spotlight</h4><p>Apps, archivos, cálculos y acciones, con resultados por secciones (Ctrl+Espacio).</p>
+            <span class="pj-n">05</span><h4>Spotlight</h4><p>Apps, archivos, cálculos y acciones desde un solo buscador.</p>
             <img class="pj-inline" src="./assets/projects/bcos/spotlight.webp" alt="BC OS: Spotlight" width="1408" height="881" loading="lazy" decoding="async">
           </li>
           <li class="pj-step" data-pjstep="5" data-snap="center">
-            <span class="pj-n">06</span><h4>Botón verde</h4><p>«Mover y redimensionar» y «Rellenar y organizar», como en macOS 27.</p>
-            <img class="pj-inline" src="./assets/projects/bcos/boton-verde.webp" alt="BC OS: Botón verde" width="1408" height="881" loading="lazy" decoding="async">
-          </li>
-          <li class="pj-step" data-pjstep="6" data-snap="center">
-            <span class="pj-n">07</span><h4>Modo claro y oscuro</h4><p>Cambio en caliente en el shell, las apps BC, GTK y sway, con vidrio legible en ambos.</p>
-            <img class="pj-inline" src="./assets/projects/bcos/modo-claro.webp" alt="BC OS: Modo claro y oscuro" width="1408" height="881" loading="lazy" decoding="async">
-          </li>
-          <li class="pj-step" data-pjstep="7" data-snap="center">
-            <span class="pj-n">08</span><h4>Ajustes del Sistema</h4><p>Paneles en tarjetas, deslizador de Liquid Glass y color de acento.</p>
-            <img class="pj-inline" src="./assets/projects/bcos/ajustes-aspecto.webp" alt="BC OS: Ajustes del Sistema" width="1408" height="881" loading="lazy" decoding="async">
-          </li>
-          <li class="pj-step" data-pjstep="8" data-snap="center">
-            <span class="pj-n">09</span><h4>36 fondos propios</h4><p>Colecciones «Ondas» y «Formas» en 4K con el logo BC, generadas con scripts propios.</p>
-            <img class="pj-inline" src="./assets/projects/bcos/fondos.webp" alt="BC OS: 36 fondos propios" width="1408" height="881" loading="lazy" decoding="async">
-          </li>
-          <li class="pj-step" data-pjstep="9" data-snap="center">
-            <span class="pj-n">10</span><h4>Bloqueo e inicio de sesión</h4><p>Fecha, hora grande y contraseña sobre el fondo, a prueba de fallos con swaylock.</p>
-            <img class="pj-inline" src="./assets/projects/bcos/bloqueo.webp" alt="BC OS: Bloqueo e inicio de sesión" width="1408" height="881" loading="lazy" decoding="async">
-          </li>
-          <li class="pj-step" data-pjstep="10" data-snap="center">
-            <span class="pj-n">11</span><h4>Instalar BC OS</h4><p>Instalador gráfico al estilo de macOS: disco con cifrado opcional, cuenta, región y progreso real.</p>
+            <span class="pj-n">06</span><h4>Instalar BC OS</h4><p>Instalador gráfico: disco con cifrado opcional, cuenta, región y progreso real.</p>
             <img class="pj-inline" src="./assets/projects/bcos/instalador.webp" alt="BC OS: Instalar BC OS" width="1408" height="881" loading="lazy" decoding="async">
           </li>
         </ol>
         <div class="pj-stage" aria-hidden="true">
-          <div class="pj-device">
-            <div class="pj-screen"><img class="pj-shot on" data-pjshot="0" src="./assets/projects/bcos/escritorio.webp" alt="" width="1408" height="881" decoding="async"><img class="pj-shot" data-pjshot="1" src="./assets/projects/bcos/control-center.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="2" src="./assets/projects/bcos/aplicaciones.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="3" src="./assets/projects/bcos/ventanas.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="4" src="./assets/projects/bcos/spotlight.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="5" src="./assets/projects/bcos/boton-verde.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="6" src="./assets/projects/bcos/modo-claro.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="7" src="./assets/projects/bcos/ajustes-aspecto.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="8" src="./assets/projects/bcos/fondos.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="9" src="./assets/projects/bcos/bloqueo.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="10" src="./assets/projects/bcos/instalador.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><span class="pj-glare"></span></div>
-            <div class="pj-base"><span></span></div>
+          <div class="pj-sticky">
+            <div class="pj-device">
+              <div class="pj-lid"><i class="pj-cam"></i><div class="pj-screen"><img class="pj-shot on" data-pjshot="0" src="./assets/projects/bcos/escritorio.webp" alt="" width="1408" height="881" decoding="async"><img class="pj-shot" data-pjshot="1" src="./assets/projects/bcos/control-center.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="2" src="./assets/projects/bcos/aplicaciones.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="3" src="./assets/projects/bcos/ventanas.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="4" src="./assets/projects/bcos/spotlight.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><img class="pj-shot" data-pjshot="5" src="./assets/projects/bcos/instalador.webp" alt="" width="1408" height="881" loading="lazy" decoding="async"><span class="pj-glare"></span></div></div>
+              <div class="pj-base"><span></span></div>
+            </div>
+            <div class="pj-dots"><span data-pjdot="0" class="on"></span><span data-pjdot="1"></span><span data-pjdot="2"></span><span data-pjdot="3"></span><span data-pjdot="4"></span><span data-pjdot="5"></span></div>
           </div>
-          <div class="pj-progress"><span data-pjbar></span></div>
         </div>
       </div>
 
@@ -2156,8 +2144,8 @@ class Component extends DCLogic {
     }));
 
     /* ---------- BC OS: the laptop follows the story ---------- */
-    const pjSteps = q('[data-pjstep]'), pjShots = q('[data-pjshot]'), pjBar = root.querySelector('[data-pjbar]');
-    const pjScreen = root.querySelector('.pj-screen'), pjShow = root.querySelector('[data-pjshow]');
+    const pjSteps = q('[data-pjstep]'), pjShots = q('[data-pjshot]'), pjDots = q('[data-pjdot]');
+    const pjScreen = root.querySelector('.pj-screen'), pjLid = root.querySelector('.pj-lid'), pjShow = root.querySelector('[data-pjshow]');
     let pjNow = 0;
     const pjFx = () => {
       if (!pjShow || !pjScreen || !pjScreen.offsetParent) return;
@@ -2165,15 +2153,15 @@ class Component extends DCLogic {
       if (r.bottom < 0 || r.top > innerHeight) return;
       let best = 0;
       pjSteps.forEach((s_, k) => { if (s_.getBoundingClientRect().top < mid) best = k; });
-      if (pjBar) pjBar.style.transform = `scaleX(${(best + 1) / pjSteps.length})`;
       if (!reduce) {                                        /* the lid opens as the section arrives */
         const open = clamp01((innerHeight - r.top) / (innerHeight * 0.6));
-        pjScreen.style.setProperty('--tilt', ((1 - ease(open)) * -18).toFixed(2) + 'deg');
+        pjLid.style.setProperty('--tilt', ((1 - ease(open)) * -14).toFixed(2) + 'deg');
       }
       if (best === pjNow) return;
       pjNow = best;
       pjSteps.forEach((s_, k) => s_.classList.toggle('on', k === best));
       pjShots.forEach((im, k) => { im.classList.toggle('on', k === best); if (Math.abs(k - best) <= 1) im.loading = 'eager'; });
+      pjDots.forEach((d, k) => d.classList.toggle('on', k === best));
     };
     const fio = new IntersectionObserver((es) => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); fio.unobserve(en.target); } }), { threshold: 0.2 });
     q('.pj-feats').forEach(el => fio.observe(el));
