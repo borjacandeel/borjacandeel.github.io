@@ -3,14 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>BC OS — Ligero. Potente. Fluido.</title>
-<meta name="description" content="BC OS: sistema operativo Linux para ARM64 y x86_64, en español, con el escritorio Golden Gate. Creado por Borja Candel.">
+<title>BC OS — Sistema operativo Linux de Borja Candel</title>
+<meta name="description" content="BC OS es un sistema operativo Linux para ARM64 y x86_64, en español, creado por Borja Candel sobre Arch Linux, con el escritorio Golden Gate inspirado en macOS. Descarga la beta y pruébalo en VirtualBox.">
+<meta name="author" content="Borja Candel">
+<link rel="canonical" href="https://borjacandeel.github.io/bcos/">
 <meta name="theme-color" content="#ffffff">
 <meta property="og:type" content="website">
-<meta property="og:title" content="BC OS — Ligero. Potente. Fluido.">
+<meta property="og:site_name" content="BC OS">
+<meta property="og:url" content="https://borjacandeel.github.io/bcos/">
+<meta property="og:title" content="BC OS — Sistema operativo Linux de Borja Candel">
 <meta property="og:description" content="Sistema operativo Linux para ARM64 y x86_64, en español, con el escritorio Golden Gate.">
 <meta property="og:image" content="https://borjacandeel.github.io/assets/projects/bcos/escritorio.webp">
 <meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "@id": "https://borjacandeel.github.io/bcos/#app", "name": "BC OS", "alternateName": ["BCOS", "BC OS Golden Gate"], "description": "Sistema operativo Linux para ARM64 y x86_64, en español, con el escritorio Golden Gate.", "url": "https://borjacandeel.github.io/bcos/", "image": "https://borjacandeel.github.io/assets/projects/bcos/escritorio.webp", "screenshot": "https://borjacandeel.github.io/assets/projects/bcos/escritorio.webp", "applicationCategory": "OperatingSystem", "operatingSystem": "Linux (ARM64, x86_64)", "softwareVersion": "0.9.3-beta", "inLanguage": "es", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "downloadUrl": "https://github.com/borjacandeel/BC-OS/releases", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "author": {"@type": "Person", "@id": "https://borjacandeel.github.io/#borja", "name": "Borja Candel", "url": "https://borjacandeel.github.io/"}, "sameAs": ["https://github.com/borjacandeel/BC-OS"]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Borja Candel", "item": "https://borjacandeel.github.io/"}, {"@type": "ListItem", "position": 2, "name": "BC OS", "item": "https://borjacandeel.github.io/bcos/"}]}]}</script>
 <link rel="icon" href="../assets/projects/bcos/icono.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/projects/bcos/icono.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,12 +176,65 @@ button{font:inherit;color:inherit}
 .gallery figcaption{margin-top:12px;font-size:.9375rem;color:var(--label-2)}
 .gallery figcaption b{display:block;color:var(--label);font-size:1.0625rem}
 
-/* wallpapers */
-.walls{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,45%),1fr));gap:14px;margin-top:clamp(36px,5vw,56px)}
-.walls figure{margin:0;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 10px 30px rgba(0,0,0,.18)}
-.walls img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--spring)}
-.walls figure:hover img{transform:scale(1.08)}
-.walls figcaption{position:absolute;left:10px;bottom:10px;padding:4px 10px;border-radius:980px;font-size:.75rem;font-weight:600;color:#fff;background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+
+
+/* Finder window with every wallpaper */
+.finder{margin-top:clamp(36px,5vw,56px);border-radius:14px;overflow:hidden;text-align:left;background:var(--fwin);box-shadow:0 40px 100px rgba(0,0,0,.28),0 0 0 .5px var(--fedge);display:grid;grid-template-columns:200px 1fr;grid-template-rows:auto 1fr auto;height:min(78vh,720px)}
+:root{--fwin:#fff;--fside:rgba(236,236,240,.92);--fbar:#f6f6f8;--fedge:rgba(0,0,0,.18);--fsel:#0a84ff;--fhov:rgba(0,0,0,.05)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fwin:#1e1e20;--fside:rgba(40,40,44,.92);--fbar:#2a2a2d;--fedge:rgba(255,255,255,.14);--fhov:rgba(255,255,255,.06)}}
+:root[data-theme="dark"]{--fwin:#1e1e20;--fside:rgba(40,40,44,.92);--fbar:#2a2a2d;--fedge:rgba(255,255,255,.14);--fhov:rgba(255,255,255,.06)}
+.f-side{grid-row:1/4;padding:12px 10px;background:var(--fside);border-right:1px solid var(--sep);overflow:auto;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.f-lights{display:flex;gap:8px;padding:6px 6px 16px}
+.f-lights i{width:12px;height:12px;border-radius:50%;background:#ff5f57;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.2)}
+.f-lights i:nth-child(2){background:#febc2e}.f-lights i:nth-child(3){background:#28c840}
+.f-side h4{margin:12px 8px 4px;font-size:.6875rem;font-weight:700;color:var(--label-2);letter-spacing:.02em}
+.f-side button{display:flex;align-items:center;gap:8px;width:100%;padding:5px 8px;border:0;border-radius:7px;background:none;font-size:.8125rem;color:var(--label);text-align:left;cursor:default}
+.f-side button:hover{background:var(--fhov)}
+.f-side button[aria-pressed="true"]{background:var(--fill-2)}
+.f-side button svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--fsel);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.f-side button .dot{width:10px;height:10px;border-radius:50%;flex:none;margin:0 3px}
+.f-side button em{margin-left:auto;font-style:normal;font-size:.6875rem;color:var(--label-2)}
+.f-top{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--fbar);border-bottom:1px solid var(--sep)}
+.f-nav{display:flex;gap:2px}
+.f-nav span{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;color:var(--label-2)}
+.f-nav svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.f-title{font-size:.9375rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.f-sp{flex:1}
+.f-zoom{width:90px;accent-color:var(--fsel)}
+.f-search{display:flex;align-items:center;gap:6px;width:min(200px,30vw);height:30px;padding:0 10px;border-radius:8px;background:var(--fill)}
+.f-search svg{width:14px;height:14px;flex:none;fill:none;stroke:var(--label-2);stroke-width:2;stroke-linecap:round}
+.f-search input{width:100%;border:0;background:none;font:inherit;font-size:.8125rem;color:var(--label);outline:none}
+.f-grid{overflow:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--ic,150px),1fr));gap:10px 8px;align-content:start}
+.f-item{display:grid;justify-items:center;gap:6px;padding:8px 6px 10px;border:0;border-radius:10px;background:none;cursor:default;color:var(--label);text-align:center}
+.f-item img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.25),0 0 0 .5px rgba(0,0,0,.15);transition:transform .5s var(--spring)}
+.f-item:hover img{transform:scale(1.03)}
+.f-item span{max-width:100%;padding:1px 6px;border-radius:5px;font-size:.75rem;font-weight:500;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f-item small{font-size:.6875rem;color:var(--label-2)}
+.f-item.sel{background:var(--fhov)}
+.f-item.sel span{background:var(--fsel);color:#fff}
+.f-item.sel img{box-shadow:0 0 0 3px var(--fsel)}
+.f-item:focus-visible{outline:none}
+.f-item:focus-visible img{box-shadow:0 0 0 3px var(--fsel)}
+.f-empty{grid-column:1/-1;padding:40px;text-align:center;color:var(--label-2)}
+.f-status{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 14px;background:var(--fbar);border-top:1px solid var(--sep);font-size:.75rem;color:var(--label-2)}
+.f-status a{font-weight:600}
+.f-dl{display:inline-flex;align-items:center;gap:6px}
+@media (max-width:760px){.finder{grid-template-columns:1fr;height:auto}.f-side{grid-row:auto;display:flex;gap:6px;overflow-x:auto;padding:10px;border-right:0;border-bottom:1px solid var(--sep)}.f-side h4,.f-lights{display:none}.f-side button{width:auto;flex:none;white-space:nowrap;background:var(--fill);border-radius:980px;padding:6px 12px}.f-side button em{margin-left:4px}.f-grid{max-height:70vh}.f-zoom{display:none}.f-title{font-size:.875rem}}
+/* Quick Look */
+.ql{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);animation:qlin .3s ease}
+@keyframes qlin{from{opacity:0}}
+.ql-win{width:min(1200px,100%);border-radius:14px;overflow:hidden;background:var(--fwin);box-shadow:0 40px 120px rgba(0,0,0,.5),0 0 0 .5px var(--fedge);animation:qlpop .45s var(--spring)}
+@keyframes qlpop{from{transform:scale(.9);opacity:0}}
+.ql-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--fbar);border-bottom:1px solid var(--sep)}
+.ql-bar b{flex:1;font-size:.875rem;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ql-bar button,.ql-bar a{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:0;border-radius:8px;background:var(--fill);color:var(--label);font:600 .8125rem var(--font);cursor:pointer;text-decoration:none}
+.ql-bar a.pri{background:var(--fsel);color:#fff}
+.ql-bar .x{width:30px;padding:0;justify-content:center;font-size:1.125rem}
+.ql-img{position:relative;background:#000;aspect-ratio:16/9}
+.ql-img img{width:100%;height:100%;object-fit:contain;transition:opacity .25s}
+.ql-img .ql-nav{position:absolute;top:50%;width:44px;height:44px;margin-top:-22px;border:0;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:1.5rem;cursor:pointer;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.ql-img .prev{left:14px}.ql-img .next{right:14px}
+.ql-meta{padding:10px 14px;font-size:.75rem;color:var(--label-2);text-align:center}
 
 /* compare */
 .compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:16px;margin-top:clamp(36px,5vw,56px)}
@@ -256,7 +315,7 @@ footer a:hover{color:var(--label)}
     <span class="pill in"><i></i>0.9.9-beta · prerelease</span>
     <h1 class="in">BC OS</h1>
     <p class="tag in">Ligero. Potente. Fluido.</p>
-    <p class="sub in">Sistema operativo Linux para ARM64 y x86_64, en español por defecto, con un escritorio propio inspirado en macOS. Creado por Borja Candel.</p>
+    <p class="sub in">Sistema operativo Linux para ARM64 y x86_64, en español por defecto, con un escritorio propio inspirado en macOS. Creado por <a href="../index.html">Borja Candel</a>.</p>
     <div class="cta in">
       <a class="btn btn-pri" href="#descargar">Descargar y probar</a>
       <a class="btn btn-gray" href="https://github.com/borjacandeel/BC-OS" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 016 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .3"/></svg>Ver en GitHub</a>
@@ -350,28 +409,30 @@ footer a:hover{color:var(--label)}
   <div class="wrap center">
     <p class="eyebrow" data-reveal>Fondos de pantalla</p>
     <h2 class="h2" data-reveal>46 fondos propios.</h2>
-    <p class="lead" data-reveal>Colecciones «Bosques», «Ondas» y «Formas» en 4K, claras y oscuras, con el logo BC, generadas con scripts propios en Python.</p>
-    <div class="walls">
-      <figure data-reveal><img src="../assets/projects/bcos/fondos/bosque-niebla.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Bosque en la niebla</figcaption></figure>
-      <figure data-reveal style="--d:.05s"><img src="../assets/projects/bcos/fondos/pinar-alba.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Pinar al alba</figcaption></figure>
-      <figure data-reveal style="--d:.1s"><img src="../assets/projects/bcos/fondos/lago-claro.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Lago</figcaption></figure>
-      <figure data-reveal style="--d:.15s"><img src="../assets/projects/bcos/fondos/nieve.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Nieve</figcaption></figure>
-      <figure data-reveal><img src="../assets/projects/bcos/fondos/bosque-noche.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Bosque de noche</figcaption></figure>
-      <figure data-reveal style="--d:.05s"><img src="../assets/projects/bcos/fondos/aurora-boreal.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Aurora boreal</figcaption></figure>
-      <figure data-reveal style="--d:.1s"><img src="../assets/projects/bcos/fondos/lago-noche.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Lago de noche</figcaption></figure>
-      <figure data-reveal style="--d:.15s"><img src="../assets/projects/bcos/fondos/luna.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Luna</figcaption></figure>
-      <figure data-reveal><img src="../assets/projects/bcos/fondos/ondas.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Ondas</figcaption></figure>
-      <figure data-reveal style="--d:.05s"><img src="../assets/projects/bcos/fondos/aurora.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Aurora</figcaption></figure>
-      <figure data-reveal style="--d:.1s"><img src="../assets/projects/bcos/fondos/atardecer.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Atardecer</figcaption></figure>
-      <figure data-reveal style="--d:.15s"><img src="../assets/projects/bcos/fondos/rubi.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Rubí</figcaption></figure>
-      <figure data-reveal><img src="../assets/projects/bcos/fondos/bosque.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Bosque</figcaption></figure>
-      <figure data-reveal style="--d:.05s"><img src="../assets/projects/bcos/fondos/dunas.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Dunas</figcaption></figure>
-      <figure data-reveal style="--d:.1s"><img src="../assets/projects/bcos/fondos/dunas-noche.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Dunas de noche</figcaption></figure>
-      <figure data-reveal style="--d:.15s"><img src="../assets/projects/bcos/fondos/esferas.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Esferas</figcaption></figure>
-      <figure data-reveal><img src="../assets/projects/bcos/fondos/cristal.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Cristal líquido</figcaption></figure>
-      <figure data-reveal style="--d:.05s"><img src="../assets/projects/bcos/fondos/seda.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Seda</figcaption></figure>
-      <figure data-reveal style="--d:.1s"><img src="../assets/projects/bcos/fondos/nebulosa.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Nebulosa</figcaption></figure>
-      <figure data-reveal style="--d:.15s"><img src="../assets/projects/bcos/fondos/amanecer.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Amanecer</figcaption></figure>
+    <p class="lead" data-reveal>Colecciones «Bosques», «Ondas» y «Formas» en 4K, claras y oscuras, con el logo BC, generadas con scripts propios en Python. Haz doble clic (o pulsa Espacio) para verlos en grande y descárgalos gratis.</p>
+    <div class="finder" data-reveal role="region" aria-label="Los fondos de pantalla de BC OS">
+      <aside class="f-side" aria-label="Filtros">
+        <div class="f-lights" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h4>Favoritos</h4>
+        <button type="button" data-f="all" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Todos<em>46</em></button>
+        <h4>Colecciones</h4>
+        <button type="button" data-f="paisajes" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M3 19l6-9 4 6 3-4 5 7z"/></svg>Bosques<em>10</em></button>
+        <button type="button" data-f="ondas" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M3 14c3-4 6-4 9 0s6 4 9 0"/></svg>Ondas<em>11</em></button>
+        <button type="button" data-f="formas" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 100 16 8 8 0 000-16z"/></svg>Formas<em>20</em></button>
+        <button type="button" data-f="clasicos" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M5 5h14v14H5z"/></svg>Clásicos<em>5</em></button>
+        <h4>Etiquetas</h4>
+        <button type="button" data-f="dark" aria-pressed="false"><span class="dot" style="background:#5e5ce6"></span>Oscuros<em>28</em></button>
+        <button type="button" data-f="light" aria-pressed="false"><span class="dot" style="background:#ffd60a"></span>Claros<em>18</em></button>
+      </aside>
+      <div class="f-top">
+        <span class="f-nav" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></span><span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></span>
+        <span class="f-title">Fondos de pantalla</span>
+        <span class="f-sp"></span>
+        <input class="f-zoom" type="range" min="110" max="260" value="150" aria-label="Tamaño de las miniaturas" data-fzoom>
+        <label class="f-search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/></svg><input type="search" placeholder="Buscar" aria-label="Buscar fondos" data-fsearch></label>
+      </div>
+      <div class="f-grid" data-fgrid role="listbox" aria-label="Fondos" tabindex="-1"></div>
+      <div class="f-status"><span data-fcount>46 elementos</span><a class="f-dl" href="../assets/projects/bcos/fondos/BC-OS-fondos.zip" download><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>Descargar todos (.zip, 19 MB)</a></div>
     </div>
   </div>
 </section>
@@ -538,6 +599,85 @@ footer a:hover{color:var(--label)}
   addEventListener('resize', frame);
   frame();
 })();
+
+  /* Finder: every wallpaper, Quick Look and downloads */
+  (() => {
+    const ITEMS = [{"id": "aurora-boreal", "n": "Aurora boreal", "c": "paisajes", "l": false, "w": 3840, "h": 2160, "kb": 483, "f": "aurora-boreal.jpg"}, {"id": "bosque-noche", "n": "Bosque de noche", "c": "paisajes", "l": false, "w": 3840, "h": 2160, "kb": 450, "f": "bosque-noche.jpg"}, {"id": "bosque-niebla", "n": "Bosque en la niebla", "c": "paisajes", "l": true, "w": 3840, "h": 2160, "kb": 485, "f": "bosque-niebla.jpg"}, {"id": "bruma-verde", "n": "Bruma verde", "c": "paisajes", "l": false, "w": 3840, "h": 2160, "kb": 430, "f": "bruma-verde.jpg"}, {"id": "lago-claro", "n": "Lago", "c": "paisajes", "l": true, "w": 3840, "h": 2160, "kb": 475, "f": "lago-claro.jpg"}, {"id": "lago-noche", "n": "Lago de noche", "c": "paisajes", "l": false, "w": 3840, "h": 2160, "kb": 424, "f": "lago-noche.jpg"}, {"id": "luna", "n": "Luna", "c": "paisajes", "l": false, "w": 3840, "h": 2160, "kb": 404, "f": "luna.jpg"}, {"id": "nieve", "n": "Nieve", "c": "paisajes", "l": true, "w": 3840, "h": 2160, "kb": 407, "f": "nieve.jpg"}, {"id": "pinar-alba", "n": "Pinar al alba", "c": "paisajes", "l": true, "w": 3840, "h": 2160, "kb": 466, "f": "pinar-alba.jpg"}, {"id": "salvia", "n": "Salvia", "c": "paisajes", "l": true, "w": 3840, "h": 2160, "kb": 467, "f": "salvia.jpg"}, {"id": "amanecer", "n": "Amanecer", "c": "ondas", "l": true, "w": 3840, "h": 2160, "kb": 244, "f": "amanecer.jpg"}, {"id": "atardecer", "n": "Atardecer", "c": "ondas", "l": false, "w": 3840, "h": 2160, "kb": 361, "f": "atardecer.jpg"}, {"id": "aurora", "n": "Aurora", "c": "ondas", "l": false, "w": 3840, "h": 2160, "kb": 358, "f": "aurora.jpg"}, {"id": "bosque", "n": "Bosque", "c": "ondas", "l": false, "w": 3840, "h": 2160, "kb": 357, "f": "bosque.jpg"}, {"id": "carbon", "n": "Carbón", "c": "ondas", "l": false, "w": 3840, "h": 2160, "kb": 348, "f": "carbon.jpg"}, {"id": "lavanda", "n": "Lavanda", "c": "ondas", "l": true, "w": 3840, "h": 2160, "kb": 242, "f": "lavanda.jpg"}, {"id": "menta", "n": "Menta", "c": "ondas", "l": true, "w": 3840, "h": 2160, "kb": 240, "f": "menta.jpg"}, {"id": "niebla", "n": "Niebla", "c": "ondas", "l": true, "w": 3840, "h": 2160, "kb": 189, "f": "niebla.jpg"}, {"id": "noche", "n": "Noche", "c": "ondas", "l": false, "w": 3840, "h": 2160, "kb": 272, "f": "noche.jpg"}, {"id": "ondas", "n": "Ondas", "c": "ondas", "l": false, "w": 3840, "h": 2160, "kb": 418, "f": "ondas.jpg"}, {"id": "rubi", "n": "Rubí", "c": "ondas", "l": false, "w": 3840, "h": 2160, "kb": 358, "f": "rubi.jpg"}, {"id": "anillos", "n": "Anillos", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 619, "f": "anillos.jpg"}, {"id": "arcos", "n": "Arcos", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 810, "f": "arcos.jpg"}, {"id": "bruma", "n": "Bruma", "c": "formas", "l": true, "w": 3840, "h": 2160, "kb": 421, "f": "bruma.jpg"}, {"id": "burbujas", "n": "Burbujas", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 514, "f": "burbujas.jpg"}, {"id": "cinta", "n": "Cinta", "c": "formas", "l": true, "w": 3840, "h": 2160, "kb": 674, "f": "cinta.jpg"}, {"id": "colinas", "n": "Colinas", "c": "formas", "l": true, "w": 3840, "h": 2160, "kb": 459, "f": "colinas.jpg"}, {"id": "cristal", "n": "Cristal líquido", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 557, "f": "cristal.jpg"}, {"id": "cuarzo", "n": "Cuarzo", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 505, "f": "cuarzo.jpg"}, {"id": "dunas", "n": "Dunas", "c": "formas", "l": true, "w": 3840, "h": 2160, "kb": 488, "f": "dunas.jpg"}, {"id": "dunas-noche", "n": "Dunas de noche", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 463, "f": "dunas-noche.jpg"}, {"id": "eclipse", "n": "Eclipse", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 516, "f": "eclipse.jpg"}, {"id": "esferas", "n": "Esferas", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 500, "f": "esferas.jpg"}, {"id": "esferas-luz", "n": "Esferas claras", "c": "formas", "l": true, "w": 3840, "h": 2160, "kb": 538, "f": "esferas-luz.jpg"}, {"id": "horizonte", "n": "Horizonte", "c": "formas", "l": true, "w": 3840, "h": 2160, "kb": 398, "f": "horizonte.jpg"}, {"id": "nebulosa", "n": "Nebulosa", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 485, "f": "nebulosa.jpg"}, {"id": "pliegues", "n": "Pliegues", "c": "formas", "l": true, "w": 3840, "h": 2160, "kb": 497, "f": "pliegues.jpg"}, {"id": "petalos", "n": "Pétalos", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 490, "f": "petalos.jpg"}, {"id": "seda", "n": "Seda", "c": "formas", "l": true, "w": 3840, "h": 2160, "kb": 579, "f": "seda.jpg"}, {"id": "topografia", "n": "Topografía", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 649, "f": "topografia.jpg"}, {"id": "orbita", "n": "Órbita", "c": "formas", "l": false, "w": 3840, "h": 2160, "kb": 582, "f": "orbita.jpg"}, {"id": "grafito", "n": "Grafito", "c": "clasicos", "l": false, "w": 1920, "h": 1200, "kb": 72, "f": "grafito.jpg"}, {"id": "medianoche", "n": "Medianoche", "c": "clasicos", "l": false, "w": 1920, "h": 1200, "kb": 63, "f": "medianoche.jpg"}, {"id": "montanas", "n": "Montañas", "c": "clasicos", "l": false, "w": 1920, "h": 1080, "kb": 115, "f": "montanas.jpg"}, {"id": "oceano", "n": "Océano", "c": "clasicos", "l": false, "w": 1920, "h": 1200, "kb": 77, "f": "oceano.jpg"}, {"id": "plata", "n": "Plata", "c": "clasicos", "l": true, "w": 1920, "h": 1200, "kb": 77, "f": "plata.jpg"}];
+    const base = '../assets/projects/bcos/fondos/';
+    const grid = document.querySelector('[data-fgrid]'); if (!grid) return;
+    const count = document.querySelector('[data-fcount]'), search = document.querySelector('[data-fsearch]'), zoom = document.querySelector('[data-fzoom]');
+    let filter = 'all', list = ITEMS, sel = -1;
+    const norm = (t) => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const mb = (kb) => (kb / 1024).toFixed(1).replace('.', ',') + ' MB';
+    const draw = () => {
+      const q = norm(search.value || '');
+      list = ITEMS.filter(x => (filter === 'all' || x.c === filter || (filter === 'dark' && !x.l) || (filter === 'light' && x.l)) && (!q || norm(x.n).includes(q)));
+      grid.innerHTML = list.length ? list.map((x, i) => `<button type="button" class="f-item" role="option" aria-selected="false" data-i="${i}" aria-label="${x.n}, ${x.w}×${x.h}"><img src="${base}${x.id}.webp" alt="" loading="lazy" decoding="async" width="560" height="315"><span>${x.n}</span><small>${x.w} × ${x.h}</small></button>`).join('') : '<p class="f-empty">Ningún fondo coincide con la búsqueda.</p>';
+      count.textContent = `${list.length} ${list.length === 1 ? 'elemento' : 'elementos'}`;
+      sel = -1;
+    };
+    const select = (i, focus) => {
+      const els = grid.querySelectorAll('.f-item'); if (!els.length) return;
+      sel = Math.max(0, Math.min(els.length - 1, i));
+      els.forEach((e, k) => { e.classList.toggle('sel', k === sel); e.setAttribute('aria-selected', String(k === sel)); });
+      const x = list[sel]; count.textContent = `«${x.n}» · ${x.w} × ${x.h} · ${mb(x.kb)}`;
+      if (focus) els[sel].focus({ preventScroll: false });
+    };
+    const cols = () => { const els = grid.querySelectorAll('.f-item'); if (els.length < 2) return 1; const t = els[0].offsetTop; let n = 0; els.forEach(e => { if (e.offsetTop === t) n++; }); return n; };
+    grid.addEventListener('click', (e) => { const b = e.target.closest('.f-item'); if (b) select(+b.dataset.i); });
+    grid.addEventListener('dblclick', (e) => { const b = e.target.closest('.f-item'); if (b) look(+b.dataset.i); });
+    grid.addEventListener('keydown', (e) => {
+      const k = e.key;
+      if (k === ' ' || k === 'Enter') { if (sel >= 0) { e.preventDefault(); e.stopPropagation(); look(sel); } return; }
+      const step = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cols(), ArrowUp: -cols() }[k];
+      if (step) { e.preventDefault(); select(sel < 0 ? 0 : sel + step, true); }
+    });
+    document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {
+      filter = b.dataset.f; document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw();
+    }));
+    search.addEventListener('input', draw);
+    zoom.addEventListener('input', () => grid.style.setProperty('--ic', zoom.value + 'px'));
+
+    /* Quick Look */
+    let ql = null, qi = 0;
+    const download = async (x, a) => {
+      try {
+        const r = await fetch(base + '4k/' + x.f); const blob = await r.blob();
+        const u = URL.createObjectURL(blob), t = document.createElement('a'); t.href = u; t.download = 'BC OS - ' + x.n + '.' + x.f.split('.').pop();
+        document.body.appendChild(t); t.click(); t.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000);
+      } catch (_) { window.open(base + '4k/' + x.f, '_blank', 'noopener'); }
+    };
+    const paint = () => {
+      const x = list[qi];
+      ql.querySelector('b').textContent = x.n;
+      const img = ql.querySelector('.ql-img img'); img.style.opacity = '.3'; img.onload = () => { img.style.opacity = '1'; }; img.src = base + 'prev/' + x.id + '.webp'; img.alt = 'Fondo ' + x.n;
+      ql.querySelector('.ql-meta').textContent = `${x.w} × ${x.h} · ${mb(x.kb)} · ${{ ondas: 'Colección Ondas', formas: 'Colección Formas', paisajes: 'Colección Bosques', clasicos: 'Clásicos' }[x.c]} · ${qi + 1} de ${list.length}`;
+      const a = ql.querySelector('[data-qdl]'); a.href = base + '4k/' + x.f; a.setAttribute('download', 'BC OS - ' + x.n + '.' + x.f.split('.').pop());
+    };
+    const close = () => { if (!ql) return; ql.remove(); ql = null; document.documentElement.style.overflow = ''; const els = grid.querySelectorAll('.f-item'); if (els[qi]) els[qi].focus({ preventScroll: true }); };
+    const look = (i) => {
+      if (!list.length) return;
+      qi = Math.max(0, Math.min(list.length - 1, i)); select(qi);
+      if (!ql) {
+        ql = document.createElement('div'); ql.className = 'ql'; ql.setAttribute('role', 'dialog'); ql.setAttribute('aria-modal', 'true'); ql.setAttribute('aria-label', 'Vista rápida');
+        ql.innerHTML = '<div class="ql-win"><div class="ql-bar"><button type="button" class="x" aria-label="Cerrar">×</button><b></b><a class="pri" data-qdl href="#"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg> Descargar 4K</a></div><div class="ql-img"><img alt=""><button type="button" class="ql-nav prev" aria-label="Anterior">‹</button><button type="button" class="ql-nav next" aria-label="Siguiente">›</button></div><div class="ql-meta"></div></div>';
+        document.body.appendChild(ql); document.documentElement.style.overflow = 'hidden';
+        ql.addEventListener('click', (e) => { if (e.target === ql || e.target.closest('.x')) close(); });
+        ql.querySelector('.prev').addEventListener('click', () => { qi = (qi - 1 + list.length) % list.length; select(qi); paint(); });
+        ql.querySelector('.next').addEventListener('click', () => { qi = (qi + 1) % list.length; select(qi); paint(); });
+        ql.querySelector('[data-qdl]').addEventListener('click', (e) => { e.preventDefault(); download(list[qi]); });
+        ql.querySelector('.x').focus();
+      }
+      paint();
+    };
+    document.addEventListener('keydown', (e) => {
+      if (!ql) return;
+      if (e.key === 'Escape' || e.key === ' ') { e.preventDefault(); close(); }
+      else if (e.key === 'ArrowRight') { qi = (qi + 1) % list.length; select(qi); paint(); }
+      else if (e.key === 'ArrowLeft') { qi = (qi - 1 + list.length) % list.length; select(qi); paint(); }
+    });
+    draw();
+  })();
 </script>
 </body>
 </html>
