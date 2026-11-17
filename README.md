@@ -32,10 +32,6 @@ El proyecto ha sido desarrollado utilizando un stack tecnológico limpio y sin d
 *   🪟 **Ventanas macOS**: habilidades, proyectos y experiencia se presentan como ventanas con los botones rojo, amarillo y verde; el verde amplía cada proyecto a ancho completo.
 *   🏷️ **Logos de tecnologías**: banda animada con los logos (Simple Icons, CC0) que se colorean al pasar el ratón, y logos en las etiquetas de cada ventana.
 
-## 💻 BC OS (`os.html`)
-
-Un escritorio estilo macOS en una página aparte, accesible desde el botón **Abrir BC OS** del inicio: arranque con el logo, barra de menús, Dock con aumento, ventanas que se arrastran, redimensionan, minimizan al Dock y se amplían con el botón verde, Spotlight (Ctrl/⌘+K), Terminal con comandos (`help`, `experiencia`, `neofetch`…), apps de Sobre mí, Habilidades, Experiencia (Markha), Proyectos, Educación, Música, Ciclismo, Contacto, CV y Portfolio, y Ajustes de tema y fondo.
-
 ## 🗂 Estructura de Secciones
 
 El portfolio está divivido narrativamente para presentar rápidamente mi información profesional:
@@ -45,7 +41,7 @@ El portfolio está divivido narrativamente para presentar rápidamente mi inform
 3.  **Habilidades Técnicas (*Skills*)**: Clasificación visual en tarjetas de Sistemas Operativos, Redes, Programación y Ciberseguridad/Virtualización.
 4.  **Experiencia Profesional**: Las 11 áreas de trabajo en Markha (Sueca), contadas paso a paso con una ventana macOS que acompaña el scroll.
 5.  **Educación**: Titulaciones en curso y finalizadas en tarjetas.
-6.  **Proyectos**: monitorización de infraestructura, agente local de auditoría con IA, pipeline de auditoría web y homelab, como ventanas ampliables.
+6.  **Proyectos**: **BC OS** (mi sistema operativo Linux para ARM64 y x86_64, con un portátil que va mostrando capturas reales según haces scroll) y **Dotfiles 2026** (mi entorno bspwm + Polybar + Rosé Pine para Arch Linux, con una Terminal que ejecuta el autotest del instalador).
 7.  **Más Allá del Código (Intereses)**: Muestra mi perfil polivalente a través de la pasión por el ciclismo y la producción musical.
 8.  **Contacto**: Accesos directos para enviar email, llamarme o descargar el currículum.
 
