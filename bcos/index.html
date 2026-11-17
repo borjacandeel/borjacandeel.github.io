@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BC OS — Ligero. Potente. Fluido.</title>
+<meta name="description" content="BC OS: sistema operativo Linux para ARM64 y x86_64, en español, con el escritorio Golden Gate. Creado por Borja Candel.">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BC OS — Ligero. Potente. Fluido.">
+<meta property="og:description" content="Sistema operativo Linux para ARM64 y x86_64, en español, con el escritorio Golden Gate.">
+<meta property="og:image" content="https://borjacandeel.github.io/assets/projects/bcos/escritorio.webp">
+<meta property="og:locale" content="es_ES">
+<link rel="icon" href="../assets/projects/bcos/icono.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/projects/bcos/icono.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('bc-theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}})();</script>
+<style>
+:root{
+--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,sans-serif;
+--mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+--bg:#fff;--bg-alt:#f5f5f7;--card:#f5f5f7;--label:#1d1d1f;--label-2:#6e6e73;--sep:rgba(0,0,0,.1);
+--fill:rgba(120,120,128,.12);--fill-2:rgba(120,120,128,.2);--accent:#0071e3;--blue:#2f7bff;
+--glass:rgba(255,255,255,.66);--glass-edge:rgba(255,255,255,.75);--glass-hi:rgba(255,255,255,.85);
+--glass-shadow:0 6px 24px rgba(0,0,0,.1),0 0 0 .5px rgba(0,0,0,.06);--shadow:0 30px 80px rgba(0,0,0,.18);
+--spring:cubic-bezier(.22,1,.36,1);--r:24px;color-scheme:light dark;
+}
+@supports (transition-timing-function:linear(0,1)){:root{--spring:linear(0,0.027,0.0917,0.176,0.2678,0.3597,0.4471,0.5273,0.5993,0.6626,0.7177,0.765,0.8052,0.8392,0.8677,0.8915,0.9113,0.9276,0.9411,0.9521,0.9612,0.9686,0.9746,0.9795,0.9835,0.9867,0.9893,0.9914,1)}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--bg-alt:#0f0f11;--card:#1c1c1e;--label:#f5f5f7;--label-2:#a1a1a6;--sep:rgba(255,255,255,.14);--fill:rgba(120,120,128,.24);--fill-2:rgba(120,120,128,.36);--glass:rgba(40,40,44,.6);--glass-edge:rgba(255,255,255,.14);--glass-hi:rgba(255,255,255,.22);--glass-shadow:0 6px 28px rgba(0,0,0,.5),0 0 0 .5px rgba(255,255,255,.08);--shadow:0 30px 80px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{--bg:#000;--bg-alt:#0f0f11;--card:#1c1c1e;--label:#f5f5f7;--label-2:#a1a1a6;--sep:rgba(255,255,255,.14);--fill:rgba(120,120,128,.24);--fill-2:rgba(120,120,128,.36);--glass:rgba(40,40,44,.6);--glass-edge:rgba(255,255,255,.14);--glass-hi:rgba(255,255,255,.22);--glass-shadow:0 6px 28px rgba(0,0,0,.5),0 0 0 .5px rgba(255,255,255,.08);--shadow:0 30px 80px rgba(0,0,0,.6);color-scheme:dark}
+:root[data-theme="light"]{color-scheme:light}
+*{box-sizing:border-box}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-stopped{overflow:hidden}
+body{margin:0;background:var(--bg);color:var(--label);font-family:var(--font);font-size:1.0625rem;line-height:1.5;-webkit-font-smoothing:antialiased;font-optical-sizing:auto;text-wrap:pretty;overflow-x:hidden;transition:background-color .4s}
+h1,h2,h3,h4,p,ul,ol{margin:0}
+a{color:var(--accent);text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+::selection{background:var(--accent);color:#fff}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:10px;z-index:200;background:var(--accent);color:#fff;padding:10px 18px;border-radius:980px}
+.skip:focus{left:12px}
+.mark{display:inline-block;width:auto;aspect-ratio:2103/856;background:currentColor;-webkit-mask:url(../assets/logo-bc.svg) center/contain no-repeat;mask:url(../assets/logo-bc.svg) center/contain no-repeat}
+
+/* nav */
+.nav{position:fixed;top:12px;left:50%;z-index:50;width:min(1120px,calc(100% - 24px));transform:translateX(-50%);height:52px;padding:0 8px 0 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:26px;background:var(--glass);border:1px solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-hi),var(--glass-shadow);-webkit-backdrop-filter:blur(22px) saturate(200%);backdrop-filter:blur(22px) saturate(200%);animation:navin .8s var(--spring) .05s both}
+@keyframes navin{from{opacity:0;transform:translate(-50%,-16px) scale(.96)}to{opacity:1;transform:translate(-50%,0)}}
+.brand{display:inline-flex;align-items:center;gap:10px;color:var(--label);font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.brand img{width:30px;height:30px;border-radius:8px}
+.links{display:none;gap:2px}
+.links a{padding:6px 11px;border-radius:16px;font-size:.875rem;font-weight:600;color:var(--label-2);transition:color .2s,background-color .2s}
+.links a:hover,.links a[aria-current="true"]{color:var(--label);background:var(--fill)}
+@media (min-width:980px){.links{display:flex}}
+.nav-end{display:flex;align-items:center;gap:6px}
+.icon-btn{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:20px;background:transparent;color:var(--label);cursor:pointer;transition:background-color .2s,scale .4s var(--spring)}
+.icon-btn:hover{background:var(--fill)}
+.icon-btn:active{scale:.9}
+.icon-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.theme .sun{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .theme .sun{display:block}:root:not([data-theme="light"]) .theme .moon{display:none}}
+:root[data-theme="dark"] .theme .sun{display:block}:root[data-theme="dark"] .theme .moon{display:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border:0;border-radius:980px;font:600 1rem/1 var(--font);cursor:pointer;transition:filter .2s,scale .4s var(--spring),background-color .2s}
+.btn:active{scale:.96}
+.btn-pri{background:var(--accent);color:#fff}
+.btn-pri:hover{filter:brightness(1.1)}
+.btn-gray{background:var(--fill);color:var(--label)}
+.btn-gray:hover{background:var(--fill-2)}
+.btn-sm{min-height:36px;padding:0 16px;font-size:.875rem}
+.btn svg{width:18px;height:18px;fill:currentColor}
+@media (max-width:560px){.nav .btn-sm span{display:none}.brand span{display:none}}
+
+/* hero */
+.hero{position:relative;padding:150px 0 40px;text-align:center;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-10% -20% auto;height:80%;pointer-events:none;background:radial-gradient(50% 50% at 30% 20%,rgba(47,123,255,.18),transparent 70%),radial-gradient(45% 45% at 72% 10%,rgba(191,90,242,.14),transparent 70%)}
+.hero .wrap{position:relative}
+.app-icon{width:128px;height:128px;margin:0 auto 22px;border-radius:29px;box-shadow:0 24px 60px rgba(0,0,0,.3),0 0 0 .5px rgba(0,0,0,.2);animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:980px;background:var(--fill);font-size:.875rem;font-weight:600;color:var(--label-2)}
+.pill i{width:8px;height:8px;border-radius:50%;background:#ff9f0a;box-shadow:0 0 0 4px rgba(255,159,10,.2)}
+.hero h1{margin-top:16px;font-size:clamp(72px,15vw,180px);font-weight:800;line-height:.95;letter-spacing:-.06em;background:linear-gradient(180deg,var(--label) 30%,color-mix(in srgb,var(--label) 55%,transparent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tag{margin-top:14px;font-size:clamp(24px,3.4vw,40px);font-weight:700;letter-spacing:-.03em;background:linear-gradient(90deg,#2f7bff,#bf5af2,#ff375f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{max-width:640px;margin:16px auto 0;font-size:clamp(18px,2vw,21px);color:var(--label-2);line-height:1.45}
+.cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:32px}
+.in{opacity:0;animation:rise 1s var(--spring) both}
+.in:nth-child(2){animation-delay:.08s}.in:nth-child(3){animation-delay:.16s}.in:nth-child(4){animation-delay:.24s}.in:nth-child(5){animation-delay:.32s}.in:nth-child(6){animation-delay:.4s}
+@keyframes rise{from{opacity:0;filter:blur(10px);transform:translateY(24px) scale(.97)}to{opacity:1;filter:none;transform:none}}
+
+/* laptop */
+.laptop{position:relative;perspective:1800px;padding:0 5%;max-width:1040px;margin:64px auto 0}
+.laptop::after{content:"";position:absolute;left:3%;right:3%;bottom:-28px;height:32px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.35),transparent);filter:blur(7px);z-index:-1}
+.lid{position:relative;padding:2.2% 2% 2.6%;border-radius:22px 22px 4px 4px;background:#0c0c0e;box-shadow:inset 0 0 0 1.5px #3b3b40,inset 0 0 0 3px #050506;transform:rotateX(var(--tilt,0deg));transform-origin:50% 100%;will-change:transform}
+.cam{position:absolute;left:50%;top:.7%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3a4f6a,#0d141c 70%);box-shadow:0 0 0 1.5px #1b1b1e}
+.screen{position:relative;aspect-ratio:16/10;border-radius:8px;overflow:hidden;background:#000}
+.screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shot{opacity:0;transform:scale(1.03);transition:opacity .6s ease,transform 1s var(--spring)}
+.shot.on{opacity:1;transform:none;animation:kb 10s ease-out .6s forwards}
+@keyframes kb{to{transform:scale(1.025)}}
+.glare{position:absolute;inset:0;pointer-events:none;background:linear-gradient(118deg,rgba(255,255,255,.09) 0%,rgba(255,255,255,.03) 34%,transparent 34.5%)}
+.base{position:relative;height:clamp(10px,1.6vw,18px);margin:0 -6.5%;border-radius:2px 2px 18px 18px/2px 2px 12px 12px;background:linear-gradient(180deg,#e9eaee 0%,#cfd1d6 40%,#a3a6ac 100%)}
+.base::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,#9ea1a7,#e2e3e7 50%,#9ea1a7)}
+.base span{position:absolute;left:50%;top:0;width:13%;height:42%;margin-left:-6.5%;border-radius:0 0 10px 10px;background:linear-gradient(#b4b7bc,#d6d8dc)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .base{background:linear-gradient(180deg,#5a5a5f,#3b3b3f 45%,#232326)}:root:not([data-theme="light"]) .base::before{background:linear-gradient(90deg,#2c2c30,#6a6a70 50%,#2c2c30)}:root:not([data-theme="light"]) .base span{background:linear-gradient(#2a2a2d,#444448)}}
+:root[data-theme="dark"] .base{background:linear-gradient(180deg,#5a5a5f,#3b3b3f 45%,#232326)}:root[data-theme="dark"] .base::before{background:linear-gradient(90deg,#2c2c30,#6a6a70 50%,#2c2c30)}:root[data-theme="dark"] .base span{background:linear-gradient(#2a2a2d,#444448)}
+
+/* sections */
+.sec{padding:clamp(80px,11vw,140px) 0}
+.alt{background:var(--bg-alt);--card:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .alt{--card:#1c1c1e}}
+:root[data-theme="dark"] .alt{--card:#1c1c1e}
+.eyebrow{font-size:1.0625rem;font-weight:600;color:var(--accent)}
+.h2{margin-top:8px;font-size:clamp(38px,6vw,68px);font-weight:800;line-height:1.04;letter-spacing:-.045em}
+.lead{max-width:62ch;margin-top:16px;font-size:clamp(18px,2vw,21px);line-height:1.5;color:var(--label-2)}
+.center{text-align:center}.center .lead{margin-left:auto;margin-right:auto}
+[data-reveal]{opacity:0;transform:translateY(28px) scale(.985);filter:blur(6px);transition:opacity .8s ease,transform .9s var(--spring),filter .7s ease;transition-delay:var(--d,0s)}
+[data-reveal].shown{opacity:1;transform:none;filter:none}
+
+/* statement */
+.statement{position:relative;height:300vh}
+.st-sticky{position:sticky;top:0;height:100vh;height:100lvh;display:grid;place-items:center;overflow:hidden}
+.st{grid-area:1/1;margin:0;padding:0 24px;text-align:center;font-size:clamp(56px,13vw,210px);font-weight:800;line-height:1;letter-spacing:-.055em;opacity:0;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;will-change:transform,opacity,filter}
+.st:nth-child(1){background-image:linear-gradient(100deg,#0a84ff,#5e5ce6)}
+.st:nth-child(2){background-image:linear-gradient(100deg,#bf5af2,#ff375f)}
+.st:nth-child(3){background-image:linear-gradient(100deg,#ff9f0a,#ffd60a)}
+
+/* story */
+.story{display:grid;gap:28px;margin-top:clamp(40px,6vw,72px)}
+.steps{list-style:none;padding:0;display:grid;gap:28px}
+.step .n{font-size:.8125rem;font-weight:700;color:var(--accent);letter-spacing:.04em}
+.step h3{margin:6px 0 8px;font-size:1.375rem;font-weight:700;letter-spacing:-.022em;line-height:1.2}
+.step p{color:var(--label-2)}
+.step img{margin-top:14px;border:6px solid #111113;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.stage{display:none}
+.dots{display:flex;justify-content:center;gap:8px;margin-top:34px}
+.dots span{width:7px;height:7px;border-radius:4px;background:var(--fill-2);transition:width .5s var(--spring),background-color .3s}
+.dots span.on{width:24px;background:var(--accent)}
+@media (min-width:980px){
+.story{grid-template-columns:minmax(0,.6fr) minmax(0,1.4fr);gap:48px}
+.steps{gap:0;padding:4vh 0 26vh}
+.step{min-height:58vh;display:flex;flex-direction:column;justify-content:center;opacity:.22;transform:scale(.96);transform-origin:left center;transition:opacity .5s ease,transform .6s var(--spring)}
+.step.on{opacity:1;transform:none}
+.step h3{font-size:clamp(28px,2.8vw,38px);letter-spacing:-.03em;line-height:1.1}
+.step img{display:none}
+.stage{display:block;position:relative}
+.stage .sticky{position:sticky;top:14vh}
+.stage .laptop{margin:0;padding:0 5%}
+}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-top:clamp(40px,6vw,64px)}
+.tile{position:relative;grid-column:span 2;padding:26px;border-radius:var(--r);background:var(--card);overflow:hidden;transition:transform .5s var(--spring),box-shadow .5s var(--spring)}
+.tile:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.tile.wide{grid-column:span 3}
+.tile.big{grid-column:span 4}
+.tile .ic{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;background:var(--c,#0a84ff);color:#fff;margin-bottom:16px}
+.tile .ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tile h3{font-size:1.25rem;font-weight:700;letter-spacing:-.02em}
+.tile p{margin-top:6px;font-size:.9375rem;color:var(--label-2);line-height:1.5}
+.tile img{margin-top:18px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.2)}
+@media (max-width:900px){.bento{grid-template-columns:repeat(2,minmax(0,1fr))}.tile,.tile.wide,.tile.big{grid-column:span 2}}
+@media (min-width:600px) and (max-width:900px){.tile{grid-column:span 1}}
+
+/* gallery */
+.gallery{display:flex;gap:18px;overflow-x:auto;padding:8px 24px 24px;margin:clamp(36px,5vw,56px) -24px 0;scroll-snap-type:x mandatory;scroll-padding:0 24px;scrollbar-width:thin}
+.gallery figure{flex:none;margin:0;width:min(78vw,620px);scroll-snap-align:start}
+.gallery img{border-radius:16px;box-shadow:0 18px 44px rgba(0,0,0,.22);aspect-ratio:16/10;object-fit:cover;width:100%;transition:transform .6s var(--spring)}
+.gallery figure:hover img{transform:scale(1.02)}
+.gallery figcaption{margin-top:12px;font-size:.9375rem;color:var(--label-2)}
+.gallery figcaption b{display:block;color:var(--label);font-size:1.0625rem}
+
+/* wallpapers */
+.walls{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,45%),1fr));gap:14px;margin-top:clamp(36px,5vw,56px)}
+.walls figure{margin:0;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.walls img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--spring)}
+.walls figure:hover img{transform:scale(1.08)}
+.walls figcaption{position:absolute;left:10px;bottom:10px;padding:4px 10px;border-radius:980px;font-size:.75rem;font-weight:600;color:#fff;background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+
+/* compare */
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:16px;margin-top:clamp(36px,5vw,56px)}
+.cmp{padding:30px;border-radius:var(--r);background:var(--card)}
+.cmp h3{font-size:1.75rem;font-weight:800;letter-spacing:-.03em}
+.cmp .k{display:inline-block;margin-bottom:12px;padding:4px 12px;border-radius:980px;font-size:.8125rem;font-weight:700}
+.cmp ul{list-style:none;padding:0;margin-top:14px;display:grid;gap:10px;color:var(--label-2)}
+.cmp li{display:flex;gap:10px}
+.cmp li::before{content:"";flex:none;width:8px;height:8px;margin-top:.55em;border-radius:50%;background:var(--c)}
+
+/* specs */
+.specs{margin-top:clamp(36px,5vw,56px);border-radius:var(--r);background:var(--card);overflow:hidden}
+.specs div{display:grid;grid-template-columns:minmax(120px,220px) 1fr;gap:16px;padding:18px 26px;border-top:1px solid var(--sep)}
+.specs div:first-child{border-top:0}
+.specs dt{font-weight:700}
+.specs dd{margin:0;color:var(--label-2)}
+@media (max-width:600px){.specs div{grid-template-columns:1fr;gap:4px}}
+
+/* keys */
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:12px 28px;margin-top:clamp(32px,5vw,48px)}
+.key{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid var(--sep);color:var(--label-2)}
+.combo{display:inline-flex;gap:5px;flex-wrap:wrap}
+kbd{display:inline-grid;place-items:center;min-width:30px;height:28px;padding:0 8px;border-radius:7px;background:var(--bg);box-shadow:inset 0 -2px 0 var(--sep),0 0 0 1px var(--sep);font:600 .8125rem/1 var(--font);color:var(--label)}
+
+/* timeline */
+.tl{list-style:none;padding:0;margin-top:clamp(36px,5vw,56px);position:relative}
+.tl::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--accent),var(--fill-2))}
+.tl li{position:relative;padding:0 0 26px 44px}
+.tl li::before{content:"";position:absolute;left:4px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 3px var(--accent)}
+.tl li.now::before{background:var(--accent);box-shadow:0 0 0 3px var(--accent),0 0 0 9px rgba(0,113,227,.2)}
+.tl b{font-size:1.125rem;letter-spacing:-.01em}
+.tl em{margin-left:8px;font-style:normal;font-size:.8125rem;font-weight:600;color:var(--label-2)}
+.tl p{margin-top:4px;color:var(--label-2);font-size:.9375rem;max-width:70ch}
+
+/* download */
+.dl{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));margin-top:clamp(36px,5vw,56px)}
+.dl-card{padding:30px;border-radius:var(--r);background:var(--card)}
+.dl-card h3{font-size:1.5rem;font-weight:800;letter-spacing:-.03em}
+.dl-card ol{margin-top:14px;padding-left:20px;display:grid;gap:8px;color:var(--label-2)}
+.dl-card code{font:500 .875em var(--mono);padding:2px 6px;border-radius:6px;background:var(--fill);color:var(--label)}
+.note{display:flex;gap:12px;margin-top:20px;padding:18px 22px;border-radius:18px;background:color-mix(in srgb,#ff9f0a 12%,transparent);color:var(--label-2);font-size:.9375rem}
+.note strong{color:var(--label)}
+.note svg{flex:none;width:20px;height:20px;margin-top:1px;fill:none;stroke:#ff9f0a;stroke-width:2;stroke-linecap:round}
+
+footer{padding:40px 0 60px;border-top:1px solid var(--sep);font-size:.8125rem;color:var(--label-2)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:center}
+footer a{color:var(--label-2)}
+footer a:hover{color:var(--label)}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}.in,[data-reveal]{opacity:1;transform:none;filter:none}.statement{height:auto}.st-sticky{position:static;height:auto;display:grid;gap:12px;padding:80px 0}.st{grid-area:auto;opacity:1}}
+@media (prefers-reduced-transparency:reduce){.nav{background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Saltar al contenido</a>
+
+<header class="nav">
+  <a class="brand" href="#top"><img src="../assets/projects/bcos/icono.png" alt="" width="30" height="30"><span>BC OS</span></a>
+  <nav class="links" aria-label="Secciones">
+    <a href="#golden-gate">Golden Gate</a>
+    <a href="#funciones">Funciones</a>
+    <a href="#apps">Apps</a>
+    <a href="#fondos">Fondos</a>
+    <a href="#tecnica">Técnica</a>
+    <a href="#versiones">Versiones</a>
+  </nav>
+  <div class="nav-end">
+    <a class="icon-btn" href="../index.html#projects" aria-label="Volver al portfolio de Borja Candel" title="Portfolio"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></a>
+    <button class="icon-btn theme" type="button" data-theme-toggle aria-label="Cambiar tema"><svg class="moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 019.8 3.5a8.5 8.5 0 1010.7 10.7z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg></button>
+    <a class="btn btn-pri btn-sm" href="#descargar"><svg viewBox="0 0 24 24"><path d="M12 3v11.2l-4.2-4.2-1.4 1.4L12 17l5.6-5.6-1.4-1.4-4.2 4.2V3zM4 19h16v2H4z"/></svg><span>Descargar</span></a>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <img class="app-icon in" src="../assets/projects/bcos/icono-512.png" alt="Icono de BC OS" width="128" height="128">
+    <span class="pill in"><i></i>0.9.3-beta · prerelease</span>
+    <h1 class="in">BC OS</h1>
+    <p class="tag in">Ligero. Potente. Fluido.</p>
+    <p class="sub in">Sistema operativo Linux para ARM64 y x86_64, en español por defecto, con un escritorio propio inspirado en macOS. Creado por Borja Candel.</p>
+    <div class="cta in">
+      <a class="btn btn-pri" href="#descargar">Descargar y probar</a>
+      <a class="btn btn-gray" href="https://github.com/borjacandeel/BC-OS" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 016 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .3"/></svg>Ver en GitHub</a>
+    </div>
+    <div class="laptop" data-hero-laptop>
+      <div class="lid"><i class="cam"></i><div class="screen"><img src="../assets/projects/bcos/escritorio.webp" alt="Escritorio Golden Gate de BC OS: barra de menús, widgets de vidrio y Dock" width="1408" height="881" fetchpriority="high"><span class="glare"></span></div></div>
+      <div class="base"><span></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="statement" aria-label="Ligero, potente y fluido">
+  <div class="st-sticky"><p class="st" data-st>Ligero.</p><p class="st" data-st>Potente.</p><p class="st" data-st>Fluido.</p></div>
+</section>
+
+<section class="sec" id="golden-gate">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Escritorio por defecto desde la 0.6</p>
+    <h2 class="h2" data-reveal>Golden Gate.</h2>
+    <p class="lead" data-reveal>Una réplica del aspecto y del comportamiento de macOS hecha con código y recursos propios o libres, sin usar nada de Apple. Barra de menús, Dock, vidrio, Spotlight, Control Center y apps propias, todo en español.</p>
+    <div class="story">
+      <ol class="steps" data-steps>
+        <li class="step on"><span class="n">01</span><h3>Escritorio</h3><p>Barra de menús transparente con menús globales, widgets de vidrio arrastrables y Dock con ampliación, rebote y apps recientes.</p><img src="../assets/projects/bcos/escritorio.webp" alt="Escritorio de BC OS" loading="lazy" width="1408" height="881"></li>
+        <li class="step"><span class="n">02</span><h3>Control Center</h3><p>Wi-Fi, Bluetooth, red, Concentración, mosaico, pantalla, sonido y reproducción, con controles que se añaden y se quitan.</p><img src="../assets/projects/bcos/control-center.webp" alt="Control Center de BC OS" loading="lazy" width="1408" height="881"></li>
+        <li class="step"><span class="n">03</span><h3>Aplicaciones</h3><p>Todas las apps en una rejilla por páginas con búsqueda, sobre el fondo desenfocado (F4).</p><img src="../assets/projects/bcos/aplicaciones.webp" alt="Rejilla de Aplicaciones" loading="lazy" width="1408" height="881"></li>
+        <li class="step"><span class="n">04</span><h3>Archivos y Ajustes</h3><p>Un gestor tipo Finder con vistas de iconos, lista, columnas y galería, etiquetas y pestañas, y unos Ajustes del Sistema propios.</p><img src="../assets/projects/bcos/ventanas.webp" alt="Archivos y Ajustes del Sistema" loading="lazy" width="1408" height="881"></li>
+        <li class="step"><span class="n">05</span><h3>Spotlight</h3><p>Apps, archivos, cálculos y acciones desde un solo buscador, con resultados por secciones (Ctrl+Espacio).</p><img src="../assets/projects/bcos/spotlight.webp" alt="Spotlight de BC OS" loading="lazy" width="1408" height="881"></li>
+        <li class="step"><span class="n">06</span><h3>Modo claro</h3><p>Claro u oscuro en caliente en el shell, las apps BC, GTK y sway, con vidrio legible en los dos.</p><img src="../assets/projects/bcos/more/modo-claro.webp" alt="BC OS en modo claro" loading="lazy" width="1408" height="881"></li>
+        <li class="step"><span class="n">07</span><h3>Bloqueo</h3><p>Fecha, hora grande y contraseña sobre el fondo, protegido por swaylock si el panel fallara.</p><img src="../assets/projects/bcos/more/bloqueo.webp" alt="Pantalla de bloqueo" loading="lazy" width="1600" height="900"></li>
+        <li class="step"><span class="n">08</span><h3>Instalar BC OS</h3><p>Instalador gráfico en la ISO live: disco con cifrado opcional, cuenta, región, resumen y progreso real.</p><img src="../assets/projects/bcos/instalador.webp" alt="Instalador de BC OS" loading="lazy" width="1408" height="881"></li>
+      </ol>
+      <div class="stage" aria-hidden="true">
+        <div class="sticky">
+          <div class="laptop">
+            <div class="lid" data-story-lid><i class="cam"></i><div class="screen">
+              <img class="shot on" src="../assets/projects/bcos/escritorio.webp" alt="" width="1408" height="881">
+              <img class="shot" src="../assets/projects/bcos/control-center.webp" alt="" width="1408" height="881" loading="lazy">
+              <img class="shot" src="../assets/projects/bcos/aplicaciones.webp" alt="" width="1408" height="881" loading="lazy">
+              <img class="shot" src="../assets/projects/bcos/ventanas.webp" alt="" width="1408" height="881" loading="lazy">
+              <img class="shot" src="../assets/projects/bcos/spotlight.webp" alt="" width="1408" height="881" loading="lazy">
+              <img class="shot" src="../assets/projects/bcos/more/modo-claro.webp" alt="" width="1408" height="881" loading="lazy">
+              <img class="shot" src="../assets/projects/bcos/more/bloqueo.webp" alt="" width="1600" height="900" loading="lazy">
+              <img class="shot" src="../assets/projects/bcos/instalador.webp" alt="" width="1408" height="881" loading="lazy">
+              <span class="glare"></span></div></div>
+            <div class="base"><span></span></div>
+          </div>
+          <div class="dots"><span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="funciones">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Funciones</p>
+    <h2 class="h2" data-reveal>Todo lo que esperas<br>de un escritorio moderno.</h2>
+    <div class="bento">
+      <article class="tile big" data-reveal style="--c:#0a84ff"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12c3-6 15-6 18 0-3 6-15 6-18 0z"/><circle cx="12" cy="12" r="3"/></svg></span><h3>Liquid Glass</h3><p>Barra, Dock, widgets y emergentes de vidrio con deslizador de intensidad. Con Hyprland desenfoca de verdad lo que hay detrás; con sway, el fondo.</p><img src="../assets/projects/bcos/more/widgets.webp" alt="Widgets de vidrio de BC OS" loading="lazy" width="1408" height="881"></article>
+      <article class="tile" data-reveal style="--c:#5e5ce6;--d:.08s"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="15" width="18" height="5" rx="2.5"/><path d="M7 15V9M12 15V6M17 15v-4"/></svg></span><h3>Dock de vidrio</h3><p>Ampliación, punto de app abierta, rebote, recientes, pila de Descargas y Papelera.</p></article>
+      <article class="tile" data-reveal style="--c:#30d158"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="8" height="7" rx="1.5"/><rect x="13" y="13" width="8" height="7" rx="1.5"/></svg></span><h3>Mission Control</h3><p>Escritorios con «+», arrastrar ventanas entre ellos y selector de apps con Alt+Tab.</p></article>
+      <article class="tile" data-reveal style="--c:#ff9f0a;--d:.08s"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 19c2-6 4-9 7-9s5 3 7 9"/><path d="M12 10V3M9 6l3-3 3 3"/></svg></span><h3>Efecto genio</h3><p>Ventanas que se abren con muelle, se cierran encogiéndose y se minimizan al Dock como en macOS.</p></article>
+      <article class="tile" data-reveal style="--c:#ff375f;--d:.16s"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span><h3>Centro de notificaciones</h3><p>Historial de avisos y widgets de calendario y recordatorios.</p></article>
+      <article class="tile wide" data-reveal style="--c:#64d2ff"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><rect x="3" y="15" width="18" height="6" rx="2"/></svg></span><h3>Instalador como el de macOS</h3><p>«Instalar BC OS» en la ISO live: introducción, licencia, disco con cifrado opcional, cuenta, región, resumen y barra de progreso real. También desde Terminal con <code>sudo bc-install</code>.</p></article>
+      <article class="tile wide" data-reveal style="--c:#bf5af2;--d:.08s"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M7 10l3 2-3 2M12 14h5"/></svg></span><h3>Terminal como la de macOS</h3><p>Ghostty (o Alacritty si su compilación falla), 80×24, título «usuario — fish — 80×24» y «Último inicio de sesión».</p></article>
+      <article class="tile" data-reveal style="--c:#ffd60a"><span class="ic"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4zM15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg></span><h3>Sonidos propios</h3><p>Aviso, papelera, bloqueo, volumen, captura y error, generados para BC OS.</p></article>
+      <article class="tile" data-reveal style="--c:#8e8e93;--d:.08s"><span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"/></svg></span><h3>Esquinas redondeadas</h3><p>En todas las ventanas, también sin aceleración 3D.</p></article>
+      <article class="tile" data-reveal style="--c:#34c759;--d:.16s"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1015.5-6.3"/><path d="M19 3v4h-4M12 8v4l3 2"/></svg></span><h3>Instantáneas</h3><p>Antes de cada actualización se guarda el sistema; <code>bc-restaurar</code> vuelve atrás.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="apps">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Apps BC</p>
+    <h2 class="h2" data-reveal>Apps propias, hechas para el sistema.</h2>
+    <p class="lead" data-reveal>Monitor de Actividad, Tienda, Calculadora, Notas, Vista previa, Calendario, Recordatorios y Música, con el mismo vidrio y las mismas animaciones que el escritorio.</p>
+    <div class="gallery" tabindex="0" role="region" aria-label="Capturas de las apps de BC OS">
+      <figure><img src="../assets/projects/bcos/more/tienda.webp" alt="Tienda de BC OS" loading="lazy" width="1408" height="881"><figcaption><b>Tienda</b>Instalar apps con estilo App Store y sin contraseña para administradores.</figcaption></figure>
+      <figure><img src="../assets/projects/bcos/more/monitor.webp" alt="Monitor de Actividad" loading="lazy" width="900" height="620"><figcaption><b>Monitor de Actividad</b>Procesos reales, CPU y memoria.</figcaption></figure>
+      <figure><img src="../assets/projects/bcos/more/apps-nuevas.webp" alt="Calculadora, Notas y Vista previa" loading="lazy" width="1408" height="881"><figcaption><b>Calculadora, Notas y Vista previa</b>Las apps del día a día.</figcaption></figure>
+      <figure><img src="../assets/projects/bcos/more/calendario.webp" alt="Calendario y Recordatorios" loading="lazy" width="1408" height="881"><figcaption><b>Calendario y Recordatorios</b>Vista de mes y listas.</figcaption></figure>
+      <figure><img src="../assets/projects/bcos/more/musica.webp" alt="Música" loading="lazy" width="1040" height="660"><figcaption><b>Música</b>Biblioteca local con mpv.</figcaption></figure>
+      <figure><img src="../assets/projects/bcos/more/notificaciones.webp" alt="Centro de notificaciones" loading="lazy" width="1408" height="881"><figcaption><b>Centro de notificaciones</b>Avisos y widgets.</figcaption></figure>
+      <figure><img src="../assets/projects/bcos/more/bienvenida.webp" alt="Bienvenida: máquina virtual o equipo físico" loading="lazy" width="1408" height="881"><figcaption><b>Primer arranque</b>Máquina virtual o equipo físico, detectado solo.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="fondos">
+  <div class="wrap center">
+    <p class="eyebrow" data-reveal>Fondos de pantalla</p>
+    <h2 class="h2" data-reveal>36 fondos propios.</h2>
+    <p class="lead" data-reveal>Colecciones «Ondas» y «Formas» en 4K, con el logo BC, generadas con scripts propios en Python.</p>
+    <div class="walls">
+      <figure data-reveal><img src="../assets/projects/bcos/fondos/ondas.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Ondas</figcaption></figure>
+      <figure data-reveal style="--d:.05s"><img src="../assets/projects/bcos/fondos/aurora.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Aurora</figcaption></figure>
+      <figure data-reveal style="--d:.1s"><img src="../assets/projects/bcos/fondos/atardecer.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Atardecer</figcaption></figure>
+      <figure data-reveal style="--d:.15s"><img src="../assets/projects/bcos/fondos/rubi.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Rubí</figcaption></figure>
+      <figure data-reveal><img src="../assets/projects/bcos/fondos/bosque.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Bosque</figcaption></figure>
+      <figure data-reveal style="--d:.05s"><img src="../assets/projects/bcos/fondos/dunas.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Dunas</figcaption></figure>
+      <figure data-reveal style="--d:.1s"><img src="../assets/projects/bcos/fondos/dunas-noche.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Dunas de noche</figcaption></figure>
+      <figure data-reveal style="--d:.15s"><img src="../assets/projects/bcos/fondos/esferas.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Esferas</figcaption></figure>
+      <figure data-reveal><img src="../assets/projects/bcos/fondos/cristal.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Cristal líquido</figcaption></figure>
+      <figure data-reveal style="--d:.05s"><img src="../assets/projects/bcos/fondos/seda.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Seda</figcaption></figure>
+      <figure data-reveal style="--d:.1s"><img src="../assets/projects/bcos/fondos/nebulosa.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Nebulosa</figcaption></figure>
+      <figure data-reveal style="--d:.15s"><img src="../assets/projects/bcos/fondos/amanecer.webp" alt="" loading="lazy" width="640" height="360"><figcaption>Amanecer</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="tecnica">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Con 3D o sin él</p>
+    <h2 class="h2" data-reveal>Hyprland cuando hay GPU.<br>sway cuando no.</h2>
+    <div class="compare">
+      <article class="cmp" data-reveal style="--c:#58e1ff"><span class="k" style="background:rgba(88,225,255,.16);color:#0a9bbd">Con aceleración 3D</span><h3>Hyprland</h3><ul><li>Apertura con muelle, cierre que encoge y desvanece y Spaces que se deslizan.</li><li>Desenfoque real detrás del vidrio, sombras y esquinas continuas.</li><li>Gestos de 3 dedos que siguen al dedo.</li><li>Equipo real, UTM con virtio-gpu-gl, VirtualBox x86 con 3D o QEMU con virgl.</li></ul></article>
+      <article class="cmp" data-reveal style="--c:#ffbc00;--d:.08s"><span class="k" style="background:rgba(255,188,0,.16);color:#b58300">Por software</span><h3>sway</h3><ul><li>Entra solo cuando no hay 3D (por ejemplo VirtualBox en Mac ARM), o si Hyprland fallara.</li><li>Esquinas redondeadas con swayfx por software, desactivables si va lento.</li><li>El vidrio refleja el fondo desenfocado.</li><li>Se puede forzar con <code>~/.config/bc/compositor</code>.</li></ul></article>
+    </div>
+
+    <p class="eyebrow" style="margin-top:clamp(64px,9vw,110px)" data-reveal>Arquitectura</p>
+    <h2 class="h2" data-reveal>Así está hecho.</h2>
+    <dl class="specs" data-reveal>
+      <div><dt>Base</dt><dd>Arch Linux ARM (aarch64) y Arch Linux (x86_64), kernel Linux estándar, systemd y pacman.</dd></div>
+      <div><dt>Gráficos</dt><dd>Wayland con Hyprland (3D) o sway / swayfx (por software).</dd></div>
+      <div><dt>Escritorio</dt><dd><b>BC Shell</b> en Qt 6 / QML: un proceso «panel» con superficies layer-shell (barra, Dock, widgets, Spotlight, Mission Control) y las apps BC.</dd></div>
+      <div><dt>Servicios</dt><dd><b>BC Core</b> en Rust sobre D-Bus: daemon, ajustes, actualizaciones, seguridad, hardware y rendimiento.</dd></div>
+      <div><dt>Login</dt><dd>greetd con pantalla propia y tres sesiones: BC OS, BC clásico y Dotfiles (bspwm).</dd></div>
+      <div><dt>Aspecto</dt><dd>Tokens únicos en Theme.qml, fuente Inter, GTK MacTahoe, iconos MacOS-Like y cursor McMojave.</dd></div>
+      <div><dt>Sistema</dt><dd>PipeWire, NetworkManager, zram, nftables y arranque UEFI.</dd></div>
+      <div><dt>Actualizaciones</dt><dd>Repositorio pacman propio <b>[bc]</b> publicado por GitHub Actions, con instantáneas antes de actualizar.</dd></div>
+    </dl>
+
+    <p class="eyebrow" style="margin-top:clamp(64px,9vw,110px)" data-reveal>Atajos</p>
+    <h2 class="h2" data-reveal>Rápido con el teclado.</h2>
+    <div class="keys" data-reveal>
+      <div class="key"><span class="combo"><kbd>Ctrl</kbd><kbd>Espacio</kbd></span><span>Spotlight</span></div>
+      <div class="key"><span class="combo"><kbd>F4</kbd></span><span>Aplicaciones</span></div>
+      <div class="key"><span class="combo"><kbd>Ctrl</kbd><kbd>↑</kbd></span><span>Mission Control</span></div>
+      <div class="key"><span class="combo"><kbd>Ctrl</kbd><kbd>←</kbd><kbd>→</kbd></span><span>Cambiar de escritorio</span></div>
+      <div class="key"><span class="combo"><kbd>Alt</kbd><kbd>Tab</kbd></span><span>Selector de apps</span></div>
+      <div class="key"><span class="combo"><kbd>Súper</kbd><kbd>M</kbd></span><span>Minimizar al Dock</span></div>
+      <div class="key"><span class="combo"><kbd>Ctrl</kbd><kbd>Súper</kbd><kbd>Q</kbd></span><span>Bloquear pantalla</span></div>
+      <div class="key"><span class="combo"><kbd>Ctrl</kbd><kbd>Intro</kbd></span><span>Terminal</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="versiones">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Versiones</p>
+    <h2 class="h2" data-reveal>De alpha a beta, paso a paso.</h2>
+    <ol class="tl">
+      <li class="now" data-reveal><b>0.9.3-beta</b><em>prerelease · última</em><p>Instalador gráfico tipo macOS, animaciones de avisos y ventanas, esquinas redondeadas también sin 3D, iconos tipo macOS en todo el sistema, botón verde, 20 fondos 4K y Terminal como macOS.</p></li>
+      <li data-reveal><b>0.9.0-beta</b><em>prerelease</em><p>Hyprland por defecto con 3D: animaciones fluidas y desenfoque real; sway por software si no.</p></li>
+      <li data-reveal><b>0.8.0-beta</b><em>prerelease</em><p>x86_64 e ISO live, primer arranque VM o equipo físico, repositorio [bc], instantáneas, Tienda sin contraseña, Ghostty y box64.</p></li>
+      <li data-reveal><b>0.7.0-beta</b><em>prerelease</em><p>Monitor, Tienda, Calculadora, Notas, Vista previa, Calendario, Recordatorios y Música; vibrancy y widgets editables.</p></li>
+      <li data-reveal><b>0.6.0-beta</b><em>prerelease</em><p>Escritorio Golden Gate por defecto; arranca en QEMU con login y escritorio correctos.</p></li>
+      <li data-reveal><b>0.2 – 0.5</b><em>alpha y beta</em><p>Login, bloqueo, Centro de control, Archivos, sway, menús globales, asistente de bienvenida y sesión Dotfiles (bspwm).</p></li>
+      <li data-reveal><b>0.1</b><em>alpha</em><p>Primeras imágenes ARM64 que arrancan en VirtualBox.</p></li>
+      <li data-reveal><b>→ 1.0.0</b><em>planificada</em><p>Prueba completa en VirtualBox y hardware, firma GPG del repositorio y primera versión estable. Es un hito, no una promesa.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="descargar">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Descargar y probar</p>
+    <h2 class="h2" data-reveal>Pruébalo en una máquina virtual.</h2>
+    <p class="lead" data-reveal>Cada versión trae, para ARM64 (Mac Apple Silicon, Raspberry Pi…) y x86_64 (PC), un disco para VirtualBox y una ISO live UEFI con el instalador.</p>
+    <div class="dl">
+      <article class="dl-card" data-reveal><h3>En VirtualBox</h3><ol><li>Descomprime el <code>.vdi.zip</code> y comprueba el SHA-256.</li><li>Nueva máquina: Linux / Arch Linux (ARM 64-bit en Mac Apple Silicon o 64-bit en PC), 4 GB de RAM o más y 2-4 CPU.</li><li>Sistema → <b>Habilitar EFI</b>. Disco: el <code>.vdi</code>. Gráficos: VMSVGA.</li><li>Arranca y entra en el panel de inicio de sesión.</li></ol><div class="cta" style="justify-content:flex-start"><a class="btn btn-pri btn-sm" href="https://github.com/borjacandeel/BC-OS/releases" target="_blank" rel="noopener">Ir a las descargas ↗</a></div></article>
+      <article class="dl-card" data-reveal style="--d:.08s"><h3>Instalar en un disco</h3><ol><li>Arranca la <b>ISO live</b>.</li><li>Se abre <b>Instalar BC OS</b>: elige el disco, tu cuenta y la región.</li><li>Pulsa <b>Instalar</b> y luego <b>Reiniciar</b>.</li><li>O desde Terminal: <code>sudo bc-install</code> (opciones <code>--bootloader grub</code> y <code>--secure-boot</code>).</li></ol><div class="cta" style="justify-content:flex-start"><a class="btn btn-gray btn-sm" href="https://github.com/borjacandeel/BC-OS" target="_blank" rel="noopener">Código en GitHub ↗</a></div></article>
+    </div>
+    <p class="note" data-reveal><svg viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.5v.01"/></svg><span><strong>Estado honesto: beta experimental.</strong> La serie 0.6 arrancó en QEMU aarch64 con login y escritorio correctos, pero muchas piezas están compiladas y vistas en capturas y aún pendientes de prueba en VirtualBox y en hardware real. Las capturas de esta página son del shell en el equipo de desarrollo. Las versiones de prueba traen una contraseña por defecto pública y SSH activo: úsalas solo en máquinas virtuales.</span></p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><span class="mark" style="height:12px;vertical-align:-1px"></span>&nbsp; BC OS · © 2026 Borja Candel · GPL-3.0-or-later con marca y logos reservados</span>
+    <span><a href="../index.html">Portfolio de Borja Candel</a> · <a href="https://github.com/borjacandeel/BC-OS" target="_blank" rel="noopener">GitHub</a></span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+  const clamp01 = (v) => v < 0 ? 0 : v > 1 ? 1 : v;
+  const ease = (t) => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const html = document.documentElement;
+
+  /* theme: shared with the portfolio */
+  const sys = matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => { const t = html.getAttribute('data-theme'); return t ? t === 'dark' : sys.matches; };
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const paint = () => { meta.setAttribute('content', isDark() ? '#000000' : '#ffffff'); };
+  paint(); sys.addEventListener('change', paint);
+  document.querySelector('[data-theme-toggle]').addEventListener('click', (e) => {
+    const next = isDark() ? 'light' : 'dark';
+    const apply = () => { html.setAttribute('data-theme', next); try { localStorage.setItem('bc-theme', next); } catch (_) {} paint(); };
+    if (reduce || !document.startViewTransition) return apply();
+    const r = e.currentTarget.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(apply).ready.then(() => html.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] }, { duration: 650, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' })).catch(() => {});
+  });
+
+  /* reveal */
+  if (reduce) $$('[data-reveal]').forEach(el => el.classList.add('shown'));
+  else {
+    const io = new IntersectionObserver((es) => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('shown'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    $$('[data-reveal]').forEach(el => io.observe(el));
+  }
+
+  /* smooth scrolling (desktop) */
+  let lenis = null;
+  if (!reduce && fine) {
+    const s = document.createElement('script'); s.src = '../assets/vendor/lenis-1.1.13.min.js';
+    s.onload = () => { if (!window.Lenis) return; lenis = new window.Lenis({ lerp: .085 }); const loop = (t) => { lenis.raf(t); requestAnimationFrame(loop); }; requestAnimationFrame(loop); };
+    document.head.appendChild(s);
+  }
+  $$('a[href^="#"]').forEach(a => a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href'), t = id === '#top' ? document.body : document.querySelector(id);
+    if (!t) return; e.preventDefault();
+    if (lenis) lenis.scrollTo(id === '#top' ? 0 : t, { duration: 1.4 }); else window.scrollTo({ top: id === '#top' ? 0 : t.getBoundingClientRect().top + scrollY, behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  /* scroll-driven pieces */
+  const heroLap = document.querySelector('[data-hero-laptop]'), heroLid = heroLap.querySelector('.lid');
+  const sts = $$('[data-st]'), stSec = document.querySelector('.statement');
+  const steps = $$('.step'), shots = $$('.shot'), dots = $$('.dots span'), storyLid = document.querySelector('[data-story-lid]');
+  const navLinks = $$('.links a'), secs = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+  let cur = 0;
+  const frame = () => {
+    const vh = innerHeight;
+    if (!reduce) {
+      const r = heroLap.getBoundingClientRect();                       /* the lid opens and the laptop comes forward */
+      const p = clamp01((vh - r.top) / (vh * .9));
+      heroLid.style.setProperty('--tilt', ((1 - ease(p)) * -28).toFixed(2) + 'deg');
+      heroLap.style.transform = `translate3d(0,${(1 - ease(p)) * 40}px,0) scale(${.92 + .08 * ease(p)})`;
+      const sr = stSec.getBoundingClientRect(), d = sr.height - vh, sp = d > 0 ? clamp01(-sr.top / d) : 0;
+      sts.forEach((el, i) => {
+        const u = (sp - i / sts.length) * sts.length;
+        const a = ease(clamp01((u + .05) / .43)), z = i === sts.length - 1 ? 0 : ease(clamp01((u - .68) / .34));
+        el.style.opacity = String(a * (1 - z));
+        el.style.transform = `translate3d(0,${(1 - a) * 40}px,0) scale(${.72 + .28 * a + .35 * z})`;
+        el.style.filter = fine && (1 - a) + z > .02 ? `blur(${12 * (1 - a) + 10 * z}px)` : '';
+      });
+      if (storyLid) { const lr = storyLid.getBoundingClientRect(); storyLid.style.setProperty('--tilt', ((1 - ease(clamp01((vh - lr.top) / (vh * .6)))) * -14).toFixed(2) + 'deg'); }
+    }
+    let best = 0;
+    steps.forEach((s, k) => { if (s.getBoundingClientRect().top < vh * .5) best = k; });
+    if (best !== cur) {
+      cur = best;
+      steps.forEach((s, k) => s.classList.toggle('on', k === best));
+      shots.forEach((s, k) => { s.classList.toggle('on', k === best); if (Math.abs(k - best) <= 1) s.loading = 'eager'; });
+      dots.forEach((s, k) => s.classList.toggle('on', k === best));
+    }
+    let act = -1;
+    secs.forEach((s, k) => { if (s && s.getBoundingClientRect().top < vh * .4) act = k; });
+    navLinks.forEach((a, k) => k === act ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'));
+  };
+  let tick = false;
+  addEventListener('scroll', () => { if (tick) return; tick = true; requestAnimationFrame(() => { tick = false; frame(); }); }, { passive: true });
+  addEventListener('resize', frame);
+  frame();
+})();
+</script>
+</body>
+</html>

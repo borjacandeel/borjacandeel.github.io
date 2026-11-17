@@ -32,6 +32,10 @@ El proyecto ha sido desarrollado utilizando un stack tecnológico limpio y sin d
 *   🪟 **Ventanas macOS**: habilidades, proyectos y experiencia se presentan como ventanas con los botones rojo, amarillo y verde; el verde amplía cada proyecto a ancho completo.
 *   🏷️ **Logos de tecnologías**: banda animada con los logos (Simple Icons, CC0) que se colorean al pasar el ratón, y logos en las etiquetas de cada ventana.
 
+## 💻 Web de BC OS (`/bcos/`)
+
+Página propia del proyecto BC OS en [borjacandeel.github.io/bcos](https://borjacandeel.github.io/bcos/), con el mismo diseño: portada con portátil que se abre, frases que entran con zoom, recorrido por el escritorio Golden Gate, funciones, apps, fondos, Hyprland frente a sway, arquitectura, atajos, versiones y cómo descargarlo.
+
 ## 🗂 Estructura de Secciones
 
 El portfolio está divivido narrativamente para presentar rápidamente mi información profesional:
