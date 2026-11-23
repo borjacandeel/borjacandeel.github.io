@@ -315,6 +315,7 @@ footer a:hover{color:var(--label)}
 .engine h3{margin:0 0 6px;font-size:1.0625rem}
 .engine p{margin:0;color:var(--label-2);font-size:.9375rem}
 .perf figure{margin:0}.perf figure img{width:100%;max-width:560px;border-radius:14px;display:block;box-shadow:var(--shadow)}
+.perf figure.wide img{max-width:100%}
 @media (max-width:560px){.bars li{grid-template-columns:minmax(0,1fr) 3.6rem}.bars .lb{grid-column:1/-1}}
 
 /* Terminal de muestra (tarjeta «Terminal como la de macOS») */
@@ -509,36 +510,52 @@ BC OS ya estaba al día: no hace falta reiniciar.
       <div><h3>Recursos</h3><p>Fondo decodificado al tamaño de la pantalla, desenfoque guardado en disco y paneles que solo existen mientras están abiertos.</p></div>
     </div>
     <div class="perf" data-reveal>
-      <div class="perf-hero"><b>4–6×</b><span>más rápido al abrir Spotlight, el Centro de control o cualquier menú (12–19 ms → 3 ms).</span></div>
+      <div class="perf-hero"><b>0</b><span>fotogramas perdidos en las animaciones medidas (Dock, Spotlight, Centro de control, Notificaciones, Mission Control) y paneles que se abren en 3 ms (antes 15,5 ms).</span></div>
       <div>
-        <h3 style="margin:0 0 4px">Mejora de la 0.9.21 frente a la 0.9.19</h3>
-        <p style="margin:0 0 14px;color:var(--label-2);font-size:.9375rem">% menos de tiempo, CPU o memoria. Medido sin aceleración 3D (como una máquina virtual), 3 repeticiones.</p>
+        <h3 style="margin:0 0 4px">Mejora de la 0.9.23 frente a la 0.9.19</h3>
+        <p style="margin:0 0 14px;color:var(--label-2);font-size:.9375rem">% menos de tiempo, CPU o memoria. Medido sin aceleración 3D (como una máquina virtual), 1440×900, 3 repeticiones. Con GPU no se ha medido todavía.</p>
         <ul class="bars" aria-label="Porcentaje de mejora por métrica">
-        <li tabindex="0"><span class="lb">Abrir Spotlight o un panel</span><span class="tr"><span class="bv" style="--w:81%"></span><span class="tip" role="tooltip">15,5 ms → <b>3 ms</b></span></span><span class="vl">−81 %</span></li>
-        <li tabindex="0"><span class="lb">Fotogramas lentos del Dock (p99)</span><span class="tr"><span class="bv" style="--w:44%"></span><span class="tip" role="tooltip">14,3 ms → <b>8,0 ms</b></span></span><span class="vl">−44 %</span></li>
-        <li tabindex="0"><span class="lb">Fotogramas lentos de Spotlight (p99)</span><span class="tr"><span class="bv" style="--w:25%"></span><span class="tip" role="tooltip">13,7 ms → <b>10,3 ms</b></span></span><span class="vl">−25 %</span></li>
-        <li tabindex="0"><span class="lb">CPU al arrancar (con caché)</span><span class="tr"><span class="bv" style="--w:20%"></span><span class="tip" role="tooltip">1152 ms → <b>925 ms</b></span></span><span class="vl">−20 %</span></li>
-        <li tabindex="0"><span class="lb">Fotograma medio del Dock</span><span class="tr"><span class="bv" style="--w:20%"></span><span class="tip" role="tooltip">3,5 ms → <b>2,8 ms</b></span></span><span class="vl">−20 %</span></li>
-        <li tabindex="0"><span class="lb">CPU al arrancar</span><span class="tr"><span class="bv" style="--w:14%"></span><span class="tip" role="tooltip">1148 ms → <b>991 ms</b></span></span><span class="vl">−14 %</span></li>
-        <li tabindex="0"><span class="lb">Fotograma medio de Spotlight</span><span class="tr"><span class="bv" style="--w:12%"></span><span class="tip" role="tooltip">1,7 ms → <b>1,5 ms</b></span></span><span class="vl">−12 %</span></li>
+        <li tabindex="0"><span class="lb">Fotogramas perdidos (>16,7 ms)</span><span class="tr"><span class="bv" style="--w:100%"></span><span class="tip" role="tooltip">2,7 → <b>0</b></span></span><span class="vl">−100 %</span></li>
+        <li tabindex="0"><span class="lb">Abrir Spotlight, Centro o un menú</span><span class="tr"><span class="bv" style="--w:81%"></span><span class="tip" role="tooltip">15,5 ms → <b>3 ms</b></span></span><span class="vl">−81 %</span></li>
+        <li tabindex="0"><span class="lb">Dock: fotogramas lentos (p99)</span><span class="tr"><span class="bv" style="--w:56%"></span><span class="tip" role="tooltip">12 ms → <b>5,3 ms</b></span></span><span class="vl">−56 %</span></li>
+        <li tabindex="0"><span class="lb">Notificaciones: fotogramas lentos (p99)</span><span class="tr"><span class="bv" style="--w:53%"></span><span class="tip" role="tooltip">12,7 ms → <b>6 ms</b></span></span><span class="vl">−53 %</span></li>
+        <li tabindex="0"><span class="lb">Centro de control: fotogramas lentos (p99)</span><span class="tr"><span class="bv" style="--w:37%"></span><span class="tip" role="tooltip">12,3 ms → <b>7,7 ms</b></span></span><span class="vl">−37 %</span></li>
+        <li tabindex="0"><span class="lb">Arranque: fotograma medio</span><span class="tr"><span class="bv" style="--w:29%"></span><span class="tip" role="tooltip">6,9 ms → <b>4,9 ms</b></span></span><span class="vl">−29 %</span></li>
+        <li tabindex="0"><span class="lb">Notificaciones: fotograma medio</span><span class="tr"><span class="bv" style="--w:25%"></span><span class="tip" role="tooltip">2,4 ms → <b>1,8 ms</b></span></span><span class="vl">−25 %</span></li>
+        <li tabindex="0"><span class="lb">CPU en reposo (10 s)</span><span class="tr"><span class="bv" style="--w:23%"></span><span class="tip" role="tooltip">687 ms → <b>532 ms</b></span></span><span class="vl">−23 %</span></li>
+        <li tabindex="0"><span class="lb">Dock: fotograma medio</span><span class="tr"><span class="bv" style="--w:22%"></span><span class="tip" role="tooltip">3,2 ms → <b>2,5 ms</b></span></span><span class="vl">−22 %</span></li>
+        <li tabindex="0"><span class="lb">CPU al arrancar</span><span class="tr"><span class="bv" style="--w:22%"></span><span class="tip" role="tooltip">1021 ms → <b>801 ms</b></span></span><span class="vl">−22 %</span></li>
+        <li tabindex="0"><span class="lb">Spotlight: fotogramas lentos (p99)</span><span class="tr"><span class="bv" style="--w:18%"></span><span class="tip" role="tooltip">14,3 ms → <b>11,7 ms</b></span></span><span class="vl">−18 %</span></li>
+        <li tabindex="0"><span class="lb">Mission Control: fotograma medio</span><span class="tr"><span class="bv" style="--w:17%"></span><span class="tip" role="tooltip">1,8 ms → <b>1,5 ms</b></span></span><span class="vl">−17 %</span></li>
+        <li tabindex="0"><span class="lb">Tiempo de arranque</span><span class="tr"><span class="bv" style="--w:12%"></span><span class="tip" role="tooltip">2322 ms → <b>2047 ms</b></span></span><span class="vl">−12 %</span></li>
         <li tabindex="0"><span class="lb">Memoria de BC Shell</span><span class="tr"><span class="bv" style="--w:10%"></span><span class="tip" role="tooltip">201 MB → <b>180 MB</b></span></span><span class="vl">−10 %</span></li>
-        <li tabindex="0"><span class="lb">Tiempo de arranque</span><span class="tr"><span class="bv" style="--w:5%"></span><span class="tip" role="tooltip">2432 ms → <b>2311 ms</b></span></span><span class="vl">−5 %</span></li>
         </ul>
       </div>
       <details><summary>Ver la tabla</summary>
-        <table><thead><tr><th>Qué</th><th>0.9.19</th><th>0.9.21</th><th>Mejora</th></tr></thead><tbody>
-            <tr><td>Abrir Spotlight o un panel</td><td>15,5 ms</td><td>3 ms</td><td>−81 %</td></tr>
-            <tr><td>Fotogramas lentos del Dock (p99)</td><td>14,3 ms</td><td>8,0 ms</td><td>−44 %</td></tr>
-            <tr><td>Fotogramas lentos de Spotlight (p99)</td><td>13,7 ms</td><td>10,3 ms</td><td>−25 %</td></tr>
-            <tr><td>CPU al arrancar (con caché)</td><td>1152 ms</td><td>925 ms</td><td>−20 %</td></tr>
-            <tr><td>Fotograma medio del Dock</td><td>3,5 ms</td><td>2,8 ms</td><td>−20 %</td></tr>
-            <tr><td>CPU al arrancar</td><td>1148 ms</td><td>991 ms</td><td>−14 %</td></tr>
-            <tr><td>Fotograma medio de Spotlight</td><td>1,7 ms</td><td>1,5 ms</td><td>−12 %</td></tr>
+        <table><thead><tr><th>Qué</th><th>0.9.19</th><th>0.9.23</th><th>Mejora</th></tr></thead><tbody>
+            <tr><td>Fotogramas perdidos (>16,7 ms)</td><td>2,7</td><td>0</td><td>−100 %</td></tr>
+            <tr><td>Abrir Spotlight, Centro o un menú</td><td>15,5 ms</td><td>3 ms</td><td>−81 %</td></tr>
+            <tr><td>Dock: fotogramas lentos (p99)</td><td>12 ms</td><td>5,3 ms</td><td>−56 %</td></tr>
+            <tr><td>Notificaciones: fotogramas lentos (p99)</td><td>12,7 ms</td><td>6 ms</td><td>−53 %</td></tr>
+            <tr><td>Centro de control: fotogramas lentos (p99)</td><td>12,3 ms</td><td>7,7 ms</td><td>−37 %</td></tr>
+            <tr><td>Arranque: fotograma medio</td><td>6,9 ms</td><td>4,9 ms</td><td>−29 %</td></tr>
+            <tr><td>Notificaciones: fotograma medio</td><td>2,4 ms</td><td>1,8 ms</td><td>−25 %</td></tr>
+            <tr><td>CPU en reposo (10 s)</td><td>687 ms</td><td>532 ms</td><td>−23 %</td></tr>
+            <tr><td>Dock: fotograma medio</td><td>3,2 ms</td><td>2,5 ms</td><td>−22 %</td></tr>
+            <tr><td>CPU al arrancar</td><td>1021 ms</td><td>801 ms</td><td>−22 %</td></tr>
+            <tr><td>Spotlight: fotogramas lentos (p99)</td><td>14,3 ms</td><td>11,7 ms</td><td>−18 %</td></tr>
+            <tr><td>Mission Control: fotograma medio</td><td>1,8 ms</td><td>1,5 ms</td><td>−17 %</td></tr>
+            <tr><td>Tiempo de arranque</td><td>2322 ms</td><td>2047 ms</td><td>−12 %</td></tr>
             <tr><td>Memoria de BC Shell</td><td>201 MB</td><td>180 MB</td><td>−10 %</td></tr>
-            <tr><td>Tiempo de arranque</td><td>2432 ms</td><td>2311 ms</td><td>−5 %</td></tr>
-            <tr><td>Fotogramas perdidos en el Dock</td><td>1,3</td><td>0</td><td>−100 %</td></tr>
+            <tr><td>Accesos a disco por icono (Spotlight, Aplicaciones, Archivos)</td><td>hasta ~100</td><td>1 (caché)</td><td>−99 %</td></tr>
+            <tr><td>Consultas a Hyprland si una app cambia el título</td><td>hasta 16/s</td><td>2/s</td><td>−88 %</td></tr>
+            <tr><td>Despertares de los relojes</td><td>60/min</td><td>1/min</td><td>−98 %</td></tr>
+            <tr><td>Genio: fotograma medio (por software)</td><td>5,5 ms</td><td>6,2 ms</td><td>+14 % (con GPU va en la GPU)</td></tr>
         </tbody></table>
       </details>
+      <figure class="wide"><img src="../assets/projects/bcos/mejora-0923.webp" alt="Gráfico: mejora de la 0.9.23 frente a la 0.9.19 por métrica" loading="lazy" width="2000" height="1570"></figure>
+      <figure class="wide"><img src="../assets/projects/bcos/antes-ahora-ajustes.webp" alt="Ajustes del Sistema antes (0.9.19) y ahora (0.9.23): barra lateral flotante y color de resaltado sin texto encimado" loading="lazy" width="1992" height="1034"></figure>
+      <figure class="wide"><img src="../assets/projects/bcos/antes-ahora-archivos.webp" alt="Archivos antes (0.9.19) y ahora (0.9.23): barra lateral flotante de cristal" loading="lazy" width="1992" height="677"></figure>
       <figure><img src="../assets/projects/bcos/calidad-grafica.webp" alt="Ajustes ▸ Pantallas ▸ Calidad gráfica" loading="lazy" width="1000" height="1500"></figure>
     </div>
 
