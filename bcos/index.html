@@ -274,6 +274,8 @@ kbd{display:inline-grid;place-items:center;min-width:30px;height:28px;padding:0 
 .dl-card{padding:30px;border-radius:var(--r);background:var(--card)}
 .dl-card h3{font-size:1.5rem;font-weight:800;letter-spacing:-.03em}
 .dl-card ol{margin-top:14px;padding-left:20px;display:grid;gap:8px;color:var(--label-2)}
+.dl-card ul{margin-top:14px;padding-left:20px;display:grid;gap:8px;color:var(--label-2)}
+.dl-card ul b{color:var(--label)}
 .dl-card code{font:500 .875em var(--mono);padding:2px 6px;border-radius:6px;background:var(--fill);color:var(--label)}
 .note{display:flex;gap:12px;margin-top:20px;padding:18px 22px;border-radius:18px;background:color-mix(in srgb,#ff9f0a 12%,transparent);color:var(--label-2);font-size:.9375rem}
 .note strong{color:var(--label)}
@@ -629,6 +631,25 @@ BC OS ya estaba al día: no hace falta reiniciar.
     <div class="dl">
       <article class="dl-card" data-reveal><h3>En USB o VirtualBox</h3><ol><li>Descarga la <code>.iso</code> (x86_64 para PC, ARM64 para Mac Apple Silicon) y comprueba el SHA-256.</li><li>USB: grábala con balenaEtcher o Rufus (modo DD) y arranca desde él.</li><li>VirtualBox: Linux / Arch Linux, 4 GB de RAM o más, <b>EFI activado</b>, la <code>.iso</code> como unidad óptica y un disco nuevo de 20 GB.</li><li>Se abre «Instalar BC OS»: elige disco y listo.</li></ol><div class="cta" style="justify-content:flex-start"><a class="btn btn-pri btn-sm" href="https://github.com/borjacandeel/BC-OS/releases" target="_blank" rel="noopener">Ir a las descargas ↗</a></div></article>
       <article class="dl-card" data-reveal style="--d:.08s"><h3>Instalar en un disco</h3><ol><li>Arranca la <b>ISO live</b>.</li><li>Se abre <b>Instalar BC OS</b>: elige el disco, tu cuenta y la región.</li><li>Pulsa <b>Instalar</b> y luego <b>Reiniciar</b>.</li><li>O desde Terminal: <code>sudo bc-install</code> (opciones <code>--bootloader grub</code> y <code>--secure-boot</code>).</li></ol><div class="cta" style="justify-content:flex-start"><a class="btn btn-gray btn-sm" href="https://github.com/borjacandeel/BC-OS" target="_blank" rel="noopener">Código en GitHub ↗</a></div></article>
+    </div>
+    <h3 id="requisitos" data-reveal style="margin:clamp(40px,6vw,64px) 0 16px;font-size:1.75rem;font-weight:800;letter-spacing:-.03em">Requisitos</h3>
+    <div class="dl req">
+      <article class="dl-card" data-reveal><h3>Mínimos</h3><ul>
+        <li><b>Procesador:</b> 64 bits, x86_64 o ARM64, 2 núcleos.</li>
+        <li><b>Memoria:</b> 4 GB de RAM.</li>
+        <li><b>Disco:</b> 20 GB libres.</li>
+        <li><b>Gráfica:</b> cualquiera. Sin aceleración 3D funciona con el escritorio por software (sin desenfoque real).</li>
+        <li><b>Pantalla:</b> 1280×800.</li>
+        <li><b>Arranque:</b> UEFI (en x86_64 también BIOS).</li>
+      </ul></article>
+      <article class="dl-card" data-reveal style="--d:.08s"><h3>Recomendados</h3><ul>
+        <li><b>Procesador:</b> 4 núcleos o más.</li>
+        <li><b>Memoria:</b> 8 GB de RAM.</li>
+        <li><b>Disco:</b> SSD con 40 GB libres.</li>
+        <li><b>Gráfica:</b> con aceleración 3D (Intel HD 620 o superior, AMD o NVIDIA): Hyprland con desenfoque real y animaciones al ritmo del monitor.</li>
+        <li><b>Pantalla:</b> 1920×1080 a 60 Hz o más.</li>
+        <li><b>Internet:</b> para las actualizaciones automáticas.</li>
+      </ul></article>
     </div>
     <p class="note" data-reveal><svg viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.5v.01"/></svg><span><strong>Estado honesto: beta experimental.</strong> La serie 0.6 arrancó en QEMU aarch64 con login y escritorio correctos, pero muchas piezas están compiladas y vistas en capturas y aún pendientes de prueba en VirtualBox y en hardware real. Las capturas de esta página son del shell en el equipo de desarrollo. Las versiones de prueba traen una contraseña por defecto pública y SSH activo: úsalas solo en máquinas virtuales.</span></p>
   </div>
